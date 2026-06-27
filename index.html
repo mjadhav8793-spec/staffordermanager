@@ -326,4 +326,521 @@
                                         <th class="px-6 py-4 font-semibold text-right">Delivery Date</th>
                                         <th class="px-6 py-4 font-semibold text-right">Actions</th>
                                     </tr>
-                                </the
+                                </thead>
+                                <tbody class="divide-y divide-outline-variant text-sm">
+                                    <tr class="hover:bg-surface-container-lowest transition-colors">
+                                        <td class="px-6 py-4 font-mono text-xs text-on-surface-variant">WS-2026-901</td>
+                                        <td class="px-6 py-4 font-medium text-on-surface">Nexus Industries</td>
+                                        <td class="px-6 py-4">Machined Parts (500 units)</td>
+                                        <td class="px-6 py-4">
+                                            <span onclick="toggleOrderStatus(this)" class="px-2 py-1 bg-secondary-container text-on-secondary-container rounded text-xs font-bold cursor-pointer hover:opacity-80 transition-opacity whitespace-nowrap" title="Click to change status">Fulfilled</span>
+                                        </td>
+                                        <td class="px-6 py-4 text-right text-on-surface-variant">Jun 22, 2026</td>
+                                        <td class="px-6 py-4 text-right">
+                                            <button onclick="this.closest('tr').remove()" class="text-error hover:bg-error-container p-1 rounded transition-colors" title="Delete">
+                                                <span class="material-symbols-outlined text-[20px]">delete</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-surface-container-lowest transition-colors">
+                                        <td class="px-6 py-4 font-mono text-xs text-on-surface-variant">WS-2026-902</td>
+                                        <td class="px-6 py-4 font-medium text-on-surface">TechCorp Manufacturing</td>
+                                        <td class="px-6 py-4">Assembly Kits (1,200 units)</td>
+                                        <td class="px-6 py-4">
+                                            <span onclick="toggleOrderStatus(this)" class="px-2 py-1 bg-primary-container text-primary-fixed-dim rounded text-xs font-bold bg-opacity-20 text-primary cursor-pointer hover:opacity-80 transition-opacity whitespace-nowrap" title="Click to change status">Processing</span>
+                                        </td>
+                                        <td class="px-6 py-4 text-right text-on-surface-variant">Jun 28, 2026</td>
+                                        <td class="px-6 py-4 text-right">
+                                            <button onclick="this.closest('tr').remove()" class="text-error hover:bg-error-container p-1 rounded transition-colors" title="Delete">
+                                                <span class="material-symbols-outlined text-[20px]">delete</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Table: Raw Material Orders -->
+                    <div id="table-raw" class="order-table-container bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm hidden">
+                        <div class="overflow-x-auto custom-scrollbar">
+                            <table class="w-full text-left border-collapse min-w-[700px]">
+                                <thead>
+                                    <tr class="bg-surface-container text-xs text-on-surface-variant uppercase tracking-wider">
+                                        <th class="px-6 py-4 font-semibold">PO Number</th>
+                                        <th class="px-6 py-4 font-semibold">Supplier</th>
+                                        <th class="px-6 py-4 font-semibold">Material Specs</th>
+                                        <th class="px-6 py-4 font-semibold">Status</th>
+                                        <th class="px-6 py-4 font-semibold text-right">Expected Date</th>
+                                        <th class="px-6 py-4 font-semibold text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-outline-variant text-sm">
+                                    <tr class="hover:bg-surface-container-lowest transition-colors">
+                                        <td class="px-6 py-4 font-mono text-xs text-on-surface-variant">RM-2026-081</td>
+                                        <td class="px-6 py-4 font-medium text-on-surface">Apex Steel Works</td>
+                                        <td class="px-6 py-4">High-Carbon Steel Rolls (5T)</td>
+                                        <td class="px-6 py-4">
+                                            <span onclick="toggleOrderStatus(this)" class="px-2 py-1 bg-primary-container text-primary-fixed-dim rounded text-xs font-bold bg-opacity-20 text-primary cursor-pointer hover:opacity-80 transition-opacity whitespace-nowrap" title="Click to change status">In Transit</span>
+                                        </td>
+                                        <td class="px-6 py-4 text-right text-on-surface-variant">Jun 29, 2026</td>
+                                        <td class="px-6 py-4 text-right">
+                                            <button onclick="this.closest('tr').remove()" class="text-error hover:bg-error-container p-1 rounded transition-colors" title="Delete">
+                                                <span class="material-symbols-outlined text-[20px]">delete</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-surface-container-lowest transition-colors">
+                                        <td class="px-6 py-4 font-mono text-xs text-on-surface-variant">RM-2026-082</td>
+                                        <td class="px-6 py-4 font-medium text-on-surface">Global Polymers</td>
+                                        <td class="px-6 py-4">Industrial Resin Pellets (10T)</td>
+                                        <td class="px-6 py-4">
+                                            <span onclick="toggleOrderStatus(this)" class="px-2 py-1 bg-secondary-container text-on-secondary-container rounded text-xs font-bold cursor-pointer hover:opacity-80 transition-opacity whitespace-nowrap" title="Click to change status">Received</span>
+                                        </td>
+                                        <td class="px-6 py-4 text-right text-on-surface-variant">Jun 24, 2026</td>
+                                        <td class="px-6 py-4 text-right">
+                                            <button onclick="this.closest('tr').remove()" class="text-error hover:bg-error-container p-1 rounded transition-colors" title="Delete">
+                                                <span class="material-symbols-outlined text-[20px]">delete</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW: NEW ORDER -->
+                <div id="view-new-order" class="view-section">
+                    <div class="flex items-center gap-4 mb-6">
+                        <button onclick="switchView('orders')" class="text-on-surface-variant hover:bg-surface-container p-2 rounded-full transition-colors flex items-center justify-center">
+                            <span class="material-symbols-outlined">arrow_back</span>
+                        </button>
+                        <h2 class="text-2xl font-bold text-on-surface">Create New Order</h2>
+                    </div>
+
+                    <div class="bg-white border border-outline-variant rounded-xl p-6 shadow-sm max-w-2xl">
+                        <form id="new-order-form" onsubmit="event.preventDefault(); switchView('orders');">
+                            <div class="space-y-6">
+                                <div>
+                                    <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Order Type</label>
+                                    <div class="flex gap-4">
+                                        <label class="flex items-center gap-2 cursor-pointer">
+                                            <input type="radio" name="orderType" value="wholesale" checked class="text-primary focus:ring-primary">
+                                            <span class="text-sm font-medium text-on-surface">Wholesale Order</span>
+                                        </label>
+                                        <label class="flex items-center gap-2 cursor-pointer">
+                                            <input type="radio" name="orderType" value="raw_material" class="text-primary focus:ring-primary">
+                                            <span class="text-sm font-medium text-on-surface">Raw Material Order</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <hr class="border-outline-variant">
+                                
+                                <div>
+                                    <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Supplier / Client Name</label>
+                                    <input type="text" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="Enter name...">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Products / Materials</label>
+                                    <textarea required rows="3" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="Enter item details and quantities..."></textarea>
+                                </div>
+
+                                <div class="flex justify-end gap-3 mt-8">
+                                    <button type="button" onclick="switchView('orders')" class="px-4 py-2 text-sm font-medium text-on-surface-variant hover:bg-surface-container rounded-lg transition-colors">Cancel</button>
+                                    <button type="submit" class="px-4 py-2 text-sm font-medium bg-primary text-on-primary hover:bg-opacity-90 rounded-lg transition-colors">Submit Order</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- VIEW: SETTINGS -->
+                <div id="view-settings" class="view-section">
+                    <h2 class="text-2xl font-bold text-on-surface mb-6">System Settings</h2>
+                    <div class="bg-white border border-outline-variant rounded-xl p-6 shadow-sm max-w-2xl">
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="font-semibold text-on-surface mb-2">Factory Details</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <input type="text" value="Main Assembly Plant" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" />
+                                    <input type="text" value="Zone A, Sector 4" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" />
+                                </div>
+                            </div>
+                            <hr class="border-outline-variant">
+                            <div>
+                                <h3 class="font-semibold text-on-surface mb-2">Working Hours</h3>
+                                <div class="flex items-center gap-4">
+                                    <input type="time" value="08:00" class="border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" />
+                                    <span class="text-on-surface-variant">to</span>
+                                    <input type="time" value="17:00" class="border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" />
+                                </div>
+                            </div>
+                            <button class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium hover:bg-opacity-90">Save Configuration</button>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+        
+        <!-- Mobile Bottom Nav -->
+        <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 bg-surface border-t border-outline-variant shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]" id="mobile-nav">
+            <button data-target="dashboard" class="nav-btn flex flex-col items-center justify-center p-2 text-on-surface-variant rounded-lg transition-colors">
+                <span class="material-symbols-outlined text-[24px]">dashboard</span>
+                <span class="text-[10px] mt-1 font-medium">Home</span>
+            </button>
+            <button data-target="attendance" class="nav-btn active flex flex-col items-center justify-center p-2 text-primary rounded-lg transition-colors">
+                <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">calendar_today</span>
+                <span class="text-[10px] mt-1 font-medium">Matrix</span>
+            </button>
+             <button data-target="staff" class="nav-btn flex flex-col items-center justify-center p-2 text-on-surface-variant rounded-lg transition-colors">
+                <span class="material-symbols-outlined text-[24px]">groups</span>
+                <span class="text-[10px] mt-1 font-medium">Staff</span>
+            </button>
+            <button data-target="orders" class="nav-btn flex flex-col items-center justify-center p-2 text-on-surface-variant rounded-lg transition-colors">
+                <span class="material-symbols-outlined text-[24px]">inventory_2</span>
+                <span class="text-[10px] mt-1 font-medium">Orders</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Add/Edit Employee Modal -->
+    <div id="add-employee-modal" class="fixed inset-0 bg-on-surface bg-opacity-50 z-[100] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-surface border border-outline-variant rounded-xl shadow-xl w-full max-w-md overflow-hidden transform transition-all">
+            <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-white">
+                <h3 class="text-lg font-bold text-on-surface" id="modal-title">Add New Employee</h3>
+                <button onclick="closeAddEmployeeModal()" class="text-on-surface-variant hover:text-error transition-colors">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="p-6 bg-white">
+                <form id="add-employee-form" onsubmit="submitEmployee(event)">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Full Name</label>
+                            <input type="text" id="emp-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 focus:ring-primary focus:border-primary" placeholder="e.g. Jane Doe">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Department / Role</label>
+                            <input type="text" id="emp-role" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 focus:ring-primary focus:border-primary" placeholder="e.g. Assembly Line">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Base Salary (₹)</label>
+                            <input type="number" id="emp-salary" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 focus:ring-primary focus:border-primary" placeholder="e.g. 60000">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Status</label>
+                            <select id="emp-status" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 focus:ring-primary focus:border-primary bg-white">
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mt-8 flex justify-end gap-3">
+                        <button type="button" onclick="closeAddEmployeeModal()" class="px-4 py-2 text-sm font-medium text-on-surface-variant hover:bg-surface-container rounded-lg transition-colors">Cancel</button>
+                        <button type="submit" class="px-4 py-2 text-sm font-medium bg-primary text-on-primary hover:bg-opacity-90 rounded-lg transition-colors">Save Employee</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Logic -->
+    <script>
+        // --- State Management ---
+        let employees = []; 
+        let attendanceData = {}; 
+        let currentDate = new Date(2026, 5, 1); 
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const statusCycle = [null, 'P', 'H', 'A'];
+        let editingEmployeeId = null;
+
+        // --- Navigation Logic ---
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const targetView = e.currentTarget.getAttribute('data-target');
+                switchView(targetView);
+            });
+        });
+
+        function switchView(viewId) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.getElementById(`view-${viewId}`).classList.add('active');
+
+            document.querySelectorAll('#desktop-nav .nav-btn').forEach(el => {
+                el.classList.remove('bg-primary', 'text-on-primary', 'font-medium');
+                el.classList.add('text-on-surface-variant');
+                if(el.getAttribute('data-target') === viewId) {
+                    el.classList.add('bg-primary', 'text-on-primary', 'font-medium');
+                    el.classList.remove('text-on-surface-variant');
+                }
+            });
+
+            document.querySelectorAll('#mobile-nav .nav-btn').forEach(el => {
+                el.classList.remove('text-primary');
+                el.classList.add('text-on-surface-variant');
+                const icon = el.querySelector('.material-symbols-outlined');
+                icon.style.fontVariationSettings = "'FILL' 0";
+                
+                if(el.getAttribute('data-target') === viewId) {
+                    el.classList.add('text-primary');
+                    el.classList.remove('text-on-surface-variant');
+                    icon.style.fontVariationSettings = "'FILL' 1";
+                }
+            });
+            
+            if(viewId === 'attendance') renderAttendanceMatrix();
+            if(viewId === 'staff') renderStaffList();
+            if(viewId === 'dashboard') updateDashboard();
+        }
+
+        // --- Order Tab & Actions Logic ---
+        function switchOrderTab(tabId) {
+            document.querySelectorAll('.order-tab').forEach(el => {
+                el.classList.remove('bg-primary', 'text-on-primary');
+                el.classList.add('bg-white', 'border', 'border-outline-variant', 'text-on-surface-variant');
+            });
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            activeBtn.classList.remove('bg-white', 'border', 'border-outline-variant', 'text-on-surface-variant');
+            activeBtn.classList.add('bg-primary', 'text-on-primary');
+
+            document.querySelectorAll('.order-table-container').forEach(el => {
+                el.classList.remove('block');
+                el.classList.add('hidden');
+            });
+            document.getElementById(`table-${tabId}`).classList.remove('hidden');
+            document.getElementById(`table-${tabId}`).classList.add('block');
+        }
+
+        function toggleOrderStatus(element) {
+            const currentText = element.innerText.trim();
+            if (currentText === 'Processing') {
+                element.innerText = 'Fulfilled';
+                element.className = 'px-2 py-1 bg-secondary-container text-on-secondary-container rounded text-xs font-bold cursor-pointer hover:opacity-80 transition-opacity whitespace-nowrap';
+            } else if (currentText === 'Fulfilled') {
+                element.innerText = 'Processing';
+                element.className = 'px-2 py-1 bg-primary-container text-primary-fixed-dim rounded text-xs font-bold bg-opacity-20 text-primary cursor-pointer hover:opacity-80 transition-opacity whitespace-nowrap';
+            } else if (currentText === 'In Transit') {
+                element.innerText = 'Received';
+                element.className = 'px-2 py-1 bg-secondary-container text-on-secondary-container rounded text-xs font-bold cursor-pointer hover:opacity-80 transition-opacity whitespace-nowrap';
+            } else if (currentText === 'Received') {
+                element.innerText = 'In Transit';
+                element.className = 'px-2 py-1 bg-primary-container text-primary-fixed-dim rounded text-xs font-bold bg-opacity-20 text-primary cursor-pointer hover:opacity-80 transition-opacity whitespace-nowrap';
+            }
+        }
+
+        // --- Attendance Matrix Logic ---
+        function changeMonth(delta) {
+            currentDate.setMonth(currentDate.getMonth() + delta);
+            renderAttendanceMatrix();
+        }
+
+        function getAttStatus(empId, year, month, day) {
+            if (attendanceData[year] && attendanceData[year][month] && attendanceData[year][month][empId]) {
+                return attendanceData[year][month][empId][day] || null;
+            }
+            return null;
+        }
+
+        function cycleStatus(empId, year, month, day) {
+            if(!attendanceData[year]) attendanceData[year] = {};
+            if(!attendanceData[year][month]) attendanceData[year][month] = {};
+            if(!attendanceData[year][month][empId]) attendanceData[year][month][empId] = {};
+
+            const currentStatus = getAttStatus(empId, year, month, day);
+            const currentIndex = statusCycle.indexOf(currentStatus);
+            const nextIndex = (currentIndex + 1) % statusCycle.length;
+            const nextStatus = statusCycle[nextIndex];
+
+            if (nextStatus === null) {
+                delete attendanceData[year][month][empId][day];
+            } else {
+                attendanceData[year][month][empId][day] = nextStatus;
+            }
+
+            const cellId = `cell-${empId}-${day}`;
+            const cellEl = document.getElementById(cellId);
+            if(cellEl) {
+                cellEl.innerHTML = renderCellContent(nextStatus);
+            }
+        }
+
+        function renderCellContent(status) {
+            if (status === 'P') return '<div class="w-full h-full flex items-center justify-center"><div class="status-P w-6 h-6 flex items-center justify-center text-xs">P</div></div>';
+            if (status === 'H') return '<div class="w-full h-full flex items-center justify-center"><div class="status-H w-6 h-6 flex items-center justify-center text-xs">H</div></div>';
+            if (status === 'A') return '<div class="w-full h-full flex items-center justify-center"><div class="status-A w-6 h-6 flex items-center justify-center text-xs">A</div></div>';
+            return '';
+        }
+
+        function renderAttendanceMatrix() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            const daysInMonth = 31; // Fixed 31 days per your request
+            
+            document.getElementById('att-month-year-display').textContent = `${monthNames[month]} ${year}`;
+
+            const thead = document.getElementById('att-table-head');
+            const tbody = document.getElementById('att-table-body');
+            
+            let headHtml = '<th class="w-48 min-w-[180px] bg-surface-bright">EMPLOYEE</th>';
+            for(let i = 1; i <= daysInMonth; i++) {
+                headHtml += `<th class="w-10 min-w-[40px] text-xs font-medium text-outline">${i}</th>`;
+            }
+            thead.innerHTML = headHtml;
+
+            if (employees.length === 0) {
+                tbody.innerHTML = `<tr>
+                    <td colspan="${daysInMonth + 1}" class="text-center py-16 bg-white">
+                        <div class="flex flex-col items-center justify-center text-on-surface-variant">
+                            <span class="material-symbols-outlined text-4xl mb-2 opacity-50">person_off</span>
+                            <p>No employees. Add some from the Staff directory.</p>
+                            <button onclick="switchView('staff')" class="mt-4 text-primary font-medium hover:underline">Go to Staff</button>
+                        </div>
+                    </td>
+                </tr>`;
+                return;
+            }
+
+            let bodyHtml = '';
+            employees.forEach(emp => {
+                bodyHtml += `<tr class="bg-white hover:bg-surface-container-lowest transition-colors">`;
+                bodyHtml += `<td class="font-medium text-on-surface bg-white truncate" title="${emp.name}">${emp.name}</td>`;
+                
+                for(let i = 1; i <= daysInMonth; i++) {
+                    const status = getAttStatus(emp.id, year, month, i);
+                    bodyHtml += `<td id="cell-${emp.id}-${i}" class="att-cell-interactive p-1" onclick="cycleStatus('${emp.id}', ${year}, ${month}, ${i})">
+                        ${renderCellContent(status)}
+                    </td>`;
+                }
+                bodyHtml += `</tr>`;
+            });
+            tbody.innerHTML = bodyHtml;
+        }
+
+        // --- Staff Logic ---
+        function generateId() {
+            return 'EMP-' + Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+        }
+
+        function renderStaffList() {
+            const tbody = document.getElementById('staff-table-body');
+            if (employees.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-8 text-on-surface-variant">No staff added yet.</td></tr>`;
+                return;
+            }
+
+            let html = '';
+            employees.forEach(emp => {
+                const statusBadge = emp.status === 'Active' 
+                    ? `<span class="px-2 py-1 bg-secondary-container text-on-secondary-container rounded text-xs font-bold">Active</span>`
+                    : `<span class="px-2 py-1 bg-error-container text-on-error-container rounded text-xs font-bold">Inactive</span>`;
+
+                html += `
+                    <tr class="hover:bg-surface-container-lowest transition-colors">
+                        <td class="px-6 py-4 font-mono text-xs text-on-surface-variant">${emp.id}</td>
+                        <td class="px-6 py-4 font-medium text-on-surface flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-xs">
+                                ${emp.name.charAt(0)}
+                            </div>
+                            ${emp.name}
+                        </td>
+                        <td class="px-6 py-4 text-on-surface-variant">${emp.role}</td>
+                        <td class="px-6 py-4 text-on-surface-variant">₹${parseFloat(emp.salary).toLocaleString('en-IN')}</td>
+                        <td class="px-6 py-4">${statusBadge}</td>
+                        <td class="px-6 py-4 text-right whitespace-nowrap">
+                            <button onclick="editEmployee('${emp.id}')" class="text-primary hover:bg-primary-container p-1 rounded transition-colors mr-1" title="Edit">
+                                <span class="material-symbols-outlined text-[20px]">edit</span>
+                            </button>
+                            <button onclick="removeEmployee('${emp.id}')" class="text-error hover:bg-error-container p-1 rounded transition-colors" title="Remove">
+                                <span class="material-symbols-outlined text-[20px]">delete</span>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        function openAddEmployeeModal() {
+            document.getElementById('modal-title').textContent = "Add New Employee";
+            document.getElementById('add-employee-modal').classList.remove('hidden');
+            document.getElementById('emp-name').focus();
+        }
+
+        function closeAddEmployeeModal() {
+            document.getElementById('add-employee-modal').classList.add('hidden');
+            document.getElementById('add-employee-form').reset();
+            editingEmployeeId = null;
+        }
+
+        function editEmployee(id) {
+            const emp = employees.find(e => e.id === id);
+            if(emp) {
+                editingEmployeeId = id;
+                document.getElementById('modal-title').textContent = "Edit Employee";
+                document.getElementById('emp-name').value = emp.name;
+                document.getElementById('emp-role').value = emp.role;
+                document.getElementById('emp-salary').value = emp.salary;
+                document.getElementById('emp-status').value = emp.status;
+                document.getElementById('add-employee-modal').classList.remove('hidden');
+            }
+        }
+
+        function submitEmployee(e) {
+            e.preventDefault();
+            const name = document.getElementById('emp-name').value;
+            const role = document.getElementById('emp-role').value;
+            const salary = document.getElementById('emp-salary').value;
+            const status = document.getElementById('emp-status').value;
+            
+            if (editingEmployeeId) {
+                const index = employees.findIndex(emp => emp.id === editingEmployeeId);
+                if (index !== -1) {
+                    employees[index] = { ...employees[index], name, role, salary, status };
+                }
+            } else {
+                employees.push({
+                    id: generateId(),
+                    name: name,
+                    role: role,
+                    salary: salary,
+                    status: status
+                });
+            }
+
+            closeAddEmployeeModal();
+            renderStaffList();
+            updateDashboard();
+        }
+
+        function removeEmployee(id) {
+            if(confirm('Are you sure you want to remove this employee?')) {
+                employees = employees.filter(e => e.id !== id);
+                // Also clean up their attendance data if needed (optional, keeping it simple for now)
+                renderStaffList();
+                renderAttendanceMatrix(); // Refresh matrix in case they were removed
+                updateDashboard();
+            }
+        }
+
+        // --- Dashboard Update ---
+        function updateDashboard() {
+            document.getElementById('dash-staff-count').textContent = employees.length;
+        }
+
+        // --- Initialization ---
+        window.onload = () => {
+            renderAttendanceMatrix();
+            updateDashboard();
+        };
+    </script>
+</body>
+</html>
+
+
+
+
+```
