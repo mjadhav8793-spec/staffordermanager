@@ -31,7 +31,7 @@
         }
     </script>
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
         .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; display: inline-block; vertical-align: middle; }
         .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
@@ -58,21 +58,22 @@
 <body class="bg-surface text-on-surface overflow-hidden">
 
     <div class="flex h-screen w-full">
-        <!-- Desktop Sidebar -->
-        <aside class="hidden md:flex flex-col w-72 bg-surface border-r border-outline-variant shrink-0 h-full z-20">
+        <!-- Desktop Sidebar (With active click states for mobile layout test) -->
+        <aside class="hidden md:flex flex-col w-64 bg-surface border-r border-outline-variant shrink-0 h-full z-20">
             <div class="p-6">
                 <div class="flex items-center gap-2 mb-8">
-                    <div class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center">
-                        <span class="material-symbols-outlined text-[20px]">precision_manufacturing</span>
+                    <!-- Updated HD Robotic Arm Logo Wrapper matching verified file image style -->
+                    <div class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center shadow-sm">
+                        <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0, 'wght' 500;">precision_manufacturing</span>
                     </div>
-                    <h1 class="text-xl font-bold tracking-tight text-on-surface">STAFFORDERMANAGER</h1>
+                    <h1 class="text-xl font-bold tracking-tight text-on-surface">STAFFGRID</h1>
                 </div>
             </div>
             <nav class="flex-1 px-4 space-y-2 overflow-y-auto custom-scrollbar" id="desktop-nav">
-                <button data-target="dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">dashboard</span> Dashboard</button>
-                <button data-target="staff" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">groups</span> Staff Directory</button>
-                <button data-target="attendance" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">calendar_today</span> Attendance Matrix</button>
-                <button data-target="payroll" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">payments</span> Payroll</button>
+                <button data-target="dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant active:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">dashboard</span> Dashboard</button>
+                <button data-target="staff" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant active:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">groups</span> Staff Directory</button>
+                <button data-target="attendance" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant active:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">calendar_today</span> Attendance Matrix</button>
+                <button data-target="payroll" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant active:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">payments</span> Payroll</button>
                 <button data-target="orders" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm bg-primary text-on-primary font-medium transition-colors"><span class="material-symbols-outlined text-[20px]">inventory_2</span> Orders</button>
             </nav>
         </aside>
@@ -80,10 +81,12 @@
         <!-- Main Content Area -->
         <div class="flex-1 flex flex-col h-full min-w-0 bg-surface-bright relative">
             
-            <header class="md:hidden flex items-center justify-start p-4 border-b border-outline-variant bg-surface z-10">
+            <header class="md:hidden flex items-center justify-between p-4 border-b border-outline-variant bg-surface z-10">
                 <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center"><span class="material-symbols-outlined text-[20px]">precision_manufacturing</span></div>
-                    <h1 class="text-lg font-bold tracking-tight text-on-surface">STAFFORDERMANAGER</h1>
+                    <div class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center shadow-sm">
+                        <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0, 'wght' 500;">precision_manufacturing</span>
+                    </div>
+                    <h1 class="text-lg font-bold tracking-tight text-on-surface">STAFFGRID</h1>
                 </div>
             </header>
 
@@ -105,7 +108,7 @@
                 <div id="view-staff" class="view-section">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                         <h2 class="text-2xl font-bold text-on-surface">Staff Directory</h2>
-                        <button onclick="openAddEmployeeModal()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium hover:bg-opacity-90 flex items-center gap-2 shadow-sm transition-all active:scale-95"><span class="material-symbols-outlined text-[18px]">person_add</span> Add Employee</button>
+                        <button onclick="openAddEmployeeModal()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">person_add</span> Add Employee</button>
                     </div>
                     <div class="bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm">
                         <div class="overflow-x-auto custom-scrollbar">
@@ -127,9 +130,9 @@
                         <div class="flex items-center gap-4">
                             <h2 class="text-[32px] font-black tracking-tight text-on-surface leading-none" id="att-month-year-display">June 2026</h2>
                             <div class="flex items-center bg-white border border-outline-variant rounded-md overflow-hidden shadow-sm">
-                                <button onclick="changeMonth(-1)" class="w-8 h-8 flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_left</span></button>
+                                <button onclick="changeMonth(-1)" class="w-8 h-8 flex items-center justify-center active:bg-surface-container transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_left</span></button>
                                 <div class="w-px h-5 bg-outline-variant"></div>
-                                <button onclick="changeMonth(1)" class="w-8 h-8 flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_right</span></button>
+                                <button onclick="changeMonth(1)" class="w-8 h-8 flex items-center justify-center active:bg-surface-container transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_right</span></button>
                             </div>
                         </div>
                     </div>
@@ -154,9 +157,9 @@
                             <h2 class="text-[32px] font-black tracking-tight text-on-surface leading-none" id="payroll-month-year-display">June 2026</h2>
                         </div>
                         <div class="flex items-center bg-white border border-outline-variant rounded-md overflow-hidden shadow-sm">
-                            <button onclick="changePayrollMonth(-1)" class="w-8 h-8 flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_left</span></button>
+                            <button onclick="changePayrollMonth(-1)" class="w-8 h-8 flex items-center justify-center active:bg-surface-container transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_left</span></button>
                             <div class="w-px h-5 bg-outline-variant"></div>
-                            <button onclick="changePayrollMonth(1)" class="w-8 h-8 flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_right</span></button>
+                            <button onclick="changePayrollMonth(1)" class="w-8 h-8 flex items-center justify-center active:bg-surface-container transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_right</span></button>
                         </div>
                     </div>
 
@@ -182,12 +185,12 @@
                 <div id="view-orders" class="view-section active">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                         <h2 class="text-2xl font-bold text-on-surface">Order Management</h2>
-                        <button onclick="openOrderForm()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium hover:bg-opacity-90 flex items-center gap-2 shadow-sm"><span class="material-symbols-outlined text-[18px]">add</span> New Order</button>
+                        <button onclick="openOrderForm()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">add</span> New Order</button>
                     </div>
 
                     <div class="flex gap-3 mb-6 overflow-x-auto custom-scrollbar pb-1">
                         <button id="tab-wholesale" onclick="switchOrderTab('wholesale')" class="order-tab active bg-primary text-on-primary px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">Wholesale Orders</button>
-                        <button id="tab-raw" onclick="switchOrderTab('raw')" class="order-tab bg-white border border-outline-variant text-on-surface-variant hover:bg-surface-container px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">Raw Material Orders</button>
+                        <button id="tab-raw" onclick="switchOrderTab('raw')" class="order-tab bg-white border border-outline-variant text-on-surface-variant active:bg-surface-container px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">Raw Material Orders</button>
                     </div>
 
                     <!-- Wholesale Table -->
@@ -218,7 +221,7 @@
                 <!-- NEW/EDIT ORDER FORM -->
                 <div id="view-new-order" class="view-section">
                     <div class="flex items-center gap-4 mb-6">
-                        <button onclick="cancelOrderEdit()" class="text-on-surface-variant hover:bg-surface-container p-2 rounded-full transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
+                        <button onclick="cancelOrderEdit()" class="text-on-surface-variant active:bg-surface-container p-2 rounded-full transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
                         <h2 id="order-form-title" class="text-2xl font-bold text-on-surface">Create New Order</h2>
                     </div>
                     <div class="bg-white border border-outline-variant rounded-xl p-6 shadow-sm max-w-2xl">
@@ -247,8 +250,8 @@
                                 </div>
 
                                 <div class="flex justify-end gap-3 mt-8">
-                                    <button type="button" onclick="cancelOrderEdit()" class="px-4 py-2 text-sm font-medium text-on-surface-variant hover:bg-surface-container rounded-lg transition-colors">Cancel</button>
-                                    <button type="submit" class="px-4 py-2 text-sm font-medium bg-primary text-on-primary hover:bg-opacity-90 rounded-lg transition-colors">Save Order</button>
+                                    <button type="button" onclick="cancelOrderEdit()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container rounded-lg transition-colors">Cancel</button>
+                                    <button type="submit" class="px-4 py-2 text-sm font-medium bg-primary text-on-primary active:opacity-90 rounded-lg transition-colors">Save Order</button>
                                 </div>
                             </div>
                         </form>
@@ -258,13 +261,13 @@
             </main>
         </div>
         
-        <!-- Mobile Bottom Nav -->
-        <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 bg-surface border-t border-outline-variant overflow-x-auto" id="mobile-nav">
-            <button data-target="dashboard" class="nav-btn flex flex-col items-center justify-center p-2 text-on-surface-variant"><span class="material-symbols-outlined text-[24px]">dashboard</span><span class="text-[10px] mt-1">Home</span></button>
-            <button data-target="attendance" class="nav-btn flex flex-col items-center justify-center p-2 text-on-surface-variant"><span class="material-symbols-outlined text-[24px]">calendar_today</span><span class="text-[10px] mt-1">Matrix</span></button>
-            <button data-target="payroll" class="nav-btn flex flex-col items-center justify-center p-2 text-on-surface-variant"><span class="material-symbols-outlined text-[24px]">payments</span><span class="text-[10px] mt-1">Payroll</span></button>
-            <button data-target="staff" class="nav-btn flex flex-col items-center justify-center p-2 text-on-surface-variant"><span class="material-symbols-outlined text-[24px]">groups</span><span class="text-[10px] mt-1">Staff</span></button>
-            <button data-target="orders" class="nav-btn active flex flex-col items-center justify-center p-2 text-primary"><span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">inventory_2</span><span class="text-[10px] mt-1">Orders</span></button>
+        <!-- Mobile Bottom Nav (Fully optimized for responsive fluid Android touch ripples) -->
+        <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-1 bg-surface border-t border-outline-variant overflow-x-auto" id="mobile-nav">
+            <button data-target="dashboard" class="nav-btn flex flex-1 flex-col items-center justify-center py-2 text-on-surface-variant rounded-xl active:bg-surface-container transition-all"><span class="material-symbols-outlined text-[24px]">dashboard</span><span class="text-[10px] mt-0.5">Home</span></button>
+            <button data-target="attendance" class="nav-btn flex flex-1 flex-col items-center justify-center py-2 text-on-surface-variant rounded-xl active:bg-surface-container transition-all"><span class="material-symbols-outlined text-[24px]">calendar_today</span><span class="text-[10px] mt-0.5">Matrix</span></button>
+            <button data-target="payroll" class="nav-btn flex flex-1 flex-col items-center justify-center py-2 text-on-surface-variant rounded-xl active:bg-surface-container transition-all"><span class="material-symbols-outlined text-[24px]">payments</span><span class="text-[10px] mt-0.5">Payroll</span></button>
+            <button data-target="staff" class="nav-btn flex flex-1 flex-col items-center justify-center py-2 text-on-surface-variant rounded-xl active:bg-surface-container transition-all"><span class="material-symbols-outlined text-[24px]">groups</span><span class="text-[10px] mt-0.5">Staff</span></button>
+            <button data-target="orders" class="nav-btn active flex flex-1 flex-col items-center justify-center py-2 text-primary rounded-xl active:bg-surface-container transition-all"><span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">inventory_2</span><span class="text-[10px] mt-0.5">Orders</span></button>
         </nav>
     </div>
 
@@ -273,7 +276,7 @@
         <div class="bg-surface border border-outline-variant rounded-xl shadow-xl w-full max-w-md overflow-hidden">
             <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-white">
                 <h3 class="text-lg font-bold text-on-surface" id="modal-title">Add New Employee</h3>
-                <button onclick="closeAddEmployeeModal()" class="text-on-surface-variant hover:text-error transition-colors"><span class="material-symbols-outlined">close</span></button>
+                <button onclick="closeAddEmployeeModal()" class="text-on-surface-variant active:text-error transition-colors"><span class="material-symbols-outlined">close</span></button>
             </div>
             <div class="p-6 bg-white">
                 <form id="add-employee-form" onsubmit="submitEmployee(event)">
@@ -284,7 +287,7 @@
                         <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Status</label><select id="emp-status" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-white"><option value="Active">Active</option><option value="Inactive">Inactive</option></select></div>
                     </div>
                     <div class="mt-8 flex justify-end gap-3">
-                        <button type="button" onclick="closeAddEmployeeModal()" class="px-4 py-2 text-sm font-medium text-on-surface-variant hover:bg-surface-container rounded-lg">Cancel</button>
+                        <button type="button" onclick="closeAddEmployeeModal()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container rounded-lg">Cancel</button>
                         <button type="submit" class="px-4 py-2 text-sm font-medium bg-primary text-on-primary rounded-lg">Save</button>
                     </div>
                 </form>
@@ -384,7 +387,7 @@
 
         function renderOrders() {
             document.getElementById('wholesale-table-body').innerHTML = wholesaleOrders.map((order, index) => {
-                const sc = order.status === 'Processing' ? 'bg-primary-container text-primary' : 'bg-secondary-container text-on-secondary-container';
+                const sc = order.status === 'Processing' ? 'bg-primary-container text-primary bg-opacity-20' : 'bg-secondary-container text-on-secondary-container';
                 const total = parseFloat(order.totalBill) || 0;
                 const paid = parseFloat(order.advancePaid) || 0;
                 const due = total - paid;
@@ -401,17 +404,17 @@
                         </div>
                         <div class="text-xs text-error font-bold mt-1">Due: ₹${due.toLocaleString('en-IN')}</div>
                     </td>
-                    <td class="px-6 py-4"><span onclick="toggleOrderStatus('wholesale', ${index})" class="px-2 py-1 rounded text-xs font-bold cursor-pointer hover:opacity-80 transition-opacity whitespace-nowrap ${sc}">${order.status}</span></td>
+                    <td class="px-6 py-4"><span onclick="toggleOrderStatus('wholesale', ${index})" class="px-2 py-1 rounded text-xs font-bold cursor-pointer active:opacity-80 transition-opacity whitespace-nowrap ${sc}">${order.status}</span></td>
                     <td class="px-6 py-4 text-right text-on-surface-variant">${order.date}</td>
                     <td class="px-6 py-4 text-right whitespace-nowrap">
-                        <button onclick="editOrder('wholesale', ${index})" class="text-primary hover:bg-primary-container p-1 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button>
-                        <button onclick="deleteOrder('wholesale', ${index})" class="text-error hover:bg-error-container p-1 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+                        <button onclick="editOrder('wholesale', ${index})" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+                        <button onclick="deleteOrder('wholesale', ${index})" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button>
                     </td>
                 </tr>`;
             }).join('');
 
             document.getElementById('raw-table-body').innerHTML = rawOrders.map((order, index) => {
-                const sc = order.status === 'In Transit' ? 'bg-primary-container text-primary' : 'bg-secondary-container text-on-secondary-container';
+                const sc = order.status === 'In Transit' ? 'bg-primary-container text-primary bg-opacity-20' : 'bg-secondary-container text-on-secondary-container';
                 const total = parseFloat(order.totalBill) || 0;
                 const paid = parseFloat(order.advancePaid) || 0;
                 const due = total - paid;
@@ -428,11 +431,11 @@
                         </div>
                         <div class="text-xs text-error font-bold mt-1">Due: ₹${due.toLocaleString('en-IN')}</div>
                     </td>
-                    <td class="px-6 py-4"><span onclick="toggleOrderStatus('raw', ${index})" class="px-2 py-1 rounded text-xs font-bold cursor-pointer hover:opacity-80 transition-opacity whitespace-nowrap ${sc}">${order.status}</span></td>
+                    <td class="px-6 py-4"><span onclick="toggleOrderStatus('raw', ${index})" class="px-2 py-1 rounded text-xs font-bold cursor-pointer active:opacity-80 transition-opacity whitespace-nowrap ${sc}">${order.status}</span></td>
                     <td class="px-6 py-4 text-right text-on-surface-variant">${order.date}</td>
                     <td class="px-6 py-4 text-right whitespace-nowrap">
-                        <button onclick="editOrder('raw', ${index})" class="text-primary hover:bg-primary-container p-1 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button>
-                        <button onclick="deleteOrder('raw', ${index})" class="text-error hover:bg-error-container p-1 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+                        <button onclick="editOrder('raw', ${index})" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+                        <button onclick="deleteOrder('raw', ${index})" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button>
                     </td>
                 </tr>`;
             }).join('');
@@ -468,7 +471,7 @@
             const order = type === 'wholesale' ? wholesaleOrders[index] : rawOrders[index];
             
             document.querySelector(`input[name="orderType"][value="${type}"]`).checked = true;
-            document.querySelectorAll('input[name="orderType"]').forEach(r => r.disabled = true); // Lock type during edit
+            document.querySelectorAll('input[name="orderType"]').forEach(r => r.disabled = true); 
 
             document.getElementById('order-supplier-name').value = order.name;
             document.getElementById('order-products-details').value = order.products;
@@ -495,14 +498,12 @@
             const advancePaid = parseFloat(document.getElementById('order-advance-paid').value) || 0;
             
             if (editingOrderId !== null) {
-                // Update existing order
                 if (editingOrderType === 'wholesale') {
                     wholesaleOrders[editingOrderId] = { ...wholesaleOrders[editingOrderId], name, products, totalBill, advancePaid };
                 } else {
                     rawOrders[editingOrderId] = { ...rawOrders[editingOrderId], name, products, totalBill, advancePaid };
                 }
             } else {
-                // Create brand new order
                 const date = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
                 const id = (type === 'wholesale' ? 'WS-2026-' : 'RM-2026-') + Math.floor(Math.random() * 1000).toString().padStart(3, '0');
                 if (type === 'wholesale') { 
@@ -512,7 +513,7 @@
                 }
             }
 
-            cancelOrderEdit(); // Resets form and switches view safely
+            cancelOrderEdit(); 
             saveToDatabase(); 
             switchOrderTab(type === 'wholesale' ? 'wholesale' : 'raw');
         }
@@ -627,7 +628,7 @@
             if (employees.length === 0) { document.getElementById('staff-table-body').innerHTML = `<tr><td colspan="6" class="text-center py-8 text-on-surface-variant">No staff added yet.</td></tr>`; return; }
             document.getElementById('staff-table-body').innerHTML = employees.map(emp => {
                 const sb = emp.status === 'Active' ? `<span class="px-2 py-1 bg-secondary-container text-on-secondary-container rounded text-xs font-bold">Active</span>` : `<span class="px-2 py-1 bg-error-container text-on-error-container rounded text-xs font-bold">Inactive</span>`;
-                return `<tr class="hover:bg-surface-container-lowest transition-colors"><td class="px-6 py-4 font-mono text-xs text-on-surface-variant">${emp.id}</td><td class="px-6 py-4 font-medium text-on-surface flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-xs">${emp.name.charAt(0)}</div>${emp.name}</td><td class="px-6 py-4 text-on-surface-variant">${emp.role}</td><td class="px-6 py-4 text-on-surface-variant">₹${parseFloat(emp.salary).toLocaleString('en-IN')}</td><td class="px-6 py-4">${sb}</td><td class="px-6 py-4 text-right whitespace-nowrap"><button onclick="editEmployee('${emp.id}')" class="text-primary hover:bg-primary-container p-1 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button><button onclick="removeEmployee('${emp.id}')" class="text-error hover:bg-error-container p-1 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button></td></tr>`;
+                return `<tr class="hover:bg-surface-container-lowest transition-colors"><td class="px-6 py-4 font-mono text-xs text-on-surface-variant">${emp.id}</td><td class="px-6 py-4 font-medium text-on-surface flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-xs">${emp.name.charAt(0)}</div>${emp.name}</td><td class="px-6 py-4 text-on-surface-variant">${emp.role}</td><td class="px-6 py-4 text-on-surface-variant">₹${parseFloat(emp.salary).toLocaleString('en-IN')}</td><td class="px-6 py-4">${sb}</td><td class="px-6 py-4 text-right whitespace-nowrap"><button onclick="editEmployee('${emp.id}')" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button><button onclick="removeEmployee('${emp.id}')" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button></td></tr>`;
             }).join('');
         }
 
