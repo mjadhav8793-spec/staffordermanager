@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     
+    <!-- FIREBASE SCRIPTS -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
@@ -57,6 +58,7 @@
 <body class="bg-surface text-on-surface overflow-hidden">
 
     <div class="flex h-screen w-full">
+        <!-- Desktop Sidebar -->
         <aside class="hidden md:flex flex-col w-64 bg-surface border-r border-outline-variant shrink-0 h-full z-20">
             <div class="p-6">
                 <div class="flex items-center gap-2 mb-8">
@@ -69,11 +71,13 @@
             <nav class="flex-1 px-4 space-y-2 overflow-y-auto custom-scrollbar" id="desktop-nav">
                 <button data-target="dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">dashboard</span> Dashboard</button>
                 <button data-target="staff" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">groups</span> Staff Directory</button>
-                <button data-target="attendance" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm bg-primary text-on-primary font-medium transition-colors"><span class="material-symbols-outlined text-[20px]">calendar_today</span> Attendance Matrix</button>
-                <button data-target="orders" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">inventory_2</span> Orders</button>
+                <button data-target="attendance" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">calendar_today</span> Attendance Matrix</button>
+                <button data-target="payroll" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">payments</span> Payroll</button>
+                <button data-target="orders" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm bg-primary text-on-primary font-medium transition-colors"><span class="material-symbols-outlined text-[20px]">inventory_2</span> Orders</button>
             </nav>
         </aside>
 
+        <!-- Main Content Area -->
         <div class="flex-1 flex flex-col h-full min-w-0 bg-surface-bright relative">
             
             <header class="md:hidden flex items-center justify-between p-4 border-b border-outline-variant bg-surface z-10">
@@ -85,6 +89,7 @@
 
             <main class="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-8 pb-24 md:pb-8 relative">
                 
+                <!-- DASHBOARD -->
                 <div id="view-dashboard" class="view-section">
                     <h2 class="text-2xl font-bold text-on-surface mb-6">Overview</h2>
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
@@ -96,6 +101,7 @@
                     </div>
                 </div>
 
+                <!-- STAFF DIRECTORY -->
                 <div id="view-staff" class="view-section">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                         <h2 class="text-2xl font-bold text-on-surface">Staff Directory</h2>
@@ -115,7 +121,8 @@
                     </div>
                 </div>
 
-                <div id="view-attendance" class="view-section active">
+                <!-- ATTENDANCE MATRIX -->
+                <div id="view-attendance" class="view-section">
                     <div class="mb-6">
                         <div class="flex items-center gap-4">
                             <h2 class="text-[32px] font-black tracking-tight text-on-surface leading-none" id="att-month-year-display">June 2026</h2>
@@ -139,10 +146,43 @@
                     </div>
                 </div>
 
-                <div id="view-orders" class="view-section">
+                <!-- PAYROLL -->
+                <div id="view-payroll" class="view-section">
+                    <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div>
+                            <p class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-1">Payroll & Advances</p>
+                            <h2 class="text-[32px] font-black tracking-tight text-on-surface leading-none" id="payroll-month-year-display">June 2026</h2>
+                        </div>
+                        <div class="flex items-center bg-white border border-outline-variant rounded-md overflow-hidden shadow-sm">
+                            <button onclick="changePayrollMonth(-1)" class="w-8 h-8 flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_left</span></button>
+                            <div class="w-px h-5 bg-outline-variant"></div>
+                            <button onclick="changePayrollMonth(1)" class="w-8 h-8 flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_right</span></button>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+                        <div class="overflow-x-auto custom-scrollbar">
+                            <table class="w-full text-left border-collapse min-w-[800px]">
+                                <thead>
+                                    <tr class="bg-surface-container text-xs text-on-surface-variant uppercase tracking-wider">
+                                        <th class="px-6 py-4 font-semibold">Employee</th>
+                                        <th class="px-6 py-4 font-semibold text-center">Attendance</th>
+                                        <th class="px-6 py-4 font-semibold text-right">Earned (₹)</th>
+                                        <th class="px-6 py-4 font-semibold text-right text-error">Advance Given (₹)</th>
+                                        <th class="px-6 py-4 font-semibold text-right text-primary">Net Payable (₹)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="payroll-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ORDERS -->
+                <div id="view-orders" class="view-section active">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                         <h2 class="text-2xl font-bold text-on-surface">Order Management</h2>
-                        <button onclick="switchView('new-order')" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium hover:bg-opacity-90 flex items-center gap-2 shadow-sm"><span class="material-symbols-outlined text-[18px]">add</span> New Order</button>
+                        <button onclick="openOrderForm()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium hover:bg-opacity-90 flex items-center gap-2 shadow-sm"><span class="material-symbols-outlined text-[18px]">add</span> New Order</button>
                     </div>
 
                     <div class="flex gap-3 mb-6 overflow-x-auto custom-scrollbar pb-1">
@@ -150,22 +190,24 @@
                         <button id="tab-raw" onclick="switchOrderTab('raw')" class="order-tab bg-white border border-outline-variant text-on-surface-variant hover:bg-surface-container px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">Raw Material Orders</button>
                     </div>
 
+                    <!-- Wholesale Table -->
                     <div id="table-wholesale" class="order-table-container bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm block">
                         <div class="overflow-x-auto custom-scrollbar">
-                            <table class="w-full text-left border-collapse min-w-[700px]">
+                            <table class="w-full text-left border-collapse min-w-[850px]">
                                 <thead>
-                                    <tr class="bg-surface-container text-xs text-on-surface-variant uppercase tracking-wider"><th class="px-6 py-4 font-semibold">Order ID</th><th class="px-6 py-4 font-semibold">Client</th><th class="px-6 py-4 font-semibold">Products</th><th class="px-6 py-4 font-semibold">Status</th><th class="px-6 py-4 font-semibold text-right">Date</th><th class="px-6 py-4 font-semibold text-right">Actions</th></tr>
+                                    <tr class="bg-surface-container text-xs text-on-surface-variant uppercase tracking-wider"><th class="px-6 py-4 font-semibold">Order ID</th><th class="px-6 py-4 font-semibold">Client</th><th class="px-6 py-4 font-semibold">Products</th><th class="px-6 py-4 font-semibold">Financials (₹)</th><th class="px-6 py-4 font-semibold">Status</th><th class="px-6 py-4 font-semibold text-right">Date</th><th class="px-6 py-4 font-semibold text-right">Actions</th></tr>
                                 </thead>
                                 <tbody id="wholesale-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
                             </table>
                         </div>
                     </div>
 
+                    <!-- Raw Material Table -->
                     <div id="table-raw" class="order-table-container bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm hidden">
                         <div class="overflow-x-auto custom-scrollbar">
-                            <table class="w-full text-left border-collapse min-w-[700px]">
+                            <table class="w-full text-left border-collapse min-w-[850px]">
                                 <thead>
-                                    <tr class="bg-surface-container text-xs text-on-surface-variant uppercase tracking-wider"><th class="px-6 py-4 font-semibold">PO Number</th><th class="px-6 py-4 font-semibold">Supplier</th><th class="px-6 py-4 font-semibold">Material Specs</th><th class="px-6 py-4 font-semibold">Status</th><th class="px-6 py-4 font-semibold text-right">Date</th><th class="px-6 py-4 font-semibold text-right">Actions</th></tr>
+                                    <tr class="bg-surface-container text-xs text-on-surface-variant uppercase tracking-wider"><th class="px-6 py-4 font-semibold">PO Number</th><th class="px-6 py-4 font-semibold">Supplier</th><th class="px-6 py-4 font-semibold">Material Specs</th><th class="px-6 py-4 font-semibold">Financials (₹)</th><th class="px-6 py-4 font-semibold">Status</th><th class="px-6 py-4 font-semibold text-right">Date</th><th class="px-6 py-4 font-semibold text-right">Actions</th></tr>
                                 </thead>
                                 <tbody id="raw-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
                             </table>
@@ -173,10 +215,11 @@
                     </div>
                 </div>
 
+                <!-- NEW/EDIT ORDER FORM -->
                 <div id="view-new-order" class="view-section">
                     <div class="flex items-center gap-4 mb-6">
-                        <button onclick="switchView('orders')" class="text-on-surface-variant hover:bg-surface-container p-2 rounded-full transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
-                        <h2 class="text-2xl font-bold text-on-surface">Create New Order</h2>
+                        <button onclick="cancelOrderEdit()" class="text-on-surface-variant hover:bg-surface-container p-2 rounded-full transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
+                        <h2 id="order-form-title" class="text-2xl font-bold text-on-surface">Create New Order</h2>
                     </div>
                     <div class="bg-white border border-outline-variant rounded-xl p-6 shadow-sm max-w-2xl">
                         <form id="new-order-form" onsubmit="submitNewOrder(event)">
@@ -191,9 +234,21 @@
                                 <hr class="border-outline-variant">
                                 <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Supplier / Client Name</label><input type="text" id="order-supplier-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="Enter name..."></div>
                                 <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Products / Materials</label><textarea id="order-products-details" required rows="3" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="Enter item details and quantities..."></textarea></div>
+                                
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total Bill Amount (₹)</label>
+                                        <input type="number" id="order-total-bill" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="0">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Advance Paid (₹)</label>
+                                        <input type="number" id="order-advance-paid" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="0">
+                                    </div>
+                                </div>
+
                                 <div class="flex justify-end gap-3 mt-8">
-                                    <button type="button" onclick="switchView('orders')" class="px-4 py-2 text-sm font-medium text-on-surface-variant hover:bg-surface-container rounded-lg transition-colors">Cancel</button>
-                                    <button type="submit" class="px-4 py-2 text-sm font-medium bg-primary text-on-primary hover:bg-opacity-90 rounded-lg transition-colors">Submit Order</button>
+                                    <button type="button" onclick="cancelOrderEdit()" class="px-4 py-2 text-sm font-medium text-on-surface-variant hover:bg-surface-container rounded-lg transition-colors">Cancel</button>
+                                    <button type="submit" class="px-4 py-2 text-sm font-medium bg-primary text-on-primary hover:bg-opacity-90 rounded-lg transition-colors">Save Order</button>
                                 </div>
                             </div>
                         </form>
@@ -203,14 +258,17 @@
             </main>
         </div>
         
-        <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 bg-surface border-t border-outline-variant" id="mobile-nav">
+        <!-- Mobile Bottom Nav -->
+        <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 bg-surface border-t border-outline-variant overflow-x-auto" id="mobile-nav">
             <button data-target="dashboard" class="nav-btn flex flex-col items-center justify-center p-2 text-on-surface-variant"><span class="material-symbols-outlined text-[24px]">dashboard</span><span class="text-[10px] mt-1">Home</span></button>
-            <button data-target="attendance" class="nav-btn active flex flex-col items-center justify-center p-2 text-primary"><span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">calendar_today</span><span class="text-[10px] mt-1">Matrix</span></button>
+            <button data-target="attendance" class="nav-btn flex flex-col items-center justify-center p-2 text-on-surface-variant"><span class="material-symbols-outlined text-[24px]">calendar_today</span><span class="text-[10px] mt-1">Matrix</span></button>
+            <button data-target="payroll" class="nav-btn flex flex-col items-center justify-center p-2 text-on-surface-variant"><span class="material-symbols-outlined text-[24px]">payments</span><span class="text-[10px] mt-1">Payroll</span></button>
             <button data-target="staff" class="nav-btn flex flex-col items-center justify-center p-2 text-on-surface-variant"><span class="material-symbols-outlined text-[24px]">groups</span><span class="text-[10px] mt-1">Staff</span></button>
-            <button data-target="orders" class="nav-btn flex flex-col items-center justify-center p-2 text-on-surface-variant"><span class="material-symbols-outlined text-[24px]">inventory_2</span><span class="text-[10px] mt-1">Orders</span></button>
+            <button data-target="orders" class="nav-btn active flex flex-col items-center justify-center p-2 text-primary"><span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">inventory_2</span><span class="text-[10px] mt-1">Orders</span></button>
         </nav>
     </div>
 
+    <!-- Add/Edit Employee Modal -->
     <div id="add-employee-modal" class="fixed inset-0 bg-on-surface bg-opacity-50 z-[100] hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-surface border border-outline-variant rounded-xl shadow-xl w-full max-w-md overflow-hidden">
             <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-white">
@@ -234,9 +292,10 @@
         </div>
     </div>
 
+    <!-- Logic & Database -->
     <script>
         const firebaseConfig = {
-            apiKey: "AIzaSyAnwhEjJw7NiaCk4ARuP4pmYwAwQWr1WiQ",
+           apiKey: "AIzaSyAnwhEjJw7NiaCk4ARuP4pmYwAwQWr1WiQ",
             authDomain: "factory-admin-fc1cc.firebaseapp.com",
             databaseURL: "https://factory-admin-fc1cc-default-rtdb.asia-southeast1.firebasedatabase.app",
             projectId: "factory-admin-fc1cc",
@@ -248,11 +307,15 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        let employees = [], attendanceData = {}, wholesaleOrders = [], rawOrders = [];
+        let employees = [], attendanceData = {}, advancesData = {}, wholesaleOrders = [], rawOrders = [];
         let currentDate = new Date(2026, 5, 1); 
+        let payrollDate = new Date(2026, 5, 1);
         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         const statusCycle = [null, 'P', 'H', 'A'];
+        
         let editingEmployeeId = null;
+        let editingOrderId = null;
+        let editingOrderType = null;
 
         // REAL-TIME SYNC
         db.ref('factoryData').on('value', (snapshot) => {
@@ -260,14 +323,15 @@
             if (data) {
                 employees = data.employees || [];
                 attendanceData = data.attendanceData || {};
+                advancesData = data.advancesData || {};
                 wholesaleOrders = data.wholesaleOrders || [];
                 rawOrders = data.rawOrders || [];
             }
-            renderAttendanceMatrix(); renderOrders(); renderStaffList(); updateDashboard();
+            renderAttendanceMatrix(); renderOrders(); renderStaffList(); updateDashboard(); renderPayroll();
         });
 
         function saveToDatabase() {
-            db.ref('factoryData').set({ employees, attendanceData, wholesaleOrders, rawOrders });
+            db.ref('factoryData').set({ employees, attendanceData, advancesData, wholesaleOrders, rawOrders });
         }
 
         // NAVIGATION
@@ -298,9 +362,11 @@
                     }
                 }
             });
+
+            if(viewId === 'payroll') renderPayroll();
         }
 
-        // ORDERS
+        // ORDERS & PARTIAL PAYMENTS
         function switchOrderTab(tabId) {
             document.querySelectorAll('.order-tab').forEach(el => { el.classList.remove('bg-primary', 'text-on-primary'); el.classList.add('bg-white', 'text-on-surface-variant'); });
             const activeBtn = document.getElementById(`tab-${tabId}`);
@@ -309,15 +375,66 @@
             if(document.getElementById(`table-${tabId}`)) document.getElementById(`table-${tabId}`).classList.remove('hidden');
         }
 
+        function updateOrderPayment(type, index, newPaidAmount) {
+            const amount = parseFloat(newPaidAmount) || 0;
+            if (type === 'wholesale') wholesaleOrders[index].advancePaid = amount;
+            else rawOrders[index].advancePaid = amount;
+            saveToDatabase();
+        }
+
         function renderOrders() {
             document.getElementById('wholesale-table-body').innerHTML = wholesaleOrders.map((order, index) => {
                 const sc = order.status === 'Processing' ? 'bg-primary-container text-primary' : 'bg-secondary-container text-on-secondary-container';
-                return `<tr class="hover:bg-surface-container-lowest transition-colors"><td class="px-6 py-4 font-mono text-xs text-on-surface-variant">${order.id}</td><td class="px-6 py-4 font-medium text-on-surface">${order.name}</td><td class="px-6 py-4">${order.products}</td><td class="px-6 py-4"><span onclick="toggleOrderStatus('wholesale', ${index})" class="px-2 py-1 rounded text-xs font-bold cursor-pointer hover:opacity-80 transition-opacity whitespace-nowrap ${sc}">${order.status}</span></td><td class="px-6 py-4 text-right text-on-surface-variant">${order.date}</td><td class="px-6 py-4 text-right"><button onclick="deleteOrder('wholesale', ${index})" class="text-error hover:bg-error-container p-1 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button></td></tr>`;
+                const total = parseFloat(order.totalBill) || 0;
+                const paid = parseFloat(order.advancePaid) || 0;
+                const due = total - paid;
+                
+                return `<tr class="hover:bg-surface-container-lowest transition-colors">
+                    <td class="px-6 py-4 font-mono text-xs text-on-surface-variant">${order.id}</td>
+                    <td class="px-6 py-4 font-medium text-on-surface">${order.name}</td>
+                    <td class="px-6 py-4">${order.products}</td>
+                    <td class="px-6 py-4">
+                        <div class="text-xs text-on-surface-variant">Total: ₹${total.toLocaleString('en-IN')}</div>
+                        <div class="flex items-center gap-1 mt-1">
+                            <span class="text-[10px] text-primary font-bold uppercase">Paid:</span>
+                            <input type="number" min="0" value="${paid || ''}" placeholder="0" onblur="updateOrderPayment('wholesale', ${index}, this.value)" class="w-20 border-outline-variant rounded text-xs px-2 py-1 h-6 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div class="text-xs text-error font-bold mt-1">Due: ₹${due.toLocaleString('en-IN')}</div>
+                    </td>
+                    <td class="px-6 py-4"><span onclick="toggleOrderStatus('wholesale', ${index})" class="px-2 py-1 rounded text-xs font-bold cursor-pointer hover:opacity-80 transition-opacity whitespace-nowrap ${sc}">${order.status}</span></td>
+                    <td class="px-6 py-4 text-right text-on-surface-variant">${order.date}</td>
+                    <td class="px-6 py-4 text-right whitespace-nowrap">
+                        <button onclick="editOrder('wholesale', ${index})" class="text-primary hover:bg-primary-container p-1 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+                        <button onclick="deleteOrder('wholesale', ${index})" class="text-error hover:bg-error-container p-1 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+                    </td>
+                </tr>`;
             }).join('');
 
             document.getElementById('raw-table-body').innerHTML = rawOrders.map((order, index) => {
                 const sc = order.status === 'In Transit' ? 'bg-primary-container text-primary' : 'bg-secondary-container text-on-secondary-container';
-                return `<tr class="hover:bg-surface-container-lowest transition-colors"><td class="px-6 py-4 font-mono text-xs text-on-surface-variant">${order.id}</td><td class="px-6 py-4 font-medium text-on-surface">${order.name}</td><td class="px-6 py-4">${order.products}</td><td class="px-6 py-4"><span onclick="toggleOrderStatus('raw', ${index})" class="px-2 py-1 rounded text-xs font-bold cursor-pointer hover:opacity-80 transition-opacity whitespace-nowrap ${sc}">${order.status}</span></td><td class="px-6 py-4 text-right text-on-surface-variant">${order.date}</td><td class="px-6 py-4 text-right"><button onclick="deleteOrder('raw', ${index})" class="text-error hover:bg-error-container p-1 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button></td></tr>`;
+                const total = parseFloat(order.totalBill) || 0;
+                const paid = parseFloat(order.advancePaid) || 0;
+                const due = total - paid;
+
+                return `<tr class="hover:bg-surface-container-lowest transition-colors">
+                    <td class="px-6 py-4 font-mono text-xs text-on-surface-variant">${order.id}</td>
+                    <td class="px-6 py-4 font-medium text-on-surface">${order.name}</td>
+                    <td class="px-6 py-4">${order.products}</td>
+                    <td class="px-6 py-4">
+                        <div class="text-xs text-on-surface-variant">Total: ₹${total.toLocaleString('en-IN')}</div>
+                        <div class="flex items-center gap-1 mt-1">
+                            <span class="text-[10px] text-primary font-bold uppercase">Paid:</span>
+                            <input type="number" min="0" value="${paid || ''}" placeholder="0" onblur="updateOrderPayment('raw', ${index}, this.value)" class="w-20 border-outline-variant rounded text-xs px-2 py-1 h-6 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div class="text-xs text-error font-bold mt-1">Due: ₹${due.toLocaleString('en-IN')}</div>
+                    </td>
+                    <td class="px-6 py-4"><span onclick="toggleOrderStatus('raw', ${index})" class="px-2 py-1 rounded text-xs font-bold cursor-pointer hover:opacity-80 transition-opacity whitespace-nowrap ${sc}">${order.status}</span></td>
+                    <td class="px-6 py-4 text-right text-on-surface-variant">${order.date}</td>
+                    <td class="px-6 py-4 text-right whitespace-nowrap">
+                        <button onclick="editOrder('raw', ${index})" class="text-primary hover:bg-primary-container p-1 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+                        <button onclick="deleteOrder('raw', ${index})" class="text-error hover:bg-error-container p-1 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+                    </td>
+                </tr>`;
             }).join('');
         }
 
@@ -328,10 +445,45 @@
         }
 
         function deleteOrder(type, index) {
-            if (confirm("Delete this order?")) {
+            if (confirm("Are you sure you want to delete this order?")) {
                 if (type === 'wholesale') wholesaleOrders.splice(index, 1); else rawOrders.splice(index, 1);
                 saveToDatabase();
             }
+        }
+
+        function openOrderForm() {
+            editingOrderId = null;
+            editingOrderType = null;
+            document.getElementById('order-form-title').textContent = "Create New Order";
+            document.getElementById('new-order-form').reset();
+            document.querySelectorAll('input[name="orderType"]').forEach(r => r.disabled = false);
+            switchView('new-order');
+        }
+
+        function editOrder(type, index) {
+            editingOrderId = index;
+            editingOrderType = type;
+            document.getElementById('order-form-title').textContent = "Edit Order";
+            
+            const order = type === 'wholesale' ? wholesaleOrders[index] : rawOrders[index];
+            
+            document.querySelector(`input[name="orderType"][value="${type}"]`).checked = true;
+            document.querySelectorAll('input[name="orderType"]').forEach(r => r.disabled = true); // Lock type during edit
+
+            document.getElementById('order-supplier-name').value = order.name;
+            document.getElementById('order-products-details').value = order.products;
+            document.getElementById('order-total-bill').value = order.totalBill;
+            document.getElementById('order-advance-paid').value = order.advancePaid;
+            
+            switchView('new-order');
+        }
+
+        function cancelOrderEdit() {
+            document.getElementById('new-order-form').reset();
+            document.querySelectorAll('input[name="orderType"]').forEach(r => r.disabled = false);
+            editingOrderId = null;
+            editingOrderType = null;
+            switchView('orders');
         }
 
         function submitNewOrder(e) {
@@ -339,13 +491,30 @@
             const type = document.querySelector('input[name="orderType"]:checked').value;
             const name = document.getElementById('order-supplier-name').value;
             const products = document.getElementById('order-products-details').value;
-            const date = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-            const id = (type === 'wholesale' ? 'WS-2026-' : 'RM-2026-') + Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            const totalBill = parseFloat(document.getElementById('order-total-bill').value) || 0;
+            const advancePaid = parseFloat(document.getElementById('order-advance-paid').value) || 0;
             
-            if (type === 'wholesale') { wholesaleOrders.unshift({ id, name, products, status: 'Processing', date }); switchOrderTab('wholesale'); } 
-            else { rawOrders.unshift({ id, name, products, status: 'In Transit', date }); switchOrderTab('raw'); }
+            if (editingOrderId !== null) {
+                // Update existing order
+                if (editingOrderType === 'wholesale') {
+                    wholesaleOrders[editingOrderId] = { ...wholesaleOrders[editingOrderId], name, products, totalBill, advancePaid };
+                } else {
+                    rawOrders[editingOrderId] = { ...rawOrders[editingOrderId], name, products, totalBill, advancePaid };
+                }
+            } else {
+                // Create brand new order
+                const date = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                const id = (type === 'wholesale' ? 'WS-2026-' : 'RM-2026-') + Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+                if (type === 'wholesale') { 
+                    wholesaleOrders.unshift({ id, name, products, totalBill, advancePaid, status: 'Processing', date }); 
+                } else { 
+                    rawOrders.unshift({ id, name, products, totalBill, advancePaid, status: 'In Transit', date }); 
+                }
+            }
 
-            document.getElementById('new-order-form').reset(); saveToDatabase(); switchView('orders');
+            cancelOrderEdit(); // Resets form and switches view safely
+            saveToDatabase(); 
+            switchOrderTab(type === 'wholesale' ? 'wholesale' : 'raw');
         }
 
         // ATTENDANCE MATRIX
@@ -387,6 +556,70 @@
                 for(let i = 1; i <= 31; i++) r += `<td class="att-cell-interactive p-1" onclick="cycleStatus('${emp.id}', ${y}, ${m}, ${i})">${renderCellContent(getAttStatus(emp.id, y, m, i))}</td>`;
                 return r + `</tr>`;
             }).join('');
+        }
+
+        // PAYROLL
+        function changePayrollMonth(delta) { payrollDate.setMonth(payrollDate.getMonth() + delta); renderPayroll(); }
+
+        function updateAdvance(empId, year, month, value) {
+            if(!advancesData[year]) advancesData[year] = {};
+            if(!advancesData[year][month]) advancesData[year][month] = {};
+            advancesData[year][month][empId] = parseFloat(value) || 0;
+            saveToDatabase();
+        }
+        
+        function renderPayroll() {
+            const y = payrollDate.getFullYear();
+            const m = payrollDate.getMonth();
+            document.getElementById('payroll-month-year-display').textContent = `${monthNames[m]} ${y}`;
+            
+            const tbody = document.getElementById('payroll-table-body');
+            if (employees.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center py-8 text-on-surface-variant">No employees to calculate.</td></tr>`;
+                return;
+            }
+
+            let html = '';
+            employees.forEach(emp => {
+                let p = 0, h = 0, a = 0;
+                for(let i = 1; i <= 31; i++) {
+                    const status = getAttStatus(emp.id, y, m, i);
+                    if(status === 'P') p++;
+                    if(status === 'H') h++;
+                    if(status === 'A') a++;
+                }
+                
+                const baseSalary = parseFloat(emp.salary) || 0;
+                const dailyRate = baseSalary / 31; 
+                const earned = (p * dailyRate) + (h * (dailyRate / 2));
+                
+                let advance = 0;
+                if (advancesData[y] && advancesData[y][m] && advancesData[y][m][emp.id]) {
+                    advance = advancesData[y][m][emp.id];
+                }
+
+                const netPayable = earned - advance;
+                
+                html += `<tr class="hover:bg-surface-container-lowest transition-colors">
+                    <td class="px-6 py-4">
+                        <div class="font-medium text-on-surface flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-xs">${emp.name.charAt(0)}</div>${emp.name}</div>
+                        <div class="text-xs text-on-surface-variant mt-1 ml-11">Base: ₹${baseSalary.toLocaleString('en-IN')}</div>
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                        <div class="inline-flex gap-2 text-xs">
+                            <span class="px-2 py-1 bg-secondary-container text-on-secondary-container rounded font-bold" title="Present">${p} P</span>
+                            <span class="px-2 py-1 bg-[#fef08a] text-[#854d0e] rounded font-bold" title="Half-day">${h} H</span>
+                            <span class="px-2 py-1 bg-error-container text-on-error-container rounded font-bold" title="Absent">${a} A</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 text-right font-medium text-on-surface">₹${earned.toLocaleString('en-IN', {maximumFractionDigits: 0})}</td>
+                    <td class="px-6 py-4 text-right">
+                        <input type="number" min="0" value="${advance || ''}" placeholder="0" onblur="updateAdvance('${emp.id}', ${y}, ${m}, this.value)" class="w-24 border-outline-variant rounded text-sm px-2 py-1 text-right focus:ring-error focus:border-error">
+                    </td>
+                    <td class="px-6 py-4 text-right font-black text-primary text-lg">₹${netPayable.toLocaleString('en-IN', {maximumFractionDigits: 0})}</td>
+                </tr>`;
+            });
+            tbody.innerHTML = html;
         }
 
         // STAFF DIRECTORY
