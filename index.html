@@ -3,12 +3,11 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>STAFFORDERMANAGER</title>
+    <title>FactoryAdmin - Integrated System</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     
-    <!-- FIREBASE SCRIPTS -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
@@ -31,7 +30,7 @@
         }
     </script>
     <style>
-        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; overscroll-behavior-y: none; }
         .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; display: inline-block; vertical-align: middle; }
         .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
@@ -51,6 +50,7 @@
         .att-table th:first-child { z-index: 11; background-color: #f9f9ff; }
         
         .status-P { background-color: #6cf8bb; color: #00714d; font-weight: bold; border-radius: 4px; }
+        .status-W { background-color: #dce2f7; color: #004ac6; font-weight: bold; border-radius: 4px; }
         .status-H { background-color: #fef08a; color: #854d0e; font-weight: bold; border-radius: 4px; }
         .status-A { background-color: #ffdad6; color: #93000a; font-weight: bold; border-radius: 4px; }
     </style>
@@ -58,56 +58,86 @@
 <body class="bg-surface text-on-surface overflow-hidden">
 
     <div class="flex h-screen w-full">
-        <!-- Desktop Sidebar (With active click states for mobile layout test) -->
-        <aside class="hidden md:flex flex-col w-72 bg-surface border-r border-outline-variant shrink-0 h-full z-20">
+        <aside class="hidden md:flex flex-col w-64 bg-surface border-r border-outline-variant shrink-0 h-full z-20">
             <div class="p-6">
                 <div class="flex items-center gap-2 mb-8">
-                    <!-- Updated HD Robotic Arm Logo Wrapper matching verified file image style -->
                     <div class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center shadow-sm">
                         <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0, 'wght' 500;">precision_manufacturing</span>
                     </div>
-                    <h1 class="text-xl font-bold tracking-tight text-on-surface">STAFFORDERMANAGER</h1>
+                    <h1 class="text-xl font-bold tracking-tight text-on-surface">STAFFGRID</h1>
                 </div>
             </div>
             <nav class="flex-1 px-4 space-y-2 overflow-y-auto custom-scrollbar" id="desktop-nav">
-                <button data-target="dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant active:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">dashboard</span> Dashboard</button>
-                <button data-target="staff" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant active:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">groups</span> Staff Directory</button>
-                <button data-target="attendance" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant active:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">calendar_today</span> Attendance Matrix</button>
+                <button data-target="wfh" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm bg-primary text-on-primary font-medium transition-colors"><span class="material-symbols-outlined text-[20px]">home_work</span> Work From Home</button>
+                <button data-target="staff" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant active:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">groups</span> Factory Staff</button>
+                <button data-target="attendance" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant active:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">calendar_today</span> Matrix</button>
                 <button data-target="payroll" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant active:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">payments</span> Payroll</button>
-                <button data-target="orders" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm bg-primary text-on-primary font-medium transition-colors"><span class="material-symbols-outlined text-[20px]">inventory_2</span> Orders</button>
+                <button data-target="orders" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant active:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">inventory_2</span> Main Orders</button>
             </nav>
         </aside>
 
-        <!-- Main Content Area -->
         <div class="flex-1 flex flex-col h-full min-w-0 bg-surface-bright relative">
             
-            <header class="md:hidden flex items-center justify-start p-4 border-b border-outline-variant bg-surface z-10">
+            <header class="md:hidden flex items-center justify-between p-4 border-b border-outline-variant bg-surface z-10">
                 <div class="flex items-center gap-2">
                     <div class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center shadow-sm">
                         <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0, 'wght' 500;">precision_manufacturing</span>
                     </div>
-                    <h1 class="text-lg font-bold tracking-tight text-on-surface">STAFFORDERMANAGER</h1>
+                    <h1 class="text-lg font-bold tracking-tight text-on-surface">STAFFGRID</h1>
                 </div>
             </header>
 
-            <main class="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-8 pb-24 md:pb-8 relative">
+            <main id="main-content" class="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-8 pb-24 md:pb-8 relative">
                 
-                <!-- DASHBOARD -->
-                <div id="view-dashboard" class="view-section">
-                    <h2 class="text-2xl font-bold text-on-surface mb-6">Overview</h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
-                        <div class="bg-white border border-outline-variant p-5 rounded-xl shadow-sm"><p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total Staff</p><h3 class="text-3xl font-bold text-primary" id="dash-staff-count">0</h3></div>
-                        <div class="bg-white border border-outline-variant p-5 rounded-xl shadow-sm"><p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Pending Wholesale</p><h3 class="text-3xl font-bold text-secondary" id="dash-pending-ws">0</h3></div>
-                        <div class="bg-white border border-outline-variant p-5 rounded-xl shadow-sm"><p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Pending Raw Material</p><h3 class="text-3xl font-bold text-tertiary" id="dash-pending-rm">0</h3></div>
-                        <div class="bg-white border border-outline-variant p-5 rounded-xl shadow-sm"><p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Fulfilled Wholesale</p><h3 class="text-3xl font-bold text-primary" id="dash-fulfilled-ws">0</h3></div>
-                        <div class="bg-white border border-outline-variant p-5 rounded-xl shadow-sm"><p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Fulfilled Raw Material</p><h3 class="text-3xl font-bold text-secondary" id="dash-fulfilled-rm">0</h3></div>
+                <div id="view-wfh" class="view-section active">
+                    <div class="mb-6">
+                        <h2 class="text-2xl font-bold text-on-surface mb-4">Work From Home Hub</h2>
+                        <div class="flex gap-3 overflow-x-auto custom-scrollbar pb-1">
+                            <button id="tab-wfh-employees" onclick="switchWfhTab('employees')" class="wfh-tab active bg-primary text-on-primary px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">WFH Employees</button>
+                            <button id="tab-wfh-orders" onclick="switchWfhTab('orders')" class="wfh-tab bg-white border border-outline-variant text-on-surface-variant active:bg-surface-container px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">WFH Orders</button>
+                        </div>
+                    </div>
+
+                    <div id="section-wfh-employees" class="wfh-section-container block">
+                        <div class="flex justify-end mb-4">
+                            <button onclick="openWfhAddEmployeeModal()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">person_add</span> Add WFH Employee</button>
+                        </div>
+                        <div class="bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+                            <div class="overflow-x-auto custom-scrollbar">
+                                <table class="w-full text-left border-collapse min-w-[600px]">
+                                    <thead>
+                                        <tr class="bg-surface-container text-xs text-on-surface-variant uppercase tracking-wider">
+                                            <th class="px-6 py-4 font-semibold">Employee ID</th><th class="px-6 py-4 font-semibold">Name</th><th class="px-6 py-4 font-semibold">Role</th><th class="px-6 py-4 font-semibold">Base Salary</th><th class="px-6 py-4 font-semibold">Status</th><th class="px-6 py-4 font-semibold text-right">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="wfh-staff-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="section-wfh-orders" class="wfh-section-container hidden">
+                        <div class="flex justify-end mb-4">
+                            <button onclick="openWfhOrderForm()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">add</span> New WFH Order</button>
+                        </div>
+                        <div class="bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+                            <div class="overflow-x-auto custom-scrollbar">
+                                <table class="w-full text-left border-collapse min-w-[850px]">
+                                    <thead>
+                                        <tr class="bg-surface-container text-xs text-on-surface-variant uppercase tracking-wider">
+                                            <th class="px-6 py-4 font-semibold">Order ID</th><th class="px-6 py-4 font-semibold text-primary">Assigned WFH Employee</th><th class="px-6 py-4 font-semibold">Products</th><th class="px-6 py-4 font-semibold">Financials (₹)</th><th class="px-6 py-4 font-semibold">Status</th><th class="px-6 py-4 font-semibold text-right">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="wfh-orders-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- STAFF DIRECTORY -->
                 <div id="view-staff" class="view-section">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                        <h2 class="text-2xl font-bold text-on-surface">Staff Directory</h2>
+                        <h2 class="text-2xl font-bold text-on-surface">Factory Staff Directory</h2>
                         <button onclick="openAddEmployeeModal()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">person_add</span> Add Employee</button>
                     </div>
                     <div class="bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm">
@@ -124,7 +154,6 @@
                     </div>
                 </div>
 
-                <!-- ATTENDANCE MATRIX -->
                 <div id="view-attendance" class="view-section">
                     <div class="mb-6">
                         <div class="flex items-center gap-4">
@@ -138,6 +167,7 @@
                     </div>
                     <div class="flex flex-wrap items-center gap-6 mb-4 text-sm text-on-surface-variant">
                         <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-secondary"></div><span>P - Present</span></div>
+                        <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full" style="background-color: #dce2f7;"></div><span>W - WFH</span></div>
                         <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full" style="background-color: #fef08a;"></div><span>H - Half-day</span></div>
                         <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-error"></div><span>A - Absent</span></div>
                     </div>
@@ -149,7 +179,6 @@
                     </div>
                 </div>
 
-                <!-- PAYROLL -->
                 <div id="view-payroll" class="view-section">
                     <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                         <div>
@@ -162,7 +191,6 @@
                             <button onclick="changePayrollMonth(1)" class="w-8 h-8 flex items-center justify-center active:bg-surface-container transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_right</span></button>
                         </div>
                     </div>
-
                     <div class="bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm">
                         <div class="overflow-x-auto custom-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[800px]">
@@ -181,11 +209,10 @@
                     </div>
                 </div>
 
-                <!-- ORDERS -->
-                <div id="view-orders" class="view-section active">
+                <div id="view-orders" class="view-section">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                        <h2 class="text-2xl font-bold text-on-surface">Order Management</h2>
-                        <button onclick="openOrderForm()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">add</span> New Order</button>
+                        <h2 class="text-2xl font-bold text-on-surface">Main Order Management</h2>
+                        <button onclick="openOrderForm()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">add</span> New Main Order</button>
                     </div>
 
                     <div class="flex gap-3 mb-6 overflow-x-auto custom-scrollbar pb-1">
@@ -193,7 +220,6 @@
                         <button id="tab-raw" onclick="switchOrderTab('raw')" class="order-tab bg-white border border-outline-variant text-on-surface-variant active:bg-surface-container px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">Raw Material Orders</button>
                     </div>
 
-                    <!-- Wholesale Table -->
                     <div id="table-wholesale" class="order-table-container bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm block">
                         <div class="overflow-x-auto custom-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[850px]">
@@ -205,7 +231,6 @@
                         </div>
                     </div>
 
-                    <!-- Raw Material Table -->
                     <div id="table-raw" class="order-table-container bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm hidden">
                         <div class="overflow-x-auto custom-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[850px]">
@@ -218,11 +243,10 @@
                     </div>
                 </div>
 
-                <!-- NEW/EDIT ORDER FORM -->
                 <div id="view-new-order" class="view-section">
                     <div class="flex items-center gap-4 mb-6">
                         <button onclick="cancelOrderEdit()" class="text-on-surface-variant active:bg-surface-container p-2 rounded-full transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
-                        <h2 id="order-form-title" class="text-2xl font-bold text-on-surface">Create New Order</h2>
+                        <h2 id="order-form-title" class="text-2xl font-bold text-on-surface">Create New Main Order</h2>
                     </div>
                     <div class="bg-white border border-outline-variant rounded-xl p-6 shadow-sm max-w-2xl">
                         <form id="new-order-form" onsubmit="submitNewOrder(event)">
@@ -237,18 +261,10 @@
                                 <hr class="border-outline-variant">
                                 <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Supplier / Client Name</label><input type="text" id="order-supplier-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="Enter name..."></div>
                                 <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Products / Materials</label><textarea id="order-products-details" required rows="3" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="Enter item details and quantities..."></textarea></div>
-                                
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total Bill Amount (₹)</label>
-                                        <input type="number" id="order-total-bill" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="0">
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Advance Paid (₹)</label>
-                                        <input type="number" id="order-advance-paid" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="0">
-                                    </div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total Bill Amount (₹)</label><input type="number" id="order-total-bill" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="0"></div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Advance Paid (₹)</label><input type="number" id="order-advance-paid" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="0"></div>
                                 </div>
-
                                 <div class="flex justify-end gap-3 mt-8">
                                     <button type="button" onclick="cancelOrderEdit()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container rounded-lg transition-colors">Cancel</button>
                                     <button type="submit" class="px-4 py-2 text-sm font-medium bg-primary text-on-primary active:opacity-90 rounded-lg transition-colors">Save Order</button>
@@ -258,24 +274,49 @@
                     </div>
                 </div>
 
+                <div id="view-wfh-new-order" class="view-section">
+                    <div class="flex items-center gap-4 mb-6">
+                        <button onclick="cancelWfhOrderEdit()" class="text-on-surface-variant active:bg-surface-container p-2 rounded-full transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
+                        <h2 id="wfh-order-form-title" class="text-2xl font-bold text-on-surface">Create New WFH Order</h2>
+                    </div>
+                    <div class="bg-white border border-outline-variant rounded-xl p-6 shadow-sm max-w-2xl border-l-4 border-l-primary">
+                        <form id="wfh-new-order-form" onsubmit="submitWfhOrder(event)">
+                            <div class="space-y-6">
+                                <div>
+                                    <label class="block text-xs font-bold text-primary uppercase tracking-wider mb-1">Assign to WFH Employee</label>
+                                    <select id="wfh-order-employee-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-primary-fixed-dim bg-opacity-20 focus:ring-primary focus:border-primary font-medium text-primary">
+                                        </select>
+                                </div>
+                                <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Task / Products / Details</label><textarea id="wfh-order-products-details" required rows="3" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="Enter task details or materials assigned..."></textarea></div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total Bill Amount (₹)</label><input type="number" id="wfh-order-total-bill" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="0"></div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Advance Paid (₹)</label><input type="number" id="wfh-order-advance-paid" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="0"></div>
+                                </div>
+                                <div class="flex justify-end gap-3 mt-8">
+                                    <button type="button" onclick="cancelWfhOrderEdit()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container rounded-lg transition-colors">Cancel</button>
+                                    <button type="submit" class="px-4 py-2 text-sm font-medium bg-primary text-on-primary active:opacity-90 rounded-lg transition-colors">Save WFH Order</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
             </main>
         </div>
         
-        <!-- Mobile Bottom Nav (Fully optimized for responsive fluid Android touch ripples) -->
-        <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-1 bg-surface border-t border-outline-variant overflow-x-auto" id="mobile-nav">
-            <button data-target="dashboard" class="nav-btn flex flex-1 flex-col items-center justify-center py-2 text-on-surface-variant rounded-xl active:bg-surface-container transition-all"><span class="material-symbols-outlined text-[24px]">dashboard</span><span class="text-[10px] mt-0.5">Home</span></button>
+        <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-1 bg-surface border-t border-outline-variant overflow-x-auto transform translate-y-0 transition-transform duration-300 ease-in-out" id="mobile-nav">
+            <button data-target="wfh" class="nav-btn active flex flex-1 flex-col items-center justify-center py-2 text-primary rounded-xl active:bg-surface-container transition-all"><span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">home_work</span><span class="text-[10px] mt-0.5">WFH</span></button>
+            <button data-target="staff" class="nav-btn flex flex-1 flex-col items-center justify-center py-2 text-on-surface-variant rounded-xl active:bg-surface-container transition-all"><span class="material-symbols-outlined text-[24px]">groups</span><span class="text-[10px] mt-0.5">Staff</span></button>
             <button data-target="attendance" class="nav-btn flex flex-1 flex-col items-center justify-center py-2 text-on-surface-variant rounded-xl active:bg-surface-container transition-all"><span class="material-symbols-outlined text-[24px]">calendar_today</span><span class="text-[10px] mt-0.5">Matrix</span></button>
             <button data-target="payroll" class="nav-btn flex flex-1 flex-col items-center justify-center py-2 text-on-surface-variant rounded-xl active:bg-surface-container transition-all"><span class="material-symbols-outlined text-[24px]">payments</span><span class="text-[10px] mt-0.5">Payroll</span></button>
-            <button data-target="staff" class="nav-btn flex flex-1 flex-col items-center justify-center py-2 text-on-surface-variant rounded-xl active:bg-surface-container transition-all"><span class="material-symbols-outlined text-[24px]">groups</span><span class="text-[10px] mt-0.5">Staff</span></button>
-            <button data-target="orders" class="nav-btn active flex flex-1 flex-col items-center justify-center py-2 text-primary rounded-xl active:bg-surface-container transition-all"><span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">inventory_2</span><span class="text-[10px] mt-0.5">Orders</span></button>
+            <button data-target="orders" class="nav-btn flex flex-1 flex-col items-center justify-center py-2 text-on-surface-variant rounded-xl active:bg-surface-container transition-all"><span class="material-symbols-outlined text-[24px]">inventory_2</span><span class="text-[10px] mt-0.5">Orders</span></button>
         </nav>
     </div>
 
-    <!-- Add/Edit Employee Modal -->
     <div id="add-employee-modal" class="fixed inset-0 bg-on-surface bg-opacity-50 z-[100] hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-surface border border-outline-variant rounded-xl shadow-xl w-full max-w-md overflow-hidden">
             <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-white">
-                <h3 class="text-lg font-bold text-on-surface" id="modal-title">Add New Employee</h3>
+                <h3 class="text-lg font-bold text-on-surface" id="modal-title">Add Main Factory Employee</h3>
                 <button onclick="closeAddEmployeeModal()" class="text-on-surface-variant active:text-error transition-colors"><span class="material-symbols-outlined">close</span></button>
             </div>
             <div class="p-6 bg-white">
@@ -295,7 +336,29 @@
         </div>
     </div>
 
-    <!-- Logic & Database -->
+    <div id="wfh-add-employee-modal" class="fixed inset-0 bg-on-surface bg-opacity-50 z-[100] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-surface border border-outline-variant rounded-xl shadow-xl w-full max-w-md overflow-hidden border-l-4 border-l-primary">
+            <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-white">
+                <h3 class="text-lg font-bold text-on-surface" id="wfh-modal-title">Add WFH Employee</h3>
+                <button onclick="closeWfhAddEmployeeModal()" class="text-on-surface-variant active:text-error transition-colors"><span class="material-symbols-outlined">close</span></button>
+            </div>
+            <div class="p-6 bg-white">
+                <form id="wfh-add-employee-form" onsubmit="submitWfhEmployee(event)">
+                    <div class="space-y-4">
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Full Name</label><input type="text" id="wfh-emp-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Role / Title</label><input type="text" id="wfh-emp-role" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Base Salary (₹)</label><input type="number" id="wfh-emp-salary" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Status</label><select id="wfh-emp-status" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-white"><option value="Active">Active</option><option value="Inactive">Inactive</option></select></div>
+                    </div>
+                    <div class="mt-8 flex justify-end gap-3">
+                        <button type="button" onclick="closeWfhAddEmployeeModal()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container rounded-lg">Cancel</button>
+                        <button type="submit" class="px-4 py-2 text-sm font-medium bg-primary text-on-primary rounded-lg">Save WFH Employee</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
         const firebaseConfig = {
            apiKey: "AIzaSyAnwhEjJw7NiaCk4ARuP4pmYwAwQWr1WiQ",
@@ -310,15 +373,23 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
+        // Main Databases
         let employees = [], attendanceData = {}, advancesData = {}, wholesaleOrders = [], rawOrders = [];
+        // WFH Databases
+        let wfhEmployees = [], wfhOrders = [];
+        
         let currentDate = new Date(2026, 5, 1); 
         let payrollDate = new Date(2026, 5, 1);
         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        const statusCycle = [null, 'P', 'H', 'A'];
+        
+        const statusCycle = [null, 'P', 'W', 'H', 'A'];
         
         let editingEmployeeId = null;
         let editingOrderId = null;
         let editingOrderType = null;
+        
+        let editingWfhEmployeeId = null;
+        let editingWfhOrderId = null;
 
         // REAL-TIME SYNC
         db.ref('factoryData').on('value', (snapshot) => {
@@ -329,15 +400,45 @@
                 advancesData = data.advancesData || {};
                 wholesaleOrders = data.wholesaleOrders || [];
                 rawOrders = data.rawOrders || [];
+                
+                wfhEmployees = data.wfhEmployees || [];
+                wfhOrders = data.wfhOrders || [];
             }
-            renderAttendanceMatrix(); renderOrders(); renderStaffList(); updateDashboard(); renderPayroll();
+            renderAttendanceMatrix(); 
+            renderOrders(); 
+            renderStaffList(); 
+            renderPayroll();
+            renderWfhStaffList();
+            renderWfhOrders();
         });
 
         function saveToDatabase() {
-            db.ref('factoryData').set({ employees, attendanceData, advancesData, wholesaleOrders, rawOrders });
+            db.ref('factoryData').set({ 
+                employees, attendanceData, advancesData, wholesaleOrders, rawOrders,
+                wfhEmployees, wfhOrders 
+            });
         }
 
-        // NAVIGATION
+        // HIDE NAV ON SCROLL DOWN
+        const mainContent = document.getElementById('main-content');
+        const mobileNav = document.getElementById('mobile-nav');
+        let lastScrollY = mainContent.scrollTop;
+
+        mainContent.addEventListener('scroll', () => {
+            const currentScrollY = mainContent.scrollTop;
+            if (Math.abs(currentScrollY - lastScrollY) > 10) {
+                if (currentScrollY > lastScrollY && currentScrollY > 50) {
+                    mobileNav.classList.remove('translate-y-0');
+                    mobileNav.classList.add('translate-y-full');
+                } else {
+                    mobileNav.classList.remove('translate-y-full');
+                    mobileNav.classList.add('translate-y-0');
+                }
+                lastScrollY = currentScrollY;
+            }
+        }, { passive: true });
+
+        // NAVIGATION LOGIC
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.addEventListener('click', (e) => switchView(e.currentTarget.getAttribute('data-target')));
         });
@@ -367,9 +468,171 @@
             });
 
             if(viewId === 'payroll') renderPayroll();
+            
+            mobileNav.classList.remove('translate-y-full');
+            mobileNav.classList.add('translate-y-0');
+            mainContent.scrollTop = 0; 
         }
 
-        // ORDERS & PARTIAL PAYMENTS
+        // ================= WFH SECTION LOGIC =================
+        function switchWfhTab(tabId) {
+            document.querySelectorAll('.wfh-tab').forEach(el => { el.classList.remove('bg-primary', 'text-on-primary'); el.classList.add('bg-white', 'text-on-surface-variant'); });
+            const activeBtn = document.getElementById(`tab-wfh-${tabId}`);
+            if(activeBtn) { activeBtn.classList.remove('bg-white', 'text-on-surface-variant'); activeBtn.classList.add('bg-primary', 'text-on-primary'); }
+            document.querySelectorAll('.wfh-section-container').forEach(el => { el.classList.remove('block'); el.classList.add('hidden'); });
+            if(document.getElementById(`section-wfh-${tabId}`)) {
+                document.getElementById(`section-wfh-${tabId}`).classList.remove('hidden');
+                document.getElementById(`section-wfh-${tabId}`).classList.add('block');
+            }
+        }
+
+        // WFH Employees
+        function renderWfhStaffList() {
+            if (wfhEmployees.length === 0) { document.getElementById('wfh-staff-table-body').innerHTML = `<tr><td colspan="6" class="text-center py-8 text-on-surface-variant">No WFH staff added yet.</td></tr>`; return; }
+            document.getElementById('wfh-staff-table-body').innerHTML = wfhEmployees.map(emp => {
+                const sb = emp.status === 'Active' ? `<span class="px-2 py-1 bg-primary-container text-on-primary-container rounded text-xs font-bold">Active</span>` : `<span class="px-2 py-1 bg-error-container text-on-error-container rounded text-xs font-bold">Inactive</span>`;
+                return `<tr class="hover:bg-surface-container-lowest transition-colors"><td class="px-6 py-4 font-mono text-xs text-on-surface-variant">${emp.id}</td><td class="px-6 py-4 font-medium text-on-surface flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold text-xs">${emp.name.charAt(0)}</div>${emp.name}</td><td class="px-6 py-4 text-on-surface-variant">${emp.role}</td><td class="px-6 py-4 text-on-surface-variant">₹${parseFloat(emp.salary).toLocaleString('en-IN')}</td><td class="px-6 py-4">${sb}</td><td class="px-6 py-4 text-right whitespace-nowrap"><button onclick="editWfhEmployee('${emp.id}')" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button><button onclick="removeWfhEmployee('${emp.id}')" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button></td></tr>`;
+            }).join('');
+        }
+
+        function openWfhAddEmployeeModal() { document.getElementById('wfh-modal-title').textContent = "Add WFH Employee"; document.getElementById('wfh-add-employee-modal').classList.remove('hidden'); }
+        function closeWfhAddEmployeeModal() { document.getElementById('wfh-add-employee-modal').classList.add('hidden'); document.getElementById('wfh-add-employee-form').reset(); editingWfhEmployeeId = null; }
+
+        function editWfhEmployee(id) {
+            const emp = wfhEmployees.find(e => e.id === id);
+            if(emp) {
+                editingWfhEmployeeId = id; document.getElementById('wfh-modal-title').textContent = "Edit WFH Employee";
+                document.getElementById('wfh-emp-name').value = emp.name; document.getElementById('wfh-emp-role').value = emp.role;
+                document.getElementById('wfh-emp-salary').value = emp.salary; document.getElementById('wfh-emp-status').value = emp.status;
+                document.getElementById('wfh-add-employee-modal').classList.remove('hidden');
+            }
+        }
+
+        function submitWfhEmployee(e) {
+            e.preventDefault();
+            const p = { name: document.getElementById('wfh-emp-name').value, role: document.getElementById('wfh-emp-role').value, salary: document.getElementById('wfh-emp-salary').value, status: document.getElementById('wfh-emp-status').value };
+            if (editingWfhEmployeeId) { const idx = wfhEmployees.findIndex(emp => emp.id === editingWfhEmployeeId); if (idx !== -1) wfhEmployees[idx] = { ...wfhEmployees[idx], ...p }; } 
+            else wfhEmployees.push({ id: 'WFH-' + Math.floor(Math.random() * 10000).toString().padStart(4, '0'), ...p });
+            closeWfhAddEmployeeModal(); saveToDatabase();
+        }
+
+        function removeWfhEmployee(id) { if(confirm('Remove this WFH employee?')) { wfhEmployees = wfhEmployees.filter(e => e.id !== id); saveToDatabase(); } }
+
+        // WFH Orders
+        function renderWfhOrders() {
+            if (wfhOrders.length === 0) { document.getElementById('wfh-orders-table-body').innerHTML = `<tr><td colspan="6" class="text-center py-8 text-on-surface-variant">No WFH Orders added yet.</td></tr>`; return; }
+            document.getElementById('wfh-orders-table-body').innerHTML = wfhOrders.map((order, index) => {
+                const sc = order.status === 'Processing' ? 'bg-primary-container text-primary bg-opacity-20' : 'bg-secondary-container text-on-secondary-container';
+                const total = parseFloat(order.totalBill) || 0;
+                const paid = parseFloat(order.advancePaid) || 0;
+                const due = total - paid;
+                
+                return `<tr class="hover:bg-surface-container-lowest transition-colors">
+                    <td class="px-6 py-4 font-mono text-xs text-on-surface-variant">${order.id}</td>
+                    <td class="px-6 py-4 font-bold text-primary">${order.assignedEmployee}</td>
+                    <td class="px-6 py-4">${order.products}</td>
+                    <td class="px-6 py-4">
+                        <div class="text-xs text-on-surface-variant">Total: ₹${total.toLocaleString('en-IN')}</div>
+                        <div class="flex items-center gap-1 mt-1">
+                            <span class="text-[10px] text-primary font-bold uppercase">Paid:</span>
+                            <input type="number" min="0" value="${paid || ''}" placeholder="0" onblur="updateWfhOrderPayment(${index}, this.value)" class="w-20 border-outline-variant rounded text-xs px-2 py-1 h-6 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div class="text-xs text-error font-bold mt-1">Due: ₹${due.toLocaleString('en-IN')}</div>
+                    </td>
+                    <td class="px-6 py-4"><span onclick="toggleWfhOrderStatus(${index})" class="px-2 py-1 rounded text-xs font-bold cursor-pointer active:opacity-80 transition-opacity whitespace-nowrap ${sc}">${order.status}</span></td>
+                    <td class="px-6 py-4 text-right whitespace-nowrap">
+                        <button onclick="editWfhOrder(${index})" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+                        <button onclick="deleteWfhOrder(${index})" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        function updateWfhOrderPayment(index, newPaidAmount) {
+            wfhOrders[index].advancePaid = parseFloat(newPaidAmount) || 0;
+            saveToDatabase();
+        }
+
+        function toggleWfhOrderStatus(index) {
+            const current = wfhOrders[index].status;
+            if (current === 'Processing') wfhOrders[index].status = 'Fulfilled';
+            else wfhOrders[index].status = 'Processing';
+            saveToDatabase(); 
+        }
+
+        function deleteWfhOrder(index) {
+            if (confirm("Delete this WFH order?")) {
+                wfhOrders.splice(index, 1);
+                saveToDatabase();
+            }
+        }
+
+        function openWfhOrderForm() {
+            editingWfhOrderId = null;
+            document.getElementById('wfh-order-form-title').textContent = "Create New WFH Order";
+            document.getElementById('wfh-new-order-form').reset();
+            
+            // Populate Dropdown
+            const select = document.getElementById('wfh-order-employee-name');
+            if(wfhEmployees.length === 0) {
+                select.innerHTML = '<option value="" disabled selected>Add a WFH Employee first...</option>';
+            } else {
+                select.innerHTML = wfhEmployees.map(emp => `<option value="${emp.name}">${emp.name}</option>`).join('');
+            }
+            switchView('wfh-new-order');
+        }
+
+        function editWfhOrder(index) {
+            editingWfhOrderId = index;
+            document.getElementById('wfh-order-form-title').textContent = "Edit WFH Order";
+            const order = wfhOrders[index];
+            
+            // Populate Dropdown and set value
+            const select = document.getElementById('wfh-order-employee-name');
+            select.innerHTML = wfhEmployees.map(emp => `<option value="${emp.name}">${emp.name}</option>`).join('');
+            // Add the currently assigned one if they were deleted
+            if(!wfhEmployees.find(e => e.name === order.assignedEmployee)) {
+                select.innerHTML += `<option value="${order.assignedEmployee}">${order.assignedEmployee} (Removed)</option>`;
+            }
+            select.value = order.assignedEmployee;
+            
+            document.getElementById('wfh-order-products-details').value = order.products;
+            document.getElementById('wfh-order-total-bill').value = order.totalBill;
+            document.getElementById('wfh-order-advance-paid').value = order.advancePaid;
+            
+            switchView('wfh-new-order');
+        }
+
+        function cancelWfhOrderEdit() {
+            document.getElementById('wfh-new-order-form').reset();
+            editingWfhOrderId = null;
+            switchView('wfh');
+            switchWfhTab('orders');
+        }
+
+        function submitWfhOrder(e) {
+            e.preventDefault();
+            const assignedEmployee = document.getElementById('wfh-order-employee-name').value;
+            if(!assignedEmployee) { alert("Please select a WFH Employee."); return; }
+            
+            const products = document.getElementById('wfh-order-products-details').value;
+            const totalBill = parseFloat(document.getElementById('wfh-order-total-bill').value) || 0;
+            const advancePaid = parseFloat(document.getElementById('wfh-order-advance-paid').value) || 0;
+            
+            if (editingWfhOrderId !== null) {
+                wfhOrders[editingWfhOrderId] = { ...wfhOrders[editingWfhOrderId], assignedEmployee, products, totalBill, advancePaid };
+            } else {
+                const date = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                const id = 'WFH-ORD-' + Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+                const status = 'Processing';
+                wfhOrders.unshift({ id, assignedEmployee, products, totalBill, advancePaid, status, date }); 
+            }
+
+            cancelWfhOrderEdit(); 
+            saveToDatabase(); 
+        }
+
+        // ================= MAIN FACTORY LOGIC =================
         function switchOrderTab(tabId) {
             document.querySelectorAll('.order-tab').forEach(el => { el.classList.remove('bg-primary', 'text-on-primary'); el.classList.add('bg-white', 'text-on-surface-variant'); });
             const activeBtn = document.getElementById(`tab-${tabId}`);
@@ -448,7 +711,7 @@
         }
 
         function deleteOrder(type, index) {
-            if (confirm("Are you sure you want to delete this order?")) {
+            if (confirm("Are you sure you want to delete this main order?")) {
                 if (type === 'wholesale') wholesaleOrders.splice(index, 1); else rawOrders.splice(index, 1);
                 saveToDatabase();
             }
@@ -457,7 +720,7 @@
         function openOrderForm() {
             editingOrderId = null;
             editingOrderType = null;
-            document.getElementById('order-form-title').textContent = "Create New Order";
+            document.getElementById('order-form-title').textContent = "Create New Main Order";
             document.getElementById('new-order-form').reset();
             document.querySelectorAll('input[name="orderType"]').forEach(r => r.disabled = false);
             switchView('new-order');
@@ -466,18 +729,14 @@
         function editOrder(type, index) {
             editingOrderId = index;
             editingOrderType = type;
-            document.getElementById('order-form-title').textContent = "Edit Order";
-            
+            document.getElementById('order-form-title').textContent = "Edit Main Order";
             const order = type === 'wholesale' ? wholesaleOrders[index] : rawOrders[index];
-            
             document.querySelector(`input[name="orderType"][value="${type}"]`).checked = true;
             document.querySelectorAll('input[name="orderType"]').forEach(r => r.disabled = true); 
-
             document.getElementById('order-supplier-name').value = order.name;
             document.getElementById('order-products-details').value = order.products;
             document.getElementById('order-total-bill').value = order.totalBill;
             document.getElementById('order-advance-paid').value = order.advancePaid;
-            
             switchView('new-order');
         }
 
@@ -512,13 +771,10 @@
                     rawOrders.unshift({ id, name, products, totalBill, advancePaid, status: 'In Transit', date }); 
                 }
             }
-
-            cancelOrderEdit(); 
-            saveToDatabase(); 
-            switchOrderTab(type === 'wholesale' ? 'wholesale' : 'raw');
+            cancelOrderEdit(); saveToDatabase(); switchOrderTab(type === 'wholesale' ? 'wholesale' : 'raw');
         }
 
-        // ATTENDANCE MATRIX
+        // ================= ATTENDANCE MATRIX =================
         function changeMonth(delta) { currentDate.setMonth(currentDate.getMonth() + delta); renderAttendanceMatrix(); }
         
         function getAttStatus(empId, year, month, day) {
@@ -536,6 +792,7 @@
 
         function renderCellContent(s) {
             if (s === 'P') return '<div class="w-full h-full flex items-center justify-center"><div class="status-P w-6 h-6 flex items-center justify-center text-xs">P</div></div>';
+            if (s === 'W') return '<div class="w-full h-full flex items-center justify-center"><div class="status-W w-6 h-6 flex items-center justify-center text-xs">W</div></div>';
             if (s === 'H') return '<div class="w-full h-full flex items-center justify-center"><div class="status-H w-6 h-6 flex items-center justify-center text-xs">H</div></div>';
             if (s === 'A') return '<div class="w-full h-full flex items-center justify-center"><div class="status-A w-6 h-6 flex items-center justify-center text-xs">A</div></div>';
             return '';
@@ -547,19 +804,25 @@
             let head = '<th class="w-48 min-w-[180px] bg-surface-bright">EMPLOYEE</th>';
             for(let i = 1; i <= 31; i++) head += `<th class="w-10 min-w-[40px] text-xs font-medium text-outline">${i}</th>`;
             document.getElementById('att-table-head').innerHTML = head;
+            
+            const combinedStaff = [...employees, ...wfhEmployees];
 
-            if (employees.length === 0) {
+            if (combinedStaff.length === 0) {
                 document.getElementById('att-table-body').innerHTML = `<tr><td colspan="32" class="text-center py-16 bg-white"><p class="text-on-surface-variant text-sm">No employees found.</p></td></tr>`; return;
             }
 
-            document.getElementById('att-table-body').innerHTML = employees.map(emp => {
-                let r = `<tr class="bg-white hover:bg-surface-container-lowest transition-colors"><td class="font-medium text-on-surface bg-white truncate" title="${emp.name}">${emp.name}</td>`;
+            document.getElementById('att-table-body').innerHTML = combinedStaff.map(emp => {
+                const isWFH = emp.id.includes('WFH');
+                const labelColor = isWFH ? 'text-primary' : 'text-on-surface';
+                const labelIcon = isWFH ? `<span class="material-symbols-outlined text-[14px] mr-1" title="WFH Employee">home_work</span>` : '';
+                
+                let r = `<tr class="bg-white hover:bg-surface-container-lowest transition-colors"><td class="font-medium ${labelColor} bg-white truncate flex items-center" title="${emp.name}">${labelIcon}${emp.name}</td>`;
                 for(let i = 1; i <= 31; i++) r += `<td class="att-cell-interactive p-1" onclick="cycleStatus('${emp.id}', ${y}, ${m}, ${i})">${renderCellContent(getAttStatus(emp.id, y, m, i))}</td>`;
                 return r + `</tr>`;
             }).join('');
         }
 
-        // PAYROLL
+        // ================= PAYROLL =================
         function changePayrollMonth(delta) { payrollDate.setMonth(payrollDate.getMonth() + delta); renderPayroll(); }
 
         function updateAdvance(empId, year, month, value) {
@@ -574,25 +837,30 @@
             const m = payrollDate.getMonth();
             document.getElementById('payroll-month-year-display').textContent = `${monthNames[m]} ${y}`;
             
+            const combinedStaff = [...employees, ...wfhEmployees];
             const tbody = document.getElementById('payroll-table-body');
-            if (employees.length === 0) {
+            
+            if (combinedStaff.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="5" class="text-center py-8 text-on-surface-variant">No employees to calculate.</td></tr>`;
                 return;
             }
 
             let html = '';
-            employees.forEach(emp => {
-                let p = 0, h = 0, a = 0;
+            combinedStaff.forEach(emp => {
+                let p = 0, w = 0, h = 0, a = 0;
                 for(let i = 1; i <= 31; i++) {
                     const status = getAttStatus(emp.id, y, m, i);
                     if(status === 'P') p++;
+                    if(status === 'W') w++;
                     if(status === 'H') h++;
                     if(status === 'A') a++;
                 }
                 
                 const baseSalary = parseFloat(emp.salary) || 0;
                 const dailyRate = baseSalary / 31; 
-                const earned = (p * dailyRate) + (h * (dailyRate / 2));
+                
+                // WFH (w) is treated as a full working day alongside Present (p)
+                const earned = ((p + w) * dailyRate) + (h * (dailyRate / 2));
                 
                 let advance = 0;
                 if (advancesData[y] && advancesData[y][m] && advancesData[y][m][emp.id]) {
@@ -600,15 +868,18 @@
                 }
 
                 const netPayable = earned - advance;
+                const isWFH = emp.id.includes('WFH');
+                const iconColor = isWFH ? 'bg-primary text-on-primary' : 'bg-primary-container text-on-primary-container';
                 
                 html += `<tr class="hover:bg-surface-container-lowest transition-colors">
                     <td class="px-6 py-4">
-                        <div class="font-medium text-on-surface flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-xs">${emp.name.charAt(0)}</div>${emp.name}</div>
+                        <div class="font-medium text-on-surface flex items-center gap-3"><div class="w-8 h-8 rounded-full ${iconColor} flex items-center justify-center font-bold text-xs">${emp.name.charAt(0)}</div>${emp.name}</div>
                         <div class="text-xs text-on-surface-variant mt-1 ml-11">Base: ₹${baseSalary.toLocaleString('en-IN')}</div>
                     </td>
                     <td class="px-6 py-4 text-center">
-                        <div class="inline-flex gap-2 text-xs">
+                        <div class="inline-flex gap-2 text-xs flex-wrap justify-center">
                             <span class="px-2 py-1 bg-secondary-container text-on-secondary-container rounded font-bold" title="Present">${p} P</span>
+                            <span class="px-2 py-1 bg-[#dce2f7] text-[#004ac6] rounded font-bold" title="Work From Home">${w} W</span>
                             <span class="px-2 py-1 bg-[#fef08a] text-[#854d0e] rounded font-bold" title="Half-day">${h} H</span>
                             <span class="px-2 py-1 bg-error-container text-on-error-container rounded font-bold" title="Absent">${a} A</span>
                         </div>
@@ -623,22 +894,22 @@
             tbody.innerHTML = html;
         }
 
-        // STAFF DIRECTORY
+        // ================= MAIN FACTORY STAFF DIRECTORY =================
         function renderStaffList() {
-            if (employees.length === 0) { document.getElementById('staff-table-body').innerHTML = `<tr><td colspan="6" class="text-center py-8 text-on-surface-variant">No staff added yet.</td></tr>`; return; }
+            if (employees.length === 0) { document.getElementById('staff-table-body').innerHTML = `<tr><td colspan="6" class="text-center py-8 text-on-surface-variant">No main staff added yet.</td></tr>`; return; }
             document.getElementById('staff-table-body').innerHTML = employees.map(emp => {
                 const sb = emp.status === 'Active' ? `<span class="px-2 py-1 bg-secondary-container text-on-secondary-container rounded text-xs font-bold">Active</span>` : `<span class="px-2 py-1 bg-error-container text-on-error-container rounded text-xs font-bold">Inactive</span>`;
                 return `<tr class="hover:bg-surface-container-lowest transition-colors"><td class="px-6 py-4 font-mono text-xs text-on-surface-variant">${emp.id}</td><td class="px-6 py-4 font-medium text-on-surface flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-xs">${emp.name.charAt(0)}</div>${emp.name}</td><td class="px-6 py-4 text-on-surface-variant">${emp.role}</td><td class="px-6 py-4 text-on-surface-variant">₹${parseFloat(emp.salary).toLocaleString('en-IN')}</td><td class="px-6 py-4">${sb}</td><td class="px-6 py-4 text-right whitespace-nowrap"><button onclick="editEmployee('${emp.id}')" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button><button onclick="removeEmployee('${emp.id}')" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button></td></tr>`;
             }).join('');
         }
 
-        function openAddEmployeeModal() { document.getElementById('modal-title').textContent = "Add New Employee"; document.getElementById('add-employee-modal').classList.remove('hidden'); }
+        function openAddEmployeeModal() { document.getElementById('modal-title').textContent = "Add Main Factory Employee"; document.getElementById('add-employee-modal').classList.remove('hidden'); }
         function closeAddEmployeeModal() { document.getElementById('add-employee-modal').classList.add('hidden'); document.getElementById('add-employee-form').reset(); editingEmployeeId = null; }
         
         function editEmployee(id) {
             const emp = employees.find(e => e.id === id);
             if(emp) {
-                editingEmployeeId = id; document.getElementById('modal-title').textContent = "Edit Employee";
+                editingEmployeeId = id; document.getElementById('modal-title').textContent = "Edit Main Factory Employee";
                 document.getElementById('emp-name').value = emp.name; document.getElementById('emp-role').value = emp.role;
                 document.getElementById('emp-salary').value = emp.salary; document.getElementById('emp-status').value = emp.status;
                 document.getElementById('add-employee-modal').classList.remove('hidden');
@@ -654,14 +925,6 @@
         }
 
         function removeEmployee(id) { if(confirm('Are you sure you want to remove this employee?')) { employees = employees.filter(e => e.id !== id); saveToDatabase(); } }
-
-        function updateDashboard() {
-            document.getElementById('dash-staff-count').textContent = employees.length;
-            document.getElementById('dash-pending-ws').textContent = wholesaleOrders.filter(o => o.status === 'Processing').length;
-            document.getElementById('dash-fulfilled-ws').textContent = wholesaleOrders.filter(o => o.status === 'Fulfilled').length;
-            document.getElementById('dash-pending-rm').textContent = rawOrders.filter(o => o.status === 'In Transit').length;
-            document.getElementById('dash-fulfilled-rm').textContent = rawOrders.filter(o => o.status === 'Received').length;
-        }
     </script>
 </body>
 </html>
