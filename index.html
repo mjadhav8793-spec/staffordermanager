@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>STAFFORDERMANAGER</title>
+    <title>FactoryAdmin - Integrated System</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -61,10 +61,10 @@
         <aside class="hidden md:flex flex-col w-72 bg-surface border-r border-outline-variant shrink-0 h-full z-20">
             <div class="p-6">
                 <div class="flex items-center gap-2 mb-8">
-                    <div class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center shadow-sm">
+                    <div class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center shadow-sm shrink-0">
                         <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0, 'wght' 500;">precision_manufacturing</span>
                     </div>
-                    <h1 class="text-xl font-bold tracking-tight text-on-surface">STAFFORDERMANAGER</h1>
+                    <h1 class="text-xl font-bold tracking-tight text-on-surface truncate">STAFFORDERMANAGER</h1>
                 </div>
             </div>
             <nav class="flex-1 px-4 space-y-2 overflow-y-auto custom-scrollbar" id="desktop-nav">
@@ -78,20 +78,18 @@
 
         <div class="flex-1 flex flex-col h-full min-w-0 bg-surface-bright relative">
             
-            <header class="md:hidden flex items-center justify-between p-4 border-b border-outline-variant bg-surface z-10">
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-start shadow-sm">
-                        <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0, 'wght' 500;">precision_manufacturing</span>
-                    </div>
-                    <h1 class="text-lg font-bold tracking-tight text-on-surface">STAFFORDERMANAGER</h1>
+            <header class="md:hidden flex items-center justify-start gap-3 p-4 border-b border-outline-variant bg-surface z-10">
+                <div class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center shadow-sm shrink-0">
+                    <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0, 'wght' 500;">precision_manufacturing</span>
                 </div>
+                <h1 class="text-lg font-bold tracking-tight text-on-surface truncate">STAFFORDERMANAGER</h1>
             </header>
 
             <main id="main-content" class="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-8 pb-24 md:pb-8 relative">
                 
                 <div id="view-wfh" class="view-section active">
                     <div class="mb-6">
-                        <h2 class="text-2xl font-bold text-on-surface mb-4">WFH</h2>
+                        <h2 class="text-2xl font-bold text-on-surface mb-4">Work From Home Hub</h2>
                         <div class="flex gap-3 overflow-x-auto custom-scrollbar pb-1">
                             <button id="tab-wfh-employees" onclick="switchWfhTab('employees')" class="wfh-tab active bg-primary text-on-primary px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">WFH Employees</button>
                             <button id="tab-wfh-orders" onclick="switchWfhTab('orders')" class="wfh-tab bg-white border border-outline-variant text-on-surface-variant active:bg-surface-container px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">WFH Orders</button>
@@ -213,6 +211,24 @@
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                         <h2 class="text-2xl font-bold text-on-surface">Main Order Management</h2>
                         <button onclick="openOrderForm()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">add</span> New Main Order</button>
+                    </div>
+
+                    <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant mb-6 flex flex-col sm:flex-row gap-4 items-end shadow-sm">
+                        <div class="flex-1 w-full">
+                            <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Search Orders</label>
+                            <div class="relative">
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+                                <input type="text" id="order-search-input" onkeyup="renderOrders()" class="w-full border-outline-variant rounded-lg text-sm pl-9 pr-3 py-2 bg-white focus:ring-primary focus:border-primary" placeholder="Search by Client/Supplier name or Order ID...">
+                            </div>
+                        </div>
+                        <div class="w-full sm:w-56">
+                            <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Time Period</label>
+                            <select id="order-month-filter" onchange="renderOrders()" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-white focus:ring-primary focus:border-primary font-medium text-on-surface">
+                                <option value="all">All Orders (Overall)</option>
+                                <option value="this_month">This Month</option>
+                                <option value="last_month">Last Month</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="flex gap-3 mb-6 overflow-x-auto custom-scrollbar pb-1">
@@ -385,7 +401,7 @@
         const statusCycle = [null, 'P', 'W', 'H', 'A'];
         
         let editingEmployeeId = null;
-        let editingOrderId = null;
+        let editingOrderId = null; 
         let editingOrderType = null;
         
         let editingWfhEmployeeId = null;
@@ -479,7 +495,11 @@
             document.querySelectorAll('.wfh-tab').forEach(el => { el.classList.remove('bg-primary', 'text-on-primary'); el.classList.add('bg-white', 'text-on-surface-variant'); });
             const activeBtn = document.getElementById(`tab-wfh-${tabId}`);
             if(activeBtn) { activeBtn.classList.remove('bg-white', 'text-on-surface-variant'); activeBtn.classList.add('bg-primary', 'text-on-primary'); }
-            document.querySelectorAll('.wfh-section-container').forEach(el => { el.classList.remove('block'); el.classList.add('hidden'); });
+            
+            document.querySelectorAll('.wfh-section-container').forEach(el => { 
+                el.classList.remove('block'); 
+                el.classList.add('hidden'); 
+            });
             if(document.getElementById(`section-wfh-${tabId}`)) {
                 document.getElementById(`section-wfh-${tabId}`).classList.remove('hidden');
                 document.getElementById(`section-wfh-${tabId}`).classList.add('block');
@@ -521,7 +541,7 @@
         // WFH Orders
         function renderWfhOrders() {
             if (wfhOrders.length === 0) { document.getElementById('wfh-orders-table-body').innerHTML = `<tr><td colspan="6" class="text-center py-8 text-on-surface-variant">No WFH Orders added yet.</td></tr>`; return; }
-            document.getElementById('wfh-orders-table-body').innerHTML = wfhOrders.map((order, index) => {
+            document.getElementById('wfh-orders-table-body').innerHTML = wfhOrders.map((order) => {
                 const sc = order.status === 'Processing' ? 'bg-primary-container text-primary bg-opacity-20' : 'bg-secondary-container text-on-secondary-container';
                 const total = parseFloat(order.totalBill) || 0;
                 const paid = parseFloat(order.advancePaid) || 0;
@@ -535,35 +555,36 @@
                         <div class="text-xs text-on-surface-variant">Total: ₹${total.toLocaleString('en-IN')}</div>
                         <div class="flex items-center gap-1 mt-1">
                             <span class="text-[10px] text-primary font-bold uppercase">Paid:</span>
-                            <input type="number" min="0" value="${paid || ''}" placeholder="0" onblur="updateWfhOrderPayment(${index}, this.value)" class="w-20 border-outline-variant rounded text-xs px-2 py-1 h-6 focus:ring-primary focus:border-primary">
+                            <input type="number" min="0" value="${paid || ''}" placeholder="0" onblur="updateWfhOrderPayment('${order.id}', this.value)" class="w-20 border-outline-variant rounded text-xs px-2 py-1 h-6 focus:ring-primary focus:border-primary">
                         </div>
                         <div class="text-xs text-error font-bold mt-1">Due: ₹${due.toLocaleString('en-IN')}</div>
                     </td>
-                    <td class="px-6 py-4"><span onclick="toggleWfhOrderStatus(${index})" class="px-2 py-1 rounded text-xs font-bold cursor-pointer active:opacity-80 transition-opacity whitespace-nowrap ${sc}">${order.status}</span></td>
+                    <td class="px-6 py-4"><span onclick="toggleWfhOrderStatus('${order.id}')" class="px-2 py-1 rounded text-xs font-bold cursor-pointer active:opacity-80 transition-opacity whitespace-nowrap ${sc}">${order.status}</span></td>
                     <td class="px-6 py-4 text-right whitespace-nowrap">
-                        <button onclick="editWfhOrder(${index})" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button>
-                        <button onclick="deleteWfhOrder(${index})" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+                        <button onclick="editWfhOrder('${order.id}')" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+                        <button onclick="deleteWfhOrder('${order.id}')" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button>
                     </td>
                 </tr>`;
             }).join('');
         }
 
-        function updateWfhOrderPayment(index, newPaidAmount) {
-            wfhOrders[index].advancePaid = parseFloat(newPaidAmount) || 0;
-            saveToDatabase();
+        function updateWfhOrderPayment(id, newPaidAmount) {
+            const order = wfhOrders.find(o => o.id === id);
+            if (order) { order.advancePaid = parseFloat(newPaidAmount) || 0; saveToDatabase(); }
         }
 
-        function toggleWfhOrderStatus(index) {
-            const current = wfhOrders[index].status;
-            if (current === 'Processing') wfhOrders[index].status = 'Fulfilled';
-            else wfhOrders[index].status = 'Processing';
-            saveToDatabase(); 
+        function toggleWfhOrderStatus(id) {
+            const order = wfhOrders.find(o => o.id === id);
+            if (order) {
+                order.status = order.status === 'Processing' ? 'Fulfilled' : 'Processing';
+                saveToDatabase(); 
+            }
         }
 
-        function deleteWfhOrder(index) {
+        function deleteWfhOrder(id) {
             if (confirm("Delete this WFH order?")) {
-                wfhOrders.splice(index, 1);
-                saveToDatabase();
+                const idx = wfhOrders.findIndex(o => o.id === id);
+                if(idx > -1) { wfhOrders.splice(idx, 1); saveToDatabase(); }
             }
         }
 
@@ -582,25 +603,28 @@
             switchView('wfh-new-order');
         }
 
-        function editWfhOrder(index) {
-            editingWfhOrderId = index;
-            document.getElementById('wfh-order-form-title').textContent = "Edit WFH Order";
-            const order = wfhOrders[index];
-            
-            // Populate Dropdown and set value
-            const select = document.getElementById('wfh-order-employee-name');
-            select.innerHTML = wfhEmployees.map(emp => `<option value="${emp.name}">${emp.name}</option>`).join('');
-            // Add the currently assigned one if they were deleted
-            if(!wfhEmployees.find(e => e.name === order.assignedEmployee)) {
-                select.innerHTML += `<option value="${order.assignedEmployee}">${order.assignedEmployee} (Removed)</option>`;
+        function editWfhOrder(id) {
+            const idx = wfhOrders.findIndex(o => o.id === id);
+            if(idx > -1) {
+                editingWfhOrderId = id;
+                document.getElementById('wfh-order-form-title').textContent = "Edit WFH Order";
+                const order = wfhOrders[idx];
+                
+                // Populate Dropdown and set value
+                const select = document.getElementById('wfh-order-employee-name');
+                select.innerHTML = wfhEmployees.map(emp => `<option value="${emp.name}">${emp.name}</option>`).join('');
+                // Add the currently assigned one if they were deleted
+                if(!wfhEmployees.find(e => e.name === order.assignedEmployee)) {
+                    select.innerHTML += `<option value="${order.assignedEmployee}">${order.assignedEmployee} (Removed)</option>`;
+                }
+                select.value = order.assignedEmployee;
+                
+                document.getElementById('wfh-order-products-details').value = order.products;
+                document.getElementById('wfh-order-total-bill').value = order.totalBill;
+                document.getElementById('wfh-order-advance-paid').value = order.advancePaid;
+                
+                switchView('wfh-new-order');
             }
-            select.value = order.assignedEmployee;
-            
-            document.getElementById('wfh-order-products-details').value = order.products;
-            document.getElementById('wfh-order-total-bill').value = order.totalBill;
-            document.getElementById('wfh-order-advance-paid').value = order.advancePaid;
-            
-            switchView('wfh-new-order');
         }
 
         function cancelWfhOrderEdit() {
@@ -620,7 +644,10 @@
             const advancePaid = parseFloat(document.getElementById('wfh-order-advance-paid').value) || 0;
             
             if (editingWfhOrderId !== null) {
-                wfhOrders[editingWfhOrderId] = { ...wfhOrders[editingWfhOrderId], assignedEmployee, products, totalBill, advancePaid };
+                const idx = wfhOrders.findIndex(o => o.id === editingWfhOrderId);
+                if(idx > -1) {
+                    wfhOrders[idx] = { ...wfhOrders[idx], assignedEmployee, products, totalBill, advancePaid };
+                }
             } else {
                 const date = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
                 const id = 'WFH-ORD-' + Math.floor(Math.random() * 1000).toString().padStart(3, '0');
@@ -637,83 +664,153 @@
             document.querySelectorAll('.order-tab').forEach(el => { el.classList.remove('bg-primary', 'text-on-primary'); el.classList.add('bg-white', 'text-on-surface-variant'); });
             const activeBtn = document.getElementById(`tab-${tabId}`);
             if(activeBtn) { activeBtn.classList.remove('bg-white', 'text-on-surface-variant'); activeBtn.classList.add('bg-primary', 'text-on-primary'); }
-            document.querySelectorAll('.order-table-container').forEach(el => el.classList.add('hidden'));
-            if(document.getElementById(`table-${tabId}`)) document.getElementById(`table-${tabId}`).classList.remove('hidden');
+            
+            document.querySelectorAll('.order-table-container').forEach(el => { 
+                el.classList.remove('block'); 
+                el.classList.add('hidden'); 
+            });
+            if(document.getElementById(`table-${tabId}`)) {
+                document.getElementById(`table-${tabId}`).classList.remove('hidden');
+                document.getElementById(`table-${tabId}`).classList.add('block');
+            }
         }
 
-        function updateOrderPayment(type, index, newPaidAmount) {
-            const amount = parseFloat(newPaidAmount) || 0;
-            if (type === 'wholesale') wholesaleOrders[index].advancePaid = amount;
-            else rawOrders[index].advancePaid = amount;
-            saveToDatabase();
+        function getOrderList(type) {
+            return type === 'wholesale' ? wholesaleOrders : rawOrders;
+        }
+
+        function updateOrderPayment(type, id, newPaidAmount) {
+            const list = getOrderList(type);
+            const order = list.find(o => o.id === id);
+            if (order) {
+                order.advancePaid = parseFloat(newPaidAmount) || 0;
+                saveToDatabase();
+            }
+        }
+
+        function toggleOrderStatus(type, id) {
+            const list = getOrderList(type);
+            const order = list.find(o => o.id === id);
+            if (order) {
+                if (type === 'wholesale') order.status = order.status === 'Processing' ? 'Fulfilled' : 'Processing';
+                else order.status = order.status === 'In Transit' ? 'Received' : 'In Transit';
+                saveToDatabase();
+            }
+        }
+
+        function deleteOrder(type, id) {
+            if (confirm("Are you sure you want to delete this main order?")) {
+                const list = getOrderList(type);
+                const idx = list.findIndex(o => o.id === id);
+                if (idx > -1) list.splice(idx, 1);
+                saveToDatabase();
+            }
         }
 
         function renderOrders() {
-            document.getElementById('wholesale-table-body').innerHTML = wholesaleOrders.map((order, index) => {
-                const sc = order.status === 'Processing' ? 'bg-primary-container text-primary bg-opacity-20' : 'bg-secondary-container text-on-secondary-container';
-                const total = parseFloat(order.totalBill) || 0;
-                const paid = parseFloat(order.advancePaid) || 0;
-                const due = total - paid;
+            // Setup Search and Month Filters safely
+            const searchInput = document.getElementById('order-search-input');
+            const searchText = (searchInput ? searchInput.value : '').toLowerCase();
+            
+            const monthDropdown = document.getElementById('order-month-filter');
+            const monthFilter = monthDropdown ? monthDropdown.value : 'all';
+
+            function filterOrderCriteria(order) {
+                // 1. Search filter with safety null checks for older data
+                const nameStr = (order.name || '').toString().toLowerCase();
+                const idStr = (order.id || '').toString().toLowerCase();
+                const matchSearch = nameStr.includes(searchText) || idStr.includes(searchText);
                 
-                return `<tr class="hover:bg-surface-container-lowest transition-colors">
-                    <td class="px-6 py-4 font-mono text-xs text-on-surface-variant">${order.id}</td>
-                    <td class="px-6 py-4 font-medium text-on-surface">${order.name}</td>
-                    <td class="px-6 py-4">${order.products}</td>
-                    <td class="px-6 py-4">
-                        <div class="text-xs text-on-surface-variant">Total: ₹${total.toLocaleString('en-IN')}</div>
-                        <div class="flex items-center gap-1 mt-1">
-                            <span class="text-[10px] text-primary font-bold uppercase">Paid:</span>
-                            <input type="number" min="0" value="${paid || ''}" placeholder="0" onblur="updateOrderPayment('wholesale', ${index}, this.value)" class="w-20 border-outline-variant rounded text-xs px-2 py-1 h-6 focus:ring-primary focus:border-primary">
-                        </div>
-                        <div class="text-xs text-error font-bold mt-1">Due: ₹${due.toLocaleString('en-IN')}</div>
-                    </td>
-                    <td class="px-6 py-4"><span onclick="toggleOrderStatus('wholesale', ${index})" class="px-2 py-1 rounded text-xs font-bold cursor-pointer active:opacity-80 transition-opacity whitespace-nowrap ${sc}">${order.status}</span></td>
-                    <td class="px-6 py-4 text-right text-on-surface-variant">${order.date}</td>
-                    <td class="px-6 py-4 text-right whitespace-nowrap">
-                        <button onclick="editOrder('wholesale', ${index})" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button>
-                        <button onclick="deleteOrder('wholesale', ${index})" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button>
-                    </td>
-                </tr>`;
-            }).join('');
+                // 2. Passbook Month filter
+                let matchDate = true;
+                if (monthFilter !== 'all') {
+                    const oDate = new Date(order.date);
+                    // If old order date is invalid, it skips filtering for this specific criteria
+                    if (!isNaN(oDate.getTime())) {
+                        const today = new Date();
+                        const oMonth = oDate.getMonth();
+                        const oYear = oDate.getFullYear();
+                        const tMonth = today.getMonth();
+                        const tYear = today.getFullYear();
 
-            document.getElementById('raw-table-body').innerHTML = rawOrders.map((order, index) => {
-                const sc = order.status === 'In Transit' ? 'bg-primary-container text-primary bg-opacity-20' : 'bg-secondary-container text-on-secondary-container';
-                const total = parseFloat(order.totalBill) || 0;
-                const paid = parseFloat(order.advancePaid) || 0;
-                const due = total - paid;
+                        if (monthFilter === 'this_month') {
+                            matchDate = (oMonth === tMonth && oYear === tYear);
+                        } else if (monthFilter === 'last_month') {
+                            let lMonth = tMonth - 1;
+                            let lYear = tYear;
+                            if (lMonth < 0) { lMonth = 11; lYear--; }
+                            matchDate = (oMonth === lMonth && oYear === lYear);
+                        }
+                    }
+                }
+                return matchSearch && matchDate;
+            }
 
-                return `<tr class="hover:bg-surface-container-lowest transition-colors">
-                    <td class="px-6 py-4 font-mono text-xs text-on-surface-variant">${order.id}</td>
-                    <td class="px-6 py-4 font-medium text-on-surface">${order.name}</td>
-                    <td class="px-6 py-4">${order.products}</td>
-                    <td class="px-6 py-4">
-                        <div class="text-xs text-on-surface-variant">Total: ₹${total.toLocaleString('en-IN')}</div>
-                        <div class="flex items-center gap-1 mt-1">
-                            <span class="text-[10px] text-primary font-bold uppercase">Paid:</span>
-                            <input type="number" min="0" value="${paid || ''}" placeholder="0" onblur="updateOrderPayment('raw', ${index}, this.value)" class="w-20 border-outline-variant rounded text-xs px-2 py-1 h-6 focus:ring-primary focus:border-primary">
-                        </div>
-                        <div class="text-xs text-error font-bold mt-1">Due: ₹${due.toLocaleString('en-IN')}</div>
-                    </td>
-                    <td class="px-6 py-4"><span onclick="toggleOrderStatus('raw', ${index})" class="px-2 py-1 rounded text-xs font-bold cursor-pointer active:opacity-80 transition-opacity whitespace-nowrap ${sc}">${order.status}</span></td>
-                    <td class="px-6 py-4 text-right text-on-surface-variant">${order.date}</td>
-                    <td class="px-6 py-4 text-right whitespace-nowrap">
-                        <button onclick="editOrder('raw', ${index})" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button>
-                        <button onclick="deleteOrder('raw', ${index})" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button>
-                    </td>
-                </tr>`;
-            }).join('');
-        }
+            const filteredWholesale = wholesaleOrders.filter(filterOrderCriteria);
+            const filteredRaw = rawOrders.filter(filterOrderCriteria);
 
-        function toggleOrderStatus(type, index) {
-            if (type === 'wholesale') wholesaleOrders[index].status = wholesaleOrders[index].status === 'Processing' ? 'Fulfilled' : 'Processing';
-            else rawOrders[index].status = rawOrders[index].status === 'In Transit' ? 'Received' : 'In Transit';
-            saveToDatabase(); 
-        }
+            // Render Wholesale
+            if(filteredWholesale.length === 0) {
+                document.getElementById('wholesale-table-body').innerHTML = `<tr><td colspan="7" class="text-center py-8 text-on-surface-variant">No wholesale orders found.</td></tr>`;
+            } else {
+                document.getElementById('wholesale-table-body').innerHTML = filteredWholesale.map((order) => {
+                    const sc = order.status === 'Processing' ? 'bg-primary-container text-primary bg-opacity-20' : 'bg-secondary-container text-on-secondary-container';
+                    const total = parseFloat(order.totalBill) || 0;
+                    const paid = parseFloat(order.advancePaid) || 0;
+                    const due = total - paid;
+                    
+                    return `<tr class="hover:bg-surface-container-lowest transition-colors">
+                        <td class="px-6 py-4 font-mono text-xs text-on-surface-variant">${order.id || 'N/A'}</td>
+                        <td class="px-6 py-4 font-medium text-on-surface">${order.name || 'N/A'}</td>
+                        <td class="px-6 py-4">${order.products || 'N/A'}</td>
+                        <td class="px-6 py-4">
+                            <div class="text-xs text-on-surface-variant">Total: ₹${total.toLocaleString('en-IN')}</div>
+                            <div class="flex items-center gap-1 mt-1">
+                                <span class="text-[10px] text-primary font-bold uppercase">Paid:</span>
+                                <input type="number" min="0" value="${paid || ''}" placeholder="0" onblur="updateOrderPayment('wholesale', '${order.id}', this.value)" class="w-20 border-outline-variant rounded text-xs px-2 py-1 h-6 focus:ring-primary focus:border-primary">
+                            </div>
+                            <div class="text-xs text-error font-bold mt-1">Due: ₹${due.toLocaleString('en-IN')}</div>
+                        </td>
+                        <td class="px-6 py-4"><span onclick="toggleOrderStatus('wholesale', '${order.id}')" class="px-2 py-1 rounded text-xs font-bold cursor-pointer active:opacity-80 transition-opacity whitespace-nowrap ${sc}">${order.status}</span></td>
+                        <td class="px-6 py-4 text-right text-on-surface-variant">${order.date || ''}</td>
+                        <td class="px-6 py-4 text-right whitespace-nowrap">
+                            <button onclick="editOrder('wholesale', '${order.id}')" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+                            <button onclick="deleteOrder('wholesale', '${order.id}')" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+                        </td>
+                    </tr>`;
+                }).join('');
+            }
 
-        function deleteOrder(type, index) {
-            if (confirm("Are you sure you want to delete this main order?")) {
-                if (type === 'wholesale') wholesaleOrders.splice(index, 1); else rawOrders.splice(index, 1);
-                saveToDatabase();
+            // Render Raw Material
+            if(filteredRaw.length === 0) {
+                document.getElementById('raw-table-body').innerHTML = `<tr><td colspan="7" class="text-center py-8 text-on-surface-variant">No raw material orders found.</td></tr>`;
+            } else {
+                document.getElementById('raw-table-body').innerHTML = filteredRaw.map((order) => {
+                    const sc = order.status === 'In Transit' ? 'bg-primary-container text-primary bg-opacity-20' : 'bg-secondary-container text-on-secondary-container';
+                    const total = parseFloat(order.totalBill) || 0;
+                    const paid = parseFloat(order.advancePaid) || 0;
+                    const due = total - paid;
+
+                    return `<tr class="hover:bg-surface-container-lowest transition-colors">
+                        <td class="px-6 py-4 font-mono text-xs text-on-surface-variant">${order.id || 'N/A'}</td>
+                        <td class="px-6 py-4 font-medium text-on-surface">${order.name || 'N/A'}</td>
+                        <td class="px-6 py-4">${order.products || 'N/A'}</td>
+                        <td class="px-6 py-4">
+                            <div class="text-xs text-on-surface-variant">Total: ₹${total.toLocaleString('en-IN')}</div>
+                            <div class="flex items-center gap-1 mt-1">
+                                <span class="text-[10px] text-primary font-bold uppercase">Paid:</span>
+                                <input type="number" min="0" value="${paid || ''}" placeholder="0" onblur="updateOrderPayment('raw', '${order.id}', this.value)" class="w-20 border-outline-variant rounded text-xs px-2 py-1 h-6 focus:ring-primary focus:border-primary">
+                            </div>
+                            <div class="text-xs text-error font-bold mt-1">Due: ₹${due.toLocaleString('en-IN')}</div>
+                        </td>
+                        <td class="px-6 py-4"><span onclick="toggleOrderStatus('raw', '${order.id}')" class="px-2 py-1 rounded text-xs font-bold cursor-pointer active:opacity-80 transition-opacity whitespace-nowrap ${sc}">${order.status}</span></td>
+                        <td class="px-6 py-4 text-right text-on-surface-variant">${order.date || ''}</td>
+                        <td class="px-6 py-4 text-right whitespace-nowrap">
+                            <button onclick="editOrder('raw', '${order.id}')" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+                            <button onclick="deleteOrder('raw', '${order.id}')" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+                        </td>
+                    </tr>`;
+                }).join('');
             }
         }
 
@@ -726,18 +823,24 @@
             switchView('new-order');
         }
 
-        function editOrder(type, index) {
-            editingOrderId = index;
-            editingOrderType = type;
-            document.getElementById('order-form-title').textContent = "Edit Main Order";
-            const order = type === 'wholesale' ? wholesaleOrders[index] : rawOrders[index];
-            document.querySelector(`input[name="orderType"][value="${type}"]`).checked = true;
-            document.querySelectorAll('input[name="orderType"]').forEach(r => r.disabled = true); 
-            document.getElementById('order-supplier-name').value = order.name;
-            document.getElementById('order-products-details').value = order.products;
-            document.getElementById('order-total-bill').value = order.totalBill;
-            document.getElementById('order-advance-paid').value = order.advancePaid;
-            switchView('new-order');
+        function editOrder(type, id) {
+            const list = getOrderList(type);
+            const idx = list.findIndex(o => o.id === id);
+            
+            if (idx > -1) {
+                editingOrderId = id;
+                editingOrderType = type;
+                document.getElementById('order-form-title').textContent = "Edit Main Order";
+                const order = list[idx];
+                
+                document.querySelector(`input[name="orderType"][value="${type}"]`).checked = true;
+                document.querySelectorAll('input[name="orderType"]').forEach(r => r.disabled = true); 
+                document.getElementById('order-supplier-name').value = order.name;
+                document.getElementById('order-products-details').value = order.products;
+                document.getElementById('order-total-bill').value = order.totalBill;
+                document.getElementById('order-advance-paid').value = order.advancePaid;
+                switchView('new-order');
+            }
         }
 
         function cancelOrderEdit() {
@@ -757,10 +860,10 @@
             const advancePaid = parseFloat(document.getElementById('order-advance-paid').value) || 0;
             
             if (editingOrderId !== null) {
-                if (editingOrderType === 'wholesale') {
-                    wholesaleOrders[editingOrderId] = { ...wholesaleOrders[editingOrderId], name, products, totalBill, advancePaid };
-                } else {
-                    rawOrders[editingOrderId] = { ...rawOrders[editingOrderId], name, products, totalBill, advancePaid };
+                const list = getOrderList(editingOrderType);
+                const idx = list.findIndex(o => o.id === editingOrderId);
+                if (idx > -1) {
+                    list[idx] = { ...list[idx], name, products, totalBill, advancePaid };
                 }
             } else {
                 const date = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
