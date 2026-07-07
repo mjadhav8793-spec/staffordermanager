@@ -3,11 +3,12 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>FactoryAdmin - Integrated System</title>
+    <title>STAFFORDERMANAGER</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     
+    <!-- FIREBASE SCRIPTS -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
@@ -58,6 +59,7 @@
 <body class="bg-surface text-on-surface overflow-hidden">
 
     <div class="flex h-screen w-full">
+        <!-- Desktop Sidebar -->
         <aside class="hidden md:flex flex-col w-72 bg-surface border-r border-outline-variant shrink-0 h-full z-20">
             <div class="p-6">
                 <div class="flex items-center gap-2 mb-8">
@@ -76,6 +78,7 @@
             </nav>
         </aside>
 
+        <!-- Main Content Area -->
         <div class="flex-1 flex flex-col h-full min-w-0 bg-surface-bright relative">
             
             <header class="md:hidden flex items-center justify-start gap-3 p-4 border-b border-outline-variant bg-surface z-10">
@@ -87,6 +90,7 @@
 
             <main id="main-content" class="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-8 pb-24 md:pb-8 relative">
                 
+                <!-- WORK FROM HOME HUB -->
                 <div id="view-wfh" class="view-section active">
                     <div class="mb-6">
                         <h2 class="text-2xl font-bold text-on-surface mb-4">Work From Home Hub</h2>
@@ -96,6 +100,7 @@
                         </div>
                     </div>
 
+                    <!-- WFH Employees Sub-Section -->
                     <div id="section-wfh-employees" class="wfh-section-container block">
                         <div class="flex justify-end mb-4">
                             <button onclick="openWfhAddEmployeeModal()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">person_add</span> Add WFH Employee</button>
@@ -114,6 +119,7 @@
                         </div>
                     </div>
 
+                    <!-- WFH Orders Sub-Section -->
                     <div id="section-wfh-orders" class="wfh-section-container hidden">
                         <div class="flex justify-end mb-4">
                             <button onclick="openWfhOrderForm()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">add</span> New WFH Order</button>
@@ -123,7 +129,13 @@
                                 <table class="w-full text-left border-collapse min-w-[850px]">
                                     <thead>
                                         <tr class="bg-surface-container text-xs text-on-surface-variant uppercase tracking-wider">
-                                            <th class="px-6 py-4 font-semibold">Order ID</th><th class="px-6 py-4 font-semibold text-primary">Assigned WFH Employee</th><th class="px-6 py-4 font-semibold">Products</th><th class="px-6 py-4 font-semibold">Financials (₹)</th><th class="px-6 py-4 font-semibold">Status</th><th class="px-6 py-4 font-semibold text-right">Actions</th>
+                                            <th class="px-6 py-4 font-semibold">Order ID</th>
+                                            <th class="px-6 py-4 font-semibold text-primary">Assigned WFH Employee</th>
+                                            <th class="px-6 py-4 font-semibold">Products</th>
+                                            <th class="px-6 py-4 font-semibold">Financials (₹)</th>
+                                            <th class="px-6 py-4 font-semibold">Status</th>
+                                            <th class="px-6 py-4 font-semibold text-right">Date</th>
+                                            <th class="px-6 py-4 font-semibold text-right">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody id="wfh-orders-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
@@ -133,6 +145,7 @@
                     </div>
                 </div>
 
+                <!-- MAIN FACTORY STAFF DIRECTORY -->
                 <div id="view-staff" class="view-section">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                         <h2 class="text-2xl font-bold text-on-surface">Factory Staff Directory</h2>
@@ -152,6 +165,7 @@
                     </div>
                 </div>
 
+                <!-- ATTENDANCE MATRIX -->
                 <div id="view-attendance" class="view-section">
                     <div class="mb-6">
                         <div class="flex items-center gap-4">
@@ -177,6 +191,7 @@
                     </div>
                 </div>
 
+                <!-- PAYROLL -->
                 <div id="view-payroll" class="view-section">
                     <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                         <div>
@@ -207,12 +222,14 @@
                     </div>
                 </div>
 
+                <!-- MAIN FACTORY ORDERS -->
                 <div id="view-orders" class="view-section">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                         <h2 class="text-2xl font-bold text-on-surface">Main Order Management</h2>
                         <button onclick="openOrderForm()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">add</span> New Main Order</button>
                     </div>
 
+                    <!-- PASSBOOK STYLE FILTERS -->
                     <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant mb-6 flex flex-col sm:flex-row gap-4 items-end shadow-sm">
                         <div class="flex-1 w-full">
                             <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Search Orders</label>
@@ -259,6 +276,7 @@
                     </div>
                 </div>
 
+                <!-- MAIN NEW/EDIT ORDER FORM -->
                 <div id="view-new-order" class="view-section">
                     <div class="flex items-center gap-4 mb-6">
                         <button onclick="cancelOrderEdit()" class="text-on-surface-variant active:bg-surface-container p-2 rounded-full transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
@@ -275,7 +293,10 @@
                                     </div>
                                 </div>
                                 <hr class="border-outline-variant">
-                                <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Supplier / Client Name</label><input type="text" id="order-supplier-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="Enter name..."></div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Supplier / Client Name</label><input type="text" id="order-supplier-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="Enter name..."></div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Order Date</label><input type="date" id="order-date" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary"></div>
+                                </div>
                                 <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Products / Materials</label><textarea id="order-products-details" required rows="3" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="Enter item details and quantities..."></textarea></div>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total Bill Amount (₹)</label><input type="number" id="order-total-bill" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="0"></div>
@@ -290,6 +311,7 @@
                     </div>
                 </div>
 
+                <!-- WFH NEW/EDIT ORDER FORM -->
                 <div id="view-wfh-new-order" class="view-section">
                     <div class="flex items-center gap-4 mb-6">
                         <button onclick="cancelWfhOrderEdit()" class="text-on-surface-variant active:bg-surface-container p-2 rounded-full transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
@@ -298,11 +320,16 @@
                     <div class="bg-white border border-outline-variant rounded-xl p-6 shadow-sm max-w-2xl border-l-4 border-l-primary">
                         <form id="wfh-new-order-form" onsubmit="submitWfhOrder(event)">
                             <div class="space-y-6">
-                                <div>
-                                    <label class="block text-xs font-bold text-primary uppercase tracking-wider mb-1">Assign to WFH Employee</label>
-                                    <select id="wfh-order-employee-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-primary-fixed-dim bg-opacity-20 focus:ring-primary focus:border-primary font-medium text-primary">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-bold text-primary uppercase tracking-wider mb-1">Assign to WFH Employee</label>
+                                        <select id="wfh-order-employee-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-primary-fixed-dim bg-opacity-20 focus:ring-primary focus:border-primary font-medium text-primary">
+                                            <!-- Will populate dynamically -->
                                         </select>
+                                    </div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Order Date</label><input type="date" id="wfh-order-date" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary"></div>
                                 </div>
+                                
                                 <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Task / Products / Details</label><textarea id="wfh-order-products-details" required rows="3" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="Enter task details or materials assigned..."></textarea></div>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total Bill Amount (₹)</label><input type="number" id="wfh-order-total-bill" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="0"></div>
@@ -320,6 +347,7 @@
             </main>
         </div>
         
+        <!-- Mobile Bottom Nav -->
         <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-1 bg-surface border-t border-outline-variant overflow-x-auto transform translate-y-0 transition-transform duration-300 ease-in-out" id="mobile-nav">
             <button data-target="wfh" class="nav-btn active flex flex-1 flex-col items-center justify-center py-2 text-primary rounded-xl active:bg-surface-container transition-all"><span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">home_work</span><span class="text-[10px] mt-0.5">WFH</span></button>
             <button data-target="staff" class="nav-btn flex flex-1 flex-col items-center justify-center py-2 text-on-surface-variant rounded-xl active:bg-surface-container transition-all"><span class="material-symbols-outlined text-[24px]">groups</span><span class="text-[10px] mt-0.5">Staff</span></button>
@@ -329,6 +357,7 @@
         </nav>
     </div>
 
+    <!-- MAIN Add/Edit Employee Modal -->
     <div id="add-employee-modal" class="fixed inset-0 bg-on-surface bg-opacity-50 z-[100] hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-surface border border-outline-variant rounded-xl shadow-xl w-full max-w-md overflow-hidden">
             <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-white">
@@ -352,6 +381,7 @@
         </div>
     </div>
 
+    <!-- WFH Add/Edit Employee Modal -->
     <div id="wfh-add-employee-modal" class="fixed inset-0 bg-on-surface bg-opacity-50 z-[100] hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-surface border border-outline-variant rounded-xl shadow-xl w-full max-w-md overflow-hidden border-l-4 border-l-primary">
             <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-white">
@@ -375,6 +405,7 @@
         </div>
     </div>
 
+    <!-- Logic & Database -->
     <script>
         const firebaseConfig = {
            apiKey: "AIzaSyAnwhEjJw7NiaCk4ARuP4pmYwAwQWr1WiQ",
@@ -489,6 +520,14 @@
             mobileNav.classList.add('translate-y-0');
             mainContent.scrollTop = 0; 
         }
+        
+        // Helper to convert dates to YYYY-MM-DD for the HTML date picker safely
+        function parseDateToYMD(dateStr) {
+            if (!dateStr) return '';
+            const d = new Date(dateStr);
+            if (isNaN(d.getTime())) return '';
+            return d.toISOString().split('T')[0];
+        }
 
         // ================= WFH SECTION LOGIC =================
         function switchWfhTab(tabId) {
@@ -540,7 +579,7 @@
 
         // WFH Orders
         function renderWfhOrders() {
-            if (wfhOrders.length === 0) { document.getElementById('wfh-orders-table-body').innerHTML = `<tr><td colspan="6" class="text-center py-8 text-on-surface-variant">No WFH Orders added yet.</td></tr>`; return; }
+            if (wfhOrders.length === 0) { document.getElementById('wfh-orders-table-body').innerHTML = `<tr><td colspan="7" class="text-center py-8 text-on-surface-variant">No WFH Orders added yet.</td></tr>`; return; }
             document.getElementById('wfh-orders-table-body').innerHTML = wfhOrders.map((order) => {
                 const sc = order.status === 'Processing' ? 'bg-primary-container text-primary bg-opacity-20' : 'bg-secondary-container text-on-secondary-container';
                 const total = parseFloat(order.totalBill) || 0;
@@ -560,6 +599,7 @@
                         <div class="text-xs text-error font-bold mt-1">Due: ₹${due.toLocaleString('en-IN')}</div>
                     </td>
                     <td class="px-6 py-4"><span onclick="toggleWfhOrderStatus('${order.id}')" class="px-2 py-1 rounded text-xs font-bold cursor-pointer active:opacity-80 transition-opacity whitespace-nowrap ${sc}">${order.status}</span></td>
+                    <td class="px-6 py-4 text-right text-on-surface-variant whitespace-nowrap">${order.date || ''}</td>
                     <td class="px-6 py-4 text-right whitespace-nowrap">
                         <button onclick="editWfhOrder('${order.id}')" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button>
                         <button onclick="deleteWfhOrder('${order.id}')" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button>
@@ -592,6 +632,7 @@
             editingWfhOrderId = null;
             document.getElementById('wfh-order-form-title').textContent = "Create New WFH Order";
             document.getElementById('wfh-new-order-form').reset();
+            document.getElementById('wfh-order-date').value = new Date().toISOString().split('T')[0];
             
             // Populate Dropdown
             const select = document.getElementById('wfh-order-employee-name');
@@ -619,6 +660,7 @@
                 }
                 select.value = order.assignedEmployee;
                 
+                document.getElementById('wfh-order-date').value = parseDateToYMD(order.date);
                 document.getElementById('wfh-order-products-details').value = order.products;
                 document.getElementById('wfh-order-total-bill').value = order.totalBill;
                 document.getElementById('wfh-order-advance-paid').value = order.advancePaid;
@@ -639,6 +681,7 @@
             const assignedEmployee = document.getElementById('wfh-order-employee-name').value;
             if(!assignedEmployee) { alert("Please select a WFH Employee."); return; }
             
+            const date = document.getElementById('wfh-order-date').value;
             const products = document.getElementById('wfh-order-products-details').value;
             const totalBill = parseFloat(document.getElementById('wfh-order-total-bill').value) || 0;
             const advancePaid = parseFloat(document.getElementById('wfh-order-advance-paid').value) || 0;
@@ -646,10 +689,9 @@
             if (editingWfhOrderId !== null) {
                 const idx = wfhOrders.findIndex(o => o.id === editingWfhOrderId);
                 if(idx > -1) {
-                    wfhOrders[idx] = { ...wfhOrders[idx], assignedEmployee, products, totalBill, advancePaid };
+                    wfhOrders[idx] = { ...wfhOrders[idx], assignedEmployee, products, totalBill, advancePaid, date };
                 }
             } else {
-                const date = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
                 const id = 'WFH-ORD-' + Math.floor(Math.random() * 1000).toString().padStart(3, '0');
                 const status = 'Processing';
                 wfhOrders.unshift({ id, assignedEmployee, products, totalBill, advancePaid, status, date }); 
@@ -772,7 +814,7 @@
                             <div class="text-xs text-error font-bold mt-1">Due: ₹${due.toLocaleString('en-IN')}</div>
                         </td>
                         <td class="px-6 py-4"><span onclick="toggleOrderStatus('wholesale', '${order.id}')" class="px-2 py-1 rounded text-xs font-bold cursor-pointer active:opacity-80 transition-opacity whitespace-nowrap ${sc}">${order.status}</span></td>
-                        <td class="px-6 py-4 text-right text-on-surface-variant">${order.date || ''}</td>
+                        <td class="px-6 py-4 text-right text-on-surface-variant whitespace-nowrap">${order.date || ''}</td>
                         <td class="px-6 py-4 text-right whitespace-nowrap">
                             <button onclick="editOrder('wholesale', '${order.id}')" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button>
                             <button onclick="deleteOrder('wholesale', '${order.id}')" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button>
@@ -804,7 +846,7 @@
                             <div class="text-xs text-error font-bold mt-1">Due: ₹${due.toLocaleString('en-IN')}</div>
                         </td>
                         <td class="px-6 py-4"><span onclick="toggleOrderStatus('raw', '${order.id}')" class="px-2 py-1 rounded text-xs font-bold cursor-pointer active:opacity-80 transition-opacity whitespace-nowrap ${sc}">${order.status}</span></td>
-                        <td class="px-6 py-4 text-right text-on-surface-variant">${order.date || ''}</td>
+                        <td class="px-6 py-4 text-right text-on-surface-variant whitespace-nowrap">${order.date || ''}</td>
                         <td class="px-6 py-4 text-right whitespace-nowrap">
                             <button onclick="editOrder('raw', '${order.id}')" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button>
                             <button onclick="deleteOrder('raw', '${order.id}')" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button>
@@ -819,6 +861,7 @@
             editingOrderType = null;
             document.getElementById('order-form-title').textContent = "Create New Main Order";
             document.getElementById('new-order-form').reset();
+            document.getElementById('order-date').value = new Date().toISOString().split('T')[0];
             document.querySelectorAll('input[name="orderType"]').forEach(r => r.disabled = false);
             switchView('new-order');
         }
@@ -835,7 +878,9 @@
                 
                 document.querySelector(`input[name="orderType"][value="${type}"]`).checked = true;
                 document.querySelectorAll('input[name="orderType"]').forEach(r => r.disabled = true); 
+                
                 document.getElementById('order-supplier-name').value = order.name;
+                document.getElementById('order-date').value = parseDateToYMD(order.date);
                 document.getElementById('order-products-details').value = order.products;
                 document.getElementById('order-total-bill').value = order.totalBill;
                 document.getElementById('order-advance-paid').value = order.advancePaid;
@@ -855,6 +900,7 @@
             e.preventDefault();
             const type = document.querySelector('input[name="orderType"]:checked').value;
             const name = document.getElementById('order-supplier-name').value;
+            const date = document.getElementById('order-date').value;
             const products = document.getElementById('order-products-details').value;
             const totalBill = parseFloat(document.getElementById('order-total-bill').value) || 0;
             const advancePaid = parseFloat(document.getElementById('order-advance-paid').value) || 0;
@@ -863,10 +909,9 @@
                 const list = getOrderList(editingOrderType);
                 const idx = list.findIndex(o => o.id === editingOrderId);
                 if (idx > -1) {
-                    list[idx] = { ...list[idx], name, products, totalBill, advancePaid };
+                    list[idx] = { ...list[idx], name, products, totalBill, advancePaid, date };
                 }
             } else {
-                const date = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
                 const id = (type === 'wholesale' ? 'WS-2026-' : 'RM-2026-') + Math.floor(Math.random() * 1000).toString().padStart(3, '0');
                 if (type === 'wholesale') { 
                     wholesaleOrders.unshift({ id, name, products, totalBill, advancePaid, status: 'Processing', date }); 
