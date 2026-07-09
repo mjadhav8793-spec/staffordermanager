@@ -34,10 +34,17 @@
         }
     </script>
     <style>
+        /* FIX: Prevents mobile pull-to-refresh glitched reloads while scrolling inner panels */
+        html,
+        body {
+            overscroll-behavior-y: contain;
+            height: 100%;
+            width: 100%;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             -webkit-tap-highlight-color: transparent;
-            overscroll-behavior-y: none;
         }
 
         .material-symbols-outlined {
@@ -684,7 +691,7 @@
             });
         }
 
-        // HIDE NAV ON SCROLL DOWN
+        // HIDE NAV ON SCROLL DOWN & SWIPE REVEAL
         const mainContent = document.getElementById('main-content');
         const mobileNav = document.getElementById('mobile-nav');
         let lastScrollY = mainContent.scrollTop;
@@ -700,6 +707,29 @@
                     mobileNav.classList.add('translate-y-0');
                 }
                 lastScrollY = currentScrollY;
+            }
+        }, { passive: true });
+
+        // Touch swipe gestures specifically for the mobile navigation bar
+        let touchStartY = 0;
+        window.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+
+        window.addEventListener('touchmove', (e) => {
+            const touchCurrentY = e.touches[0].clientY;
+            const windowHeight = window.innerHeight;
+            
+            // If swiping UP from the bottom 15% of the screen
+            if (touchStartY > windowHeight * 0.85 && touchStartY - touchCurrentY > 20) {
+                mobileNav.classList.remove('translate-y-full');
+                mobileNav.classList.add('translate-y-0');
+            }
+            
+            // Forceful swipe down to hide nav element safely
+            if (touchCurrentY - touchStartY > 45) {
+                mobileNav.classList.remove('translate-y-0');
+                mobileNav.classList.add('translate-y-full');
             }
         }, { passive: true });
 
