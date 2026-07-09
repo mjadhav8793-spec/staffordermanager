@@ -11,7 +11,6 @@
         rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
-    <!-- FIREBASE SCRIPTS -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
@@ -34,10 +33,10 @@
         }
     </script>
     <style>
-        /* FIX: Prevents mobile pull-to-refresh glitched reloads while scrolling inner panels */
+        /* CSS baseline to limit overscroll natively */
         html,
         body {
-            overscroll-behavior-y: contain;
+            overscroll-behavior-y: none;
             height: 100%;
             width: 100%;
         }
@@ -186,7 +185,6 @@
 <body class="bg-surface text-on-surface overflow-hidden">
 
     <div class="flex h-screen w-full">
-        <!-- Desktop Sidebar -->
         <aside class="hidden md:flex flex-col w-72 bg-surface border-r border-outline-variant shrink-0 h-full z-20">
             <div class="p-6">
                 <div class="flex items-center gap-2 mb-8">
@@ -206,7 +204,6 @@
             </nav>
         </aside>
 
-        <!-- Main Content Area -->
         <div class="flex-1 flex flex-col h-full min-w-0 bg-surface-bright relative">
 
             <header
@@ -220,7 +217,6 @@
 
             <main id="main-content" class="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-8 pb-24 md:pb-8 relative">
 
-                <!-- WORK FROM HOME HUB -->
                 <div id="view-wfh" class="view-section active">
                     <div class="mb-6">
                         <h2 class="text-2xl font-bold text-on-surface mb-4">Work From Home Hub</h2>
@@ -230,7 +226,6 @@
                         </div>
                     </div>
 
-                    <!-- WFH Employees Sub-Section -->
                     <div id="section-wfh-employees" class="wfh-section-container block">
                         <div class="flex justify-end mb-4">
                             <button onclick="openWfhAddEmployeeModal()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">person_add</span> Add WFH Employee</button>
@@ -256,7 +251,6 @@
                         </div>
                     </div>
 
-                    <!-- WFH Orders Sub-Section -->
                     <div id="section-wfh-orders" class="wfh-section-container hidden">
                         <div class="flex justify-end mb-4">
                             <button onclick="openWfhOrderForm()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">add</span> New WFH Order</button>
@@ -284,7 +278,6 @@
                     </div>
                 </div>
 
-                <!-- MAIN FACTORY STAFF DIRECTORY -->
                 <div id="view-staff" class="view-section">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                         <h2 class="text-2xl font-bold text-on-surface">Factory Staff Directory</h2>
@@ -310,12 +303,11 @@
                     </div>
                 </div>
 
-                <!-- ATTENDANCE MATRIX -->
                 <div id="view-attendance" class="view-section">
                     <div class="mb-6">
                         <div class="flex items-center gap-4">
                             <h2 class="text-[32px] font-black tracking-tight text-on-surface leading-none"
-                                id="att-month-year-display">June 2026</h2>
+                                id="att-month-year-display"></h2>
                             <div
                                 class="flex items-center bg-white border border-outline-variant rounded-md overflow-hidden shadow-sm">
                                 <button onclick="changeMonth(-1)" class="w-8 h-8 flex items-center justify-center active:bg-surface-container transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_left</span></button>
@@ -351,14 +343,13 @@
                     </div>
                 </div>
 
-                <!-- PAYROLL -->
                 <div id="view-payroll" class="view-section">
                     <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                         <div>
                             <p class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-1">
                                 Payroll & Advances</p>
                             <h2 class="text-[32px] font-black tracking-tight text-on-surface leading-none"
-                                id="payroll-month-year-display">June 2026</h2>
+                                id="payroll-month-year-display"></h2>
                         </div>
                         <div
                             class="flex items-center bg-white border border-outline-variant rounded-md overflow-hidden shadow-sm">
@@ -386,14 +377,12 @@
                     </div>
                 </div>
 
-                <!-- MAIN FACTORY ORDERS -->
                 <div id="view-orders" class="view-section">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                         <h2 class="text-2xl font-bold text-on-surface">Main Order Management</h2>
                         <button onclick="openOrderForm()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">add</span> New Main Order</button>
                     </div>
 
-                    <!-- PASSBOOK STYLE FILTERS -->
                     <div
                         class="bg-surface-container-low p-4 rounded-xl border border-outline-variant mb-6 flex flex-col sm:flex-row gap-4 items-end shadow-sm">
                         <div class="flex-1 w-full">
@@ -462,7 +451,6 @@
                     </div>
                 </div>
 
-                <!-- MAIN NEW/EDIT ORDER FORM -->
                 <div id="view-new-order" class="view-section">
                     <div class="flex items-center gap-4 mb-6">
                         <button onclick="cancelOrderEdit()" class="text-on-surface-variant active:bg-surface-container p-2 rounded-full transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
@@ -507,7 +495,6 @@
                     </div>
                 </div>
 
-                <!-- WFH NEW/EDIT ORDER FORM -->
                 <div id="view-wfh-new-order" class="view-section">
                     <div class="flex items-center gap-4 mb-6">
                         <button onclick="cancelWfhOrderEdit()" class="text-on-surface-variant active:bg-surface-container p-2 rounded-full transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
@@ -522,8 +509,7 @@
                                     <div>
                                         <label class="block text-xs font-bold text-primary uppercase tracking-wider mb-1">Assign to WFH Employee</label>
                                         <select id="wfh-order-employee-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-primary-fixed-dim bg-opacity-20 focus:ring-primary focus:border-primary font-medium text-primary">
-                                            <!-- Will populate dynamically -->
-                                        </select>
+                                            </select>
                                     </div>
                                     <div>
                                         <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Order Date</label><input type="date" id="wfh-order-date" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary">
@@ -553,7 +539,6 @@
             </main>
         </div>
 
-        <!-- Mobile Bottom Nav -->
         <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-1 bg-surface border-t border-outline-variant overflow-x-auto transform translate-y-0 transition-transform duration-300 ease-in-out"
             id="mobile-nav">
             <button data-target="wfh" class="nav-btn active flex flex-1 flex-col items-center justify-center py-2 text-primary rounded-xl active:bg-surface-container transition-all"><span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">home_work</span><span class="text-[10px] mt-0.5">WFH</span></button>
@@ -564,7 +549,6 @@
         </nav>
     </div>
 
-    <!-- MAIN Add/Edit Employee Modal -->
     <div id="add-employee-modal"
         class="fixed inset-0 bg-on-surface bg-opacity-50 z-[100] hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-surface border border-outline-variant rounded-xl shadow-xl w-full max-w-md overflow-hidden">
@@ -596,7 +580,6 @@
         </div>
     </div>
 
-    <!-- WFH Add/Edit Employee Modal -->
     <div id="wfh-add-employee-modal"
         class="fixed inset-0 bg-on-surface bg-opacity-50 z-[100] hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div
@@ -629,16 +612,16 @@
         </div>
     </div>
 
-    <!-- Logic & Database -->
     <script>
+        // Embedded with requested database credentials
         const firebaseConfig = {
-        apiKey: "AIzaSyAnwhEjJw7NiaCk4ARuP4pmYwAwQWr1WiQ",
-        authDomain: "factory-admin-fc1cc.firebaseapp.com",
-        databaseURL: "https://factory-admin-fc1cc-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "factory-admin-fc1cc",
-        storageBucket: "factory-admin-fc1cc.firebasestorage.app",
-        messagingSenderId: "790894194445",
-        appId: "1:790894194445:web:cfb7173fe9302270204a44"
+            apiKey: "AIzaSyAnwhEjJw7NiaCk4ARuP4pmYwAwQWr1WiQ",
+            authDomain: "factory-admin-fc1cc.firebaseapp.com",
+            databaseURL: "https://factory-admin-fc1cc-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "factory-admin-fc1cc",
+            storageBucket: "factory-admin-fc1cc.firebasestorage.app",
+            messagingSenderId: "790894194445",
+            appId: "1:790894194445:web:cfb7173fe9302270204a44"
         };
         
         firebase.initializeApp(firebaseConfig);
@@ -649,8 +632,11 @@
         // WFH Databases
         let wfhEmployees = [], wfhOrders = [];
         
-        let currentDate = new Date(2026, 5, 1); 
-        let payrollDate = new Date(2026, 5, 1);
+        // Dynamically set to the current real-world date
+        const liveToday = new Date();
+        let currentDate = new Date(liveToday.getFullYear(), liveToday.getMonth(), 1); 
+        let payrollDate = new Date(liveToday.getFullYear(), liveToday.getMonth(), 1);
+        
         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         
         // Removed 'W' from cycle, added 'O' for Holiday
@@ -710,28 +696,35 @@
             }
         }, { passive: true });
 
-        // Touch swipe gestures specifically for the mobile navigation bar
+        // Touch swipe gestures & ANTI-REFRESH GLITCH for APK Webviews
         let touchStartY = 0;
         window.addEventListener('touchstart', (e) => {
             touchStartY = e.touches[0].clientY;
         }, { passive: true });
 
+        // NOTE: passive is strictly false here so we can block the native Android pull-to-refresh
         window.addEventListener('touchmove', (e) => {
             const touchCurrentY = e.touches[0].clientY;
             const windowHeight = window.innerHeight;
             
-            // If swiping UP from the bottom 15% of the screen
+            // 🛑 THE FIX FOR THE APK REFRESH GLITCH 🛑
+            // If you are at the absolute top of the scroll area and swipe DOWN, it kills the refresh trigger.
+            if (mainContent.scrollTop <= 0 && touchCurrentY > touchStartY) {
+                e.preventDefault(); 
+            }
+            
+            // Nav Bar Reveal: If swiping UP from the bottom 15% of the screen
             if (touchStartY > windowHeight * 0.85 && touchStartY - touchCurrentY > 20) {
                 mobileNav.classList.remove('translate-y-full');
                 mobileNav.classList.add('translate-y-0');
             }
             
-            // Forceful swipe down to hide nav element safely
-            if (touchCurrentY - touchStartY > 45) {
+            // Nav Bar Hide: Forceful swipe down in the bottom half of the screen safely
+            if (touchCurrentY - touchStartY > 45 && touchStartY > windowHeight * 0.5) {
                 mobileNav.classList.remove('translate-y-0');
                 mobileNav.classList.add('translate-y-full');
             }
-        }, { passive: true });
+        }, { passive: false });
 
         // NAVIGATION LOGIC
         document.querySelectorAll('.nav-btn').forEach(btn => {
@@ -763,6 +756,7 @@
             });
 
             if(viewId === 'payroll') renderPayroll();
+            if(viewId === 'attendance') renderAttendanceMatrix();
             
             mobileNav.classList.remove('translate-y-full');
             mobileNav.classList.add('translate-y-0');
@@ -998,7 +992,6 @@
         }
 
         function renderOrders() {
-            // Setup Search and Month Filters safely
             const searchInput = document.getElementById('order-search-input');
             const searchText = (searchInput ? searchInput.value : '').toLowerCase();
             
@@ -1006,16 +999,13 @@
             const monthFilter = monthDropdown ? monthDropdown.value : 'all';
 
             function filterOrderCriteria(order) {
-                // 1. Search filter with safety null checks for older data
                 const nameStr = (order.name || '').toString().toLowerCase();
                 const idStr = (order.id || '').toString().toLowerCase();
                 const matchSearch = nameStr.includes(searchText) || idStr.includes(searchText);
                 
-                // 2. Passbook Month filter
                 let matchDate = true;
                 if (monthFilter !== 'all') {
                     const oDate = new Date(order.date);
-                    // If old order date is invalid, it skips filtering for this specific criteria
                     if (!isNaN(oDate.getTime())) {
                         const today = new Date();
                         const oMonth = oDate.getMonth();
@@ -1174,15 +1164,37 @@
         function changeMonth(delta) { currentDate.setMonth(currentDate.getMonth() + delta); renderAttendanceMatrix(); }
         
         function getAttStatus(empId, year, month, day) {
-            if (attendanceData[year] && attendanceData[year][month] && attendanceData[year][month][empId]) return attendanceData[year][month][empId][day] || null;
-            return null;
+            let status = null;
+            if (attendanceData[year] && attendanceData[year][month] && attendanceData[year][month][empId] && attendanceData[year][month][empId][day] !== undefined) {
+                status = attendanceData[year][month][empId][day];
+            }
+            // If it hasn't been set to anything, check if it's a Sunday and default to 'O'
+            if (status === null) {
+                const d = new Date(year, month, day);
+                if (d.getMonth() === month && d.getDay() === 0) {
+                    status = 'O';
+                }
+            }
+            return status;
         }
 
         function cycleStatus(empId, year, month, day) {
-            if(!attendanceData[year]) attendanceData[year] = {}; if(!attendanceData[year][month]) attendanceData[year][month] = {}; if(!attendanceData[year][month][empId]) attendanceData[year][month][empId] = {};
+            if(!attendanceData[year]) attendanceData[year] = {}; 
+            if(!attendanceData[year][month]) attendanceData[year][month] = {}; 
+            if(!attendanceData[year][month][empId]) attendanceData[year][month][empId] = {};
+            
             const cur = getAttStatus(empId, year, month, day);
-            const nxt = statusCycle[(statusCycle.indexOf(cur) + 1) % statusCycle.length];
-            if (nxt === null) delete attendanceData[year][month][empId][day]; else attendanceData[year][month][empId][day] = nxt;
+            let nxt = statusCycle[(statusCycle.indexOf(cur) + 1) % statusCycle.length];
+            
+            // Prevent Sundays from looking "unchanged" by skipping the blank/null state
+            const d = new Date(year, month, day);
+            if (d.getMonth() === month && d.getDay() === 0 && nxt === null) {
+                nxt = 'P'; // Skip 'null', go straight to Present
+            }
+
+            if (nxt === null) delete attendanceData[year][month][empId][day]; 
+            else attendanceData[year][month][empId][day] = nxt;
+            
             saveToDatabase(); 
         }
 
@@ -1197,15 +1209,17 @@
 
         function renderAttendanceMatrix() {
             const y = currentDate.getFullYear(), m = currentDate.getMonth();
+            const daysInMonth = new Date(y, m + 1, 0).getDate();
             document.getElementById('att-month-year-display').textContent = `${monthNames[m]} ${y}`;
+            
             let head = '<th class="w-48 min-w-[180px] bg-surface-bright">EMPLOYEE</th>';
-            for(let i = 1; i <= 31; i++) head += `<th class="w-10 min-w-[40px] text-xs font-medium text-outline">${i}</th>`;
+            for(let i = 1; i <= daysInMonth; i++) head += `<th class="w-10 min-w-[40px] text-xs font-medium text-outline">${i}</th>`;
             document.getElementById('att-table-head').innerHTML = head;
             
             const combinedStaff = [...employees, ...wfhEmployees];
 
             if (combinedStaff.length === 0) {
-                document.getElementById('att-table-body').innerHTML = `<tr><td colspan="32" class="text-center py-16 bg-white"><p class="text-on-surface-variant text-sm">No employees found.</p></td></tr>`; return;
+                document.getElementById('att-table-body').innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center py-16 bg-white"><p class="text-on-surface-variant text-sm">No employees found.</p></td></tr>`; return;
             }
 
             document.getElementById('att-table-body').innerHTML = combinedStaff.map(emp => {
@@ -1214,7 +1228,7 @@
                 const labelIcon = isWFH ? `<span class="material-symbols-outlined text-[14px] mr-1" title="WFH Employee">home_work</span>` : '';
                 
                 let r = `<tr class="bg-white hover:bg-surface-container-lowest transition-colors"><td class="font-medium ${labelColor} bg-white truncate flex items-center" title="${emp.name}">${labelIcon}${emp.name}</td>`;
-                for(let i = 1; i <= 31; i++) r += `<td class="att-cell-interactive p-1" onclick="cycleStatus('${emp.id}', ${y}, ${m}, ${i})">${renderCellContent(getAttStatus(emp.id, y, m, i))}</td>`;
+                for(let i = 1; i <= daysInMonth; i++) r += `<td class="att-cell-interactive p-1" onclick="cycleStatus('${emp.id}', ${y}, ${m}, ${i})">${renderCellContent(getAttStatus(emp.id, y, m, i))}</td>`;
                 return r + `</tr>`;
             }).join('');
         }
@@ -1232,6 +1246,7 @@
         function renderPayroll() {
             const y = payrollDate.getFullYear();
             const m = payrollDate.getMonth();
+            const daysInMonth = new Date(y, m + 1, 0).getDate();
             document.getElementById('payroll-month-year-display').textContent = `${monthNames[m]} ${y}`;
             
             const combinedStaff = [...employees, ...wfhEmployees];
@@ -1245,7 +1260,7 @@
             let html = '';
             combinedStaff.forEach(emp => {
                 let p = 0, w = 0, h = 0, a = 0, o = 0;
-                for(let i = 1; i <= 31; i++) {
+                for(let i = 1; i <= daysInMonth; i++) {
                     const status = getAttStatus(emp.id, y, m, i);
                     if(status === 'P') p++;
                     if(status === 'W') w++;
@@ -1255,7 +1270,7 @@
                 }
                 
                 const baseSalary = parseFloat(emp.salary) || 0;
-                const dailyRate = baseSalary / 31; 
+                const dailyRate = baseSalary / daysInMonth; 
                 
                 // WFH (w) and Holiday (o) treated as full working day alongside Present (p)
                 const earned = ((p + w + o) * dailyRate) + (h * (dailyRate / 2));
