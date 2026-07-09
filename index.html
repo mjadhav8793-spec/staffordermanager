@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     
+    <!-- FIREBASE SCRIPTS -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
@@ -30,10 +31,12 @@
         }
     </script>
     <style>
-        /* CSS baseline to limit overscroll natively in browsers */
+        /* FIX: Forcibly disables the mobile pull-to-refresh glitch */
         html, body { overscroll-behavior-y: none; height: 100%; width: 100%; margin: 0; padding: 0;}
         body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
         
+        #main-content { overscroll-behavior-y: contain; }
+
         .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; display: inline-block; vertical-align: middle; }
         .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
@@ -62,6 +65,7 @@
 <body class="bg-surface text-on-surface overflow-hidden">
 
     <div class="flex h-screen w-full">
+        <!-- Desktop Sidebar -->
         <aside class="hidden md:flex flex-col w-72 bg-surface border-r border-outline-variant shrink-0 h-full z-20">
             <div class="p-6">
                 <div class="flex items-center gap-2 mb-8">
@@ -72,6 +76,7 @@
                 </div>
             </div>
             <nav class="flex-1 px-4 space-y-2 overflow-y-auto custom-scrollbar" id="desktop-nav">
+                <!-- Desktop has all 5 options -->
                 <button data-target="orders" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm bg-primary text-on-primary font-medium transition-colors"><span class="material-symbols-outlined text-[20px]">inventory_2</span> Main Orders</button>
                 <button data-target="attendance" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant active:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">calendar_today</span> Matrix</button>
                 <button data-target="payroll" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant active:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">payments</span> Payroll</button>
@@ -80,38 +85,26 @@
             </nav>
         </aside>
 
+        <!-- Main Content Area -->
         <div class="flex-1 flex flex-col h-full min-w-0 bg-surface-bright relative">
             
-            <header class="md:hidden flex items-center justify-between p-4 border-b border-outline-variant bg-surface z-20 relative shadow-sm">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center shadow-sm shrink-0">
-                        <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0, 'wght' 500;">precision_manufacturing</span>
-                    </div>
-                    <h1 class="text-lg font-bold tracking-tight text-on-surface truncate">STAFFORDERMANAGER</h1>
+            <header class="md:hidden flex items-center justify-start gap-3 p-4 border-b border-outline-variant bg-surface z-10">
+                <div class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center shadow-sm shrink-0">
+                    <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0, 'wght' 500;">precision_manufacturing</span>
                 </div>
-                
-                <button onclick="document.getElementById('mobile-dropdown').classList.toggle('hidden')" class="text-on-surface-variant p-1 active:bg-surface-container rounded-md transition-colors">
-                    <span class="material-symbols-outlined text-[28px]">menu</span>
-                </button>
-                
-                <div id="mobile-dropdown" class="hidden absolute top-16 right-4 bg-white shadow-xl border border-outline-variant rounded-xl py-2 w-56 z-50 flex flex-col">
-                    <button onclick="switchView('wfh'); document.getElementById('mobile-dropdown').classList.add('hidden')" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-on-surface hover:bg-surface-container active:bg-surface-container w-full text-left transition-colors border-b border-outline-variant">
-                        <span class="material-symbols-outlined text-[20px] text-primary">home_work</span> WFH Hub
-                    </button>
-                    <button onclick="switchView('staff'); document.getElementById('mobile-dropdown').classList.add('hidden')" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-on-surface hover:bg-surface-container active:bg-surface-container w-full text-left transition-colors">
-                        <span class="material-symbols-outlined text-[20px] text-primary">groups</span> Staff Directory
-                    </button>
-                </div>
+                <h1 class="text-lg font-bold tracking-tight text-on-surface truncate">STAFFORDERMANAGER</h1>
             </header>
 
-            <main id="main-content" class="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-8 pb-24 md:pb-8 relative">
+            <main id="main-content" class="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-8 pb-32 md:pb-8 relative">
                 
+                <!-- MAIN FACTORY ORDERS -->
                 <div id="view-orders" class="view-section active">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                         <h2 class="text-2xl font-bold text-on-surface">Main Order Management</h2>
                         <button onclick="openOrderForm()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">add</span> New Main Order</button>
                     </div>
 
+                    <!-- PASSBOOK STYLE FILTERS -->
                     <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant mb-6 flex flex-col sm:flex-row gap-4 items-end shadow-sm">
                         <div class="flex-1 w-full">
                             <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Search Orders</label>
@@ -158,6 +151,7 @@
                     </div>
                 </div>
 
+                <!-- ATTENDANCE MATRIX -->
                 <div id="view-attendance" class="view-section">
                     <div class="mb-6">
                         <div class="flex items-center gap-4">
@@ -183,6 +177,7 @@
                     </div>
                 </div>
 
+                <!-- PAYROLL -->
                 <div id="view-payroll" class="view-section">
                     <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                         <div>
@@ -213,6 +208,7 @@
                     </div>
                 </div>
 
+                <!-- WORK FROM HOME HUB -->
                 <div id="view-wfh" class="view-section">
                     <div class="mb-6">
                         <h2 class="text-2xl font-bold text-on-surface mb-4">Work From Home Hub</h2>
@@ -222,6 +218,7 @@
                         </div>
                     </div>
 
+                    <!-- WFH Employees Sub-Section -->
                     <div id="section-wfh-employees" class="wfh-section-container block">
                         <div class="flex justify-end mb-4">
                             <button onclick="openWfhAddEmployeeModal()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">person_add</span> Add WFH Employee</button>
@@ -240,6 +237,7 @@
                         </div>
                     </div>
 
+                    <!-- WFH Orders Sub-Section -->
                     <div id="section-wfh-orders" class="wfh-section-container hidden">
                         <div class="flex justify-end mb-4">
                             <button onclick="openWfhOrderForm()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">add</span> New WFH Order</button>
@@ -265,6 +263,7 @@
                     </div>
                 </div>
 
+                <!-- MAIN FACTORY STAFF DIRECTORY -->
                 <div id="view-staff" class="view-section">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                         <h2 class="text-2xl font-bold text-on-surface">Factory Staff Directory</h2>
@@ -284,6 +283,7 @@
                     </div>
                 </div>
 
+                <!-- MAIN NEW/EDIT ORDER FORM -->
                 <div id="view-new-order" class="view-section">
                     <div class="flex items-center gap-4 mb-6">
                         <button onclick="cancelOrderEdit()" class="text-on-surface-variant active:bg-surface-container p-2 rounded-full transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
@@ -318,6 +318,7 @@
                     </div>
                 </div>
 
+                <!-- WFH NEW/EDIT ORDER FORM -->
                 <div id="view-wfh-new-order" class="view-section">
                     <div class="flex items-center gap-4 mb-6">
                         <button onclick="cancelWfhOrderEdit()" class="text-on-surface-variant active:bg-surface-container p-2 rounded-full transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
@@ -330,7 +331,8 @@
                                     <div>
                                         <label class="block text-xs font-bold text-primary uppercase tracking-wider mb-1">Assign to WFH Employee</label>
                                         <select id="wfh-order-employee-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-primary-fixed-dim bg-opacity-20 focus:ring-primary focus:border-primary font-medium text-primary">
-                                            </select>
+                                            <!-- Will populate dynamically -->
+                                        </select>
                                     </div>
                                     <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Order Date</label><input type="date" id="wfh-order-date" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary"></div>
                                 </div>
@@ -352,22 +354,32 @@
             </main>
         </div>
         
-        <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-1 bg-surface border-t border-outline-variant overflow-x-auto transform translate-y-0 transition-transform duration-300 ease-in-out shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]" id="mobile-nav">
-            <button data-target="orders" class="nav-btn active flex flex-1 flex-col items-center justify-center py-2 text-primary rounded-xl active:bg-surface-container transition-all">
+        <!-- Mobile Bottom Nav: ALL 5 TABS RESTORED, PADDING ADDED TO FIX ANDROID OVERLAP -->
+        <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 pt-2 pb-8 bg-surface border-t border-outline-variant overflow-x-auto transform translate-y-0 transition-transform duration-300 ease-in-out shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]" id="mobile-nav">
+            <button data-target="orders" class="nav-btn active flex flex-1 flex-col items-center justify-center py-2 text-primary rounded-xl active:bg-surface-container transition-all min-w-[60px]">
                 <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
                 <span class="text-[10px] mt-0.5">Orders</span>
             </button>
-            <button data-target="attendance" class="nav-btn flex flex-1 flex-col items-center justify-center py-2 text-on-surface-variant rounded-xl active:bg-surface-container transition-all">
+            <button data-target="attendance" class="nav-btn flex flex-1 flex-col items-center justify-center py-2 text-on-surface-variant rounded-xl active:bg-surface-container transition-all min-w-[60px]">
                 <span class="material-symbols-outlined text-[24px]">calendar_today</span>
                 <span class="text-[10px] mt-0.5">Matrix</span>
             </button>
-            <button data-target="payroll" class="nav-btn flex flex-1 flex-col items-center justify-center py-2 text-on-surface-variant rounded-xl active:bg-surface-container transition-all">
+            <button data-target="payroll" class="nav-btn flex flex-1 flex-col items-center justify-center py-2 text-on-surface-variant rounded-xl active:bg-surface-container transition-all min-w-[60px]">
                 <span class="material-symbols-outlined text-[24px]">payments</span>
                 <span class="text-[10px] mt-0.5">Payroll</span>
+            </button>
+            <button data-target="wfh" class="nav-btn flex flex-1 flex-col items-center justify-center py-2 text-on-surface-variant rounded-xl active:bg-surface-container transition-all min-w-[60px]">
+                <span class="material-symbols-outlined text-[24px]">home_work</span>
+                <span class="text-[10px] mt-0.5">WFH</span>
+            </button>
+            <button data-target="staff" class="nav-btn flex flex-1 flex-col items-center justify-center py-2 text-on-surface-variant rounded-xl active:bg-surface-container transition-all min-w-[60px]">
+                <span class="material-symbols-outlined text-[24px]">groups</span>
+                <span class="text-[10px] mt-0.5">Staff</span>
             </button>
         </nav>
     </div>
 
+    <!-- MAIN Add/Edit Employee Modal -->
     <div id="add-employee-modal" class="fixed inset-0 bg-on-surface bg-opacity-50 z-[100] hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-surface border border-outline-variant rounded-xl shadow-xl w-full max-w-md overflow-hidden">
             <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-white">
@@ -391,6 +403,7 @@
         </div>
     </div>
 
+    <!-- WFH Add/Edit Employee Modal -->
     <div id="wfh-add-employee-modal" class="fixed inset-0 bg-on-surface bg-opacity-50 z-[100] hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-surface border border-outline-variant rounded-xl shadow-xl w-full max-w-md overflow-hidden border-l-4 border-l-primary">
             <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-white">
@@ -414,6 +427,7 @@
         </div>
     </div>
 
+    <!-- Logic & Database -->
     <script>
         // Embedded with requested database credentials
         const firebaseConfig = {
@@ -500,33 +514,20 @@
 
         // Touch swipe gestures & ANTI-REFRESH GLITCH for APK Webviews
         let touchStartY = 0;
-        mainContent.addEventListener('touchstart', (e) => {
+        window.addEventListener('touchstart', (e) => {
             touchStartY = e.touches[0].clientY;
         }, { passive: true });
 
-        // NOTE: passive is strictly false here so we can block the native Android pull-to-refresh
-        mainContent.addEventListener('touchmove', (e) => {
+        window.addEventListener('touchmove', (e) => {
             const touchCurrentY = e.touches[0].clientY;
             const windowHeight = window.innerHeight;
             
-            // 🛑 THE FIX FOR THE APK REFRESH GLITCH 🛑
-            // If you are at the absolute top of the scroll area and swipe DOWN, it kills the refresh trigger.
-            if (mainContent.scrollTop <= 0 && touchCurrentY > touchStartY) {
-                e.preventDefault(); 
-            }
-            
-            // Nav Bar Reveal: If swiping UP from the bottom 15% of the screen
+            // If swiping UP from the bottom 15% of the screen
             if (touchStartY > windowHeight * 0.85 && touchStartY - touchCurrentY > 20) {
                 mobileNav.classList.remove('translate-y-full');
                 mobileNav.classList.add('translate-y-0');
             }
-            
-            // Nav Bar Hide: Forceful swipe down in the bottom half of the screen safely
-            if (touchCurrentY - touchStartY > 45 && touchStartY > windowHeight * 0.5) {
-                mobileNav.classList.remove('translate-y-0');
-                mobileNav.classList.add('translate-y-full');
-            }
-        }, { passive: false });
+        }, { passive: true });
 
         // NAVIGATION LOGIC
         document.querySelectorAll('.nav-btn').forEach(btn => {
