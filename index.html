@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html class="light" lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>FactoryAdmin - Integrated System</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-        rel="stylesheet" />
+    <title>STAFFORDERMANAGER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-
+    
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
@@ -33,358 +30,89 @@
         }
     </script>
     <style>
-        /* CSS baseline to limit overscroll natively */
-        html,
-        body {
-            overscroll-behavior-y: none;
-            height: 100%;
-            width: 100%;
-        }
+        /* CSS baseline to limit overscroll natively in browsers */
+        html, body { overscroll-behavior-y: none; height: 100%; width: 100%; margin: 0; padding: 0;}
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; display: inline-block; vertical-align: middle; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #dce2f7; border-radius: 10px; }
+        .view-section { display: none; animation: fadeIn 0.3s ease-in-out; }
+        .view-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL'0, 'wght'400, 'GRAD'0, 'opsz'24;
-            display: inline-block;
-            vertical-align: middle;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #dce2f7;
-            border-radius: 10px;
-        }
-
-        .view-section {
-            display: none;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        .view-section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(5px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .att-table-wrapper {
-            overflow-x: auto;
-            border-radius: 0.5rem;
-            border: 1px solid #c3c6d7;
-            background: #ffffff;
-        }
-
-        .att-table {
-            border-collapse: separate;
-            border-spacing: 0;
-            min-width: 100%;
-        }
-
-        .att-table th,
-        .att-table td {
-            border-right: 1px solid #e9edff;
-            border-bottom: 1px solid #e9edff;
-            padding: 8px 12px;
-            text-align: center;
-            height: 48px;
-        }
-
-        .att-table th:last-child,
-        .att-table td:last-child {
-            border-right: none;
-        }
-
-        .att-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .att-cell-interactive {
-            cursor: pointer;
-            user-select: none;
-            transition: background 0.1s;
-        }
-
-        .att-cell-interactive:hover {
-            background-color: #f1f3ff;
-        }
-
-        .att-table th:first-child,
-        .att-table td:first-child {
-            position: sticky;
-            left: 0;
-            z-index: 10;
-            background-color: #ffffff;
-            text-align: left;
-            font-weight: 500;
-            border-right: 2px solid #e9edff;
-            min-width: 180px;
-        }
-
-        .att-table th:first-child {
-            z-index: 11;
-            background-color: #f9f9ff;
-        }
-
-        .status-P {
-            background-color: #6cf8bb;
-            color: #00714d;
-            font-weight: bold;
-            border-radius: 4px;
-        }
-
-        .status-W {
-            background-color: #dce2f7;
-            color: #004ac6;
-            font-weight: bold;
-            border-radius: 4px;
-        }
-
-        .status-H {
-            background-color: #fef08a;
-            color: #854d0e;
-            font-weight: bold;
-            border-radius: 4px;
-        }
-
-        .status-A {
-            background-color: #ffdad6;
-            color: #93000a;
-            font-weight: bold;
-            border-radius: 4px;
-        }
-
-        .status-O {
-            background-color: #e0e7ff;
-            color: #3730a3;
-            font-weight: bold;
-            border-radius: 4px;
-        }
+        .att-table-wrapper { overflow-x: auto; border-radius: 0.5rem; border: 1px solid #c3c6d7; background: #ffffff; }
+        .att-table { border-collapse: separate; border-spacing: 0; min-width: 100%; }
+        .att-table th, .att-table td { border-right: 1px solid #e9edff; border-bottom: 1px solid #e9edff; padding: 8px 12px; text-align: center; height: 48px; }
+        .att-table th:last-child, .att-table td:last-child { border-right: none; }
+        .att-table tr:last-child td { border-bottom: none; }
+        .att-cell-interactive { cursor: pointer; user-select: none; transition: background 0.1s; }
+        .att-cell-interactive:hover { background-color: #f1f3ff; }
+        .att-table th:first-child, .att-table td:first-child { position: sticky; left: 0; z-index: 10; background-color: #ffffff; text-align: left; font-weight: 500; border-right: 2px solid #e9edff; min-width: 180px; }
+        .att-table th:first-child { z-index: 11; background-color: #f9f9ff; }
+        
+        .status-P { background-color: #6cf8bb; color: #00714d; font-weight: bold; border-radius: 4px; }
+        .status-W { background-color: #dce2f7; color: #004ac6; font-weight: bold; border-radius: 4px; }
+        .status-H { background-color: #fef08a; color: #854d0e; font-weight: bold; border-radius: 4px; }
+        .status-A { background-color: #ffdad6; color: #93000a; font-weight: bold; border-radius: 4px; }
+        .status-O { background-color: #e0e7ff; color: #3730a3; font-weight: bold; border-radius: 4px; }
     </style>
 </head>
-
 <body class="bg-surface text-on-surface overflow-hidden">
 
     <div class="flex h-screen w-full">
         <aside class="hidden md:flex flex-col w-72 bg-surface border-r border-outline-variant shrink-0 h-full z-20">
             <div class="p-6">
                 <div class="flex items-center gap-2 mb-8">
-                    <div
-                        class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center shadow-sm shrink-0">
+                    <div class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center shadow-sm shrink-0">
                         <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0, 'wght' 500;">precision_manufacturing</span>
                     </div>
                     <h1 class="text-xl font-bold tracking-tight text-on-surface truncate">STAFFORDERMANAGER</h1>
                 </div>
             </div>
             <nav class="flex-1 px-4 space-y-2 overflow-y-auto custom-scrollbar" id="desktop-nav">
-                <button data-target="wfh" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm bg-primary text-on-primary font-medium transition-colors"><span class="material-symbols-outlined text-[20px]">home_work</span> Work From Home</button>
-                <button data-target="staff" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant active:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">groups</span> Factory Staff</button>
+                <button data-target="orders" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm bg-primary text-on-primary font-medium transition-colors"><span class="material-symbols-outlined text-[20px]">inventory_2</span> Main Orders</button>
                 <button data-target="attendance" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant active:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">calendar_today</span> Matrix</button>
                 <button data-target="payroll" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant active:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">payments</span> Payroll</button>
-                <button data-target="orders" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant active:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">inventory_2</span> Main Orders</button>
+                <button data-target="wfh" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant active:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">home_work</span> Work From Home</button>
+                <button data-target="staff" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant active:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">groups</span> Factory Staff</button>
             </nav>
         </aside>
 
         <div class="flex-1 flex flex-col h-full min-w-0 bg-surface-bright relative">
-
-            <header
-                class="md:hidden flex items-center justify-start gap-3 p-4 border-b border-outline-variant bg-surface z-10">
-                <div
-                    class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center shadow-sm shrink-0">
-                    <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0, 'wght' 500;">precision_manufacturing</span>
+            
+            <header class="md:hidden flex items-center justify-between p-4 border-b border-outline-variant bg-surface z-20 relative shadow-sm">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center shadow-sm shrink-0">
+                        <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0, 'wght' 500;">precision_manufacturing</span>
+                    </div>
+                    <h1 class="text-lg font-bold tracking-tight text-on-surface truncate">STAFFORDERMANAGER</h1>
                 </div>
-                <h1 class="text-lg font-bold tracking-tight text-on-surface truncate">STAFFORDERMANAGER</h1>
+                
+                <button onclick="document.getElementById('mobile-dropdown').classList.toggle('hidden')" class="text-on-surface-variant p-1 active:bg-surface-container rounded-md transition-colors">
+                    <span class="material-symbols-outlined text-[28px]">menu</span>
+                </button>
+                
+                <div id="mobile-dropdown" class="hidden absolute top-16 right-4 bg-white shadow-xl border border-outline-variant rounded-xl py-2 w-56 z-50 flex flex-col">
+                    <button onclick="switchView('wfh'); document.getElementById('mobile-dropdown').classList.add('hidden')" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-on-surface hover:bg-surface-container active:bg-surface-container w-full text-left transition-colors border-b border-outline-variant">
+                        <span class="material-symbols-outlined text-[20px] text-primary">home_work</span> WFH Hub
+                    </button>
+                    <button onclick="switchView('staff'); document.getElementById('mobile-dropdown').classList.add('hidden')" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-on-surface hover:bg-surface-container active:bg-surface-container w-full text-left transition-colors">
+                        <span class="material-symbols-outlined text-[20px] text-primary">groups</span> Staff Directory
+                    </button>
+                </div>
             </header>
 
             <main id="main-content" class="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-8 pb-24 md:pb-8 relative">
-
-                <div id="view-wfh" class="view-section active">
-                    <div class="mb-6">
-                        <h2 class="text-2xl font-bold text-on-surface mb-4">Work From Home Hub</h2>
-                        <div class="flex gap-3 overflow-x-auto custom-scrollbar pb-1">
-                            <button id="tab-wfh-employees" onclick="switchWfhTab('employees')" class="wfh-tab active bg-primary text-on-primary px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">WFH Employees</button>
-                            <button id="tab-wfh-orders" onclick="switchWfhTab('orders')" class="wfh-tab bg-white border border-outline-variant text-on-surface-variant active:bg-surface-container px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">WFH Orders</button>
-                        </div>
-                    </div>
-
-                    <div id="section-wfh-employees" class="wfh-section-container block">
-                        <div class="flex justify-end mb-4">
-                            <button onclick="openWfhAddEmployeeModal()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">person_add</span> Add WFH Employee</button>
-                        </div>
-                        <div class="bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm">
-                            <div class="overflow-x-auto custom-scrollbar">
-                                <table class="w-full text-left border-collapse min-w-[600px]">
-                                    <thead>
-                                        <tr
-                                            class="bg-surface-container text-xs text-on-surface-variant uppercase tracking-wider">
-                                            <th class="px-6 py-4 font-semibold">Employee ID</th>
-                                            <th class="px-6 py-4 font-semibold">Name</th>
-                                            <th class="px-6 py-4 font-semibold">Role</th>
-                                            <th class="px-6 py-4 font-semibold">Base Salary</th>
-                                            <th class="px-6 py-4 font-semibold">Status</th>
-                                            <th class="px-6 py-4 font-semibold text-right">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="wfh-staff-table-body" class="divide-y divide-outline-variant text-sm">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="section-wfh-orders" class="wfh-section-container hidden">
-                        <div class="flex justify-end mb-4">
-                            <button onclick="openWfhOrderForm()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">add</span> New WFH Order</button>
-                        </div>
-                        <div class="bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm">
-                            <div class="overflow-x-auto custom-scrollbar">
-                                <table class="w-full text-left border-collapse min-w-[850px]">
-                                    <thead>
-                                        <tr
-                                            class="bg-surface-container text-xs text-on-surface-variant uppercase tracking-wider">
-                                            <th class="px-6 py-4 font-semibold">Order ID</th>
-                                            <th class="px-6 py-4 font-semibold text-primary">Assigned WFH Employee</th>
-                                            <th class="px-6 py-4 font-semibold">Products</th>
-                                            <th class="px-6 py-4 font-semibold">Financials (₹)</th>
-                                            <th class="px-6 py-4 font-semibold">Status</th>
-                                            <th class="px-6 py-4 font-semibold text-right">Date</th>
-                                            <th class="px-6 py-4 font-semibold text-right">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="wfh-orders-table-body" class="divide-y divide-outline-variant text-sm">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="view-staff" class="view-section">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                        <h2 class="text-2xl font-bold text-on-surface">Factory Staff Directory</h2>
-                        <button onclick="openAddEmployeeModal()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">person_add</span> Add Employee</button>
-                    </div>
-                    <div class="bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm">
-                        <div class="overflow-x-auto custom-scrollbar">
-                            <table class="w-full text-left border-collapse min-w-[600px]">
-                                <thead>
-                                    <tr
-                                        class="bg-surface-container text-xs text-on-surface-variant uppercase tracking-wider">
-                                        <th class="px-6 py-4 font-semibold">Employee ID</th>
-                                        <th class="px-6 py-4 font-semibold">Name</th>
-                                        <th class="px-6 py-4 font-semibold">Role</th>
-                                        <th class="px-6 py-4 font-semibold">Base Salary</th>
-                                        <th class="px-6 py-4 font-semibold">Status</th>
-                                        <th class="px-6 py-4 font-semibold text-right">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="staff-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="view-attendance" class="view-section">
-                    <div class="mb-6">
-                        <div class="flex items-center gap-4">
-                            <h2 class="text-[32px] font-black tracking-tight text-on-surface leading-none"
-                                id="att-month-year-display"></h2>
-                            <div
-                                class="flex items-center bg-white border border-outline-variant rounded-md overflow-hidden shadow-sm">
-                                <button onclick="changeMonth(-1)" class="w-8 h-8 flex items-center justify-center active:bg-surface-container transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_left</span></button>
-                                <div class="w-px h-5 bg-outline-variant"></div>
-                                <button onclick="changeMonth(1)" class="w-8 h-8 flex items-center justify-center active:bg-surface-container transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_right</span></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex flex-wrap items-center gap-6 mb-4 text-sm text-on-surface-variant">
-                        <div class="flex items-center gap-2">
-                            <div class="w-3 h-3 rounded-full bg-secondary"></div><span>P - Present</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <div class="w-3 h-3 rounded-full" style="background-color: #fef08a;"></div>
-                            <span>H - Half-day</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <div class="w-3 h-3 rounded-full bg-error"></div><span>A - Absent</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <div class="w-3 h-3 rounded-full" style="background-color: #e0e7ff;"></div>
-                            <span>O - Holiday</span>
-                        </div>
-                    </div>
-                    <div class="att-table-wrapper shadow-sm">
-                        <table class="att-table text-sm">
-                            <thead>
-                                <tr id="att-table-head"
-                                    class="bg-surface-bright text-xs text-on-surface-variant font-semibold"></tr>
-                            </thead>
-                            <tbody id="att-table-body"></tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div id="view-payroll" class="view-section">
-                    <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                        <div>
-                            <p class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-1">
-                                Payroll & Advances</p>
-                            <h2 class="text-[32px] font-black tracking-tight text-on-surface leading-none"
-                                id="payroll-month-year-display"></h2>
-                        </div>
-                        <div
-                            class="flex items-center bg-white border border-outline-variant rounded-md overflow-hidden shadow-sm">
-                            <button onclick="changePayrollMonth(-1)" class="w-8 h-8 flex items-center justify-center active:bg-surface-container transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_left</span></button>
-                            <div class="w-px h-5 bg-outline-variant"></div>
-                            <button onclick="changePayrollMonth(1)" class="w-8 h-8 flex items-center justify-center active:bg-surface-container transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_right</span></button>
-                        </div>
-                    </div>
-                    <div class="bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm">
-                        <div class="overflow-x-auto custom-scrollbar">
-                            <table class="w-full text-left border-collapse min-w-[800px]">
-                                <thead>
-                                    <tr
-                                        class="bg-surface-container text-xs text-on-surface-variant uppercase tracking-wider">
-                                        <th class="px-6 py-4 font-semibold">Employee</th>
-                                        <th class="px-6 py-4 font-semibold text-center">Attendance</th>
-                                        <th class="px-6 py-4 font-semibold text-right">Earned (₹)</th>
-                                        <th class="px-6 py-4 font-semibold text-right text-error">Advance Given (₹)</th>
-                                        <th class="px-6 py-4 font-semibold text-right text-primary">Net Payable (₹)</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="payroll-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="view-orders" class="view-section">
+                
+                <div id="view-orders" class="view-section active">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                         <h2 class="text-2xl font-bold text-on-surface">Main Order Management</h2>
                         <button onclick="openOrderForm()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">add</span> New Main Order</button>
                     </div>
 
-                    <div
-                        class="bg-surface-container-low p-4 rounded-xl border border-outline-variant mb-6 flex flex-col sm:flex-row gap-4 items-end shadow-sm">
+                    <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant mb-6 flex flex-col sm:flex-row gap-4 items-end shadow-sm">
                         <div class="flex-1 w-full">
                             <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Search Orders</label>
                             <div class="relative">
@@ -407,45 +135,150 @@
                         <button id="tab-raw" onclick="switchOrderTab('raw')" class="order-tab bg-white border border-outline-variant text-on-surface-variant active:bg-surface-container px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">Raw Material Orders</button>
                     </div>
 
-                    <div id="table-wholesale"
-                        class="order-table-container bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm block">
+                    <div id="table-wholesale" class="order-table-container bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm block">
                         <div class="overflow-x-auto custom-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[850px]">
                                 <thead>
-                                    <tr
-                                        class="bg-surface-container text-xs text-on-surface-variant uppercase tracking-wider">
-                                        <th class="px-6 py-4 font-semibold">Order ID</th>
-                                        <th class="px-6 py-4 font-semibold">Client</th>
-                                        <th class="px-6 py-4 font-semibold">Products</th>
-                                        <th class="px-6 py-4 font-semibold">Financials (₹)</th>
-                                        <th class="px-6 py-4 font-semibold">Status</th>
-                                        <th class="px-6 py-4 font-semibold text-right">Date</th>
-                                        <th class="px-6 py-4 font-semibold text-right">Actions</th>
-                                    </tr>
+                                    <tr class="bg-surface-container text-xs text-on-surface-variant uppercase tracking-wider"><th class="px-6 py-4 font-semibold">Order ID</th><th class="px-6 py-4 font-semibold">Client</th><th class="px-6 py-4 font-semibold">Products</th><th class="px-6 py-4 font-semibold">Financials (₹)</th><th class="px-6 py-4 font-semibold">Status</th><th class="px-6 py-4 font-semibold text-right">Date</th><th class="px-6 py-4 font-semibold text-right">Actions</th></tr>
                                 </thead>
-                                <tbody id="wholesale-table-body" class="divide-y divide-outline-variant text-sm">
-                                </tbody>
+                                <tbody id="wholesale-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
                             </table>
                         </div>
                     </div>
 
-                    <div id="table-raw"
-                        class="order-table-container bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm hidden">
+                    <div id="table-raw" class="order-table-container bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm hidden">
                         <div class="overflow-x-auto custom-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[850px]">
                                 <thead>
-                                    <tr
-                                        class="bg-surface-container text-xs text-on-surface-variant uppercase tracking-wider">
-                                        <th class="px-6 py-4 font-semibold">PO Number</th>
-                                        <th class="px-6 py-4 font-semibold">Supplier</th>
-                                        <th class="px-6 py-4 font-semibold">Material Specs</th>
-                                        <th class="px-6 py-4 font-semibold">Financials (₹)</th>
-                                        <th class="px-6 py-4 font-semibold">Status</th>
-                                        <th class="px-6 py-4 font-semibold text-right">Date</th>
-                                        <th class="px-6 py-4 font-semibold text-right">Actions</th>
-                                    </tr>
+                                    <tr class="bg-surface-container text-xs text-on-surface-variant uppercase tracking-wider"><th class="px-6 py-4 font-semibold">PO Number</th><th class="px-6 py-4 font-semibold">Supplier</th><th class="px-6 py-4 font-semibold">Material Specs</th><th class="px-6 py-4 font-semibold">Financials (₹)</th><th class="px-6 py-4 font-semibold">Status</th><th class="px-6 py-4 font-semibold text-right">Date</th><th class="px-6 py-4 font-semibold text-right">Actions</th></tr>
                                 </thead>
                                 <tbody id="raw-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="view-attendance" class="view-section">
+                    <div class="mb-6">
+                        <div class="flex items-center gap-4">
+                            <h2 class="text-[32px] font-black tracking-tight text-on-surface leading-none" id="att-month-year-display"></h2>
+                            <div class="flex items-center bg-white border border-outline-variant rounded-md overflow-hidden shadow-sm">
+                                <button onclick="changeMonth(-1)" class="w-8 h-8 flex items-center justify-center active:bg-surface-container transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_left</span></button>
+                                <div class="w-px h-5 bg-outline-variant"></div>
+                                <button onclick="changeMonth(1)" class="w-8 h-8 flex items-center justify-center active:bg-surface-container transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_right</span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-6 mb-4 text-sm text-on-surface-variant">
+                        <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-secondary"></div><span>P - Present</span></div>
+                        <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full" style="background-color: #fef08a;"></div><span>H - Half-day</span></div>
+                        <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-error"></div><span>A - Absent</span></div>
+                        <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full" style="background-color: #e0e7ff;"></div><span>O - Holiday</span></div>
+                    </div>
+                    <div class="att-table-wrapper shadow-sm">
+                        <table class="att-table text-sm">
+                            <thead><tr id="att-table-head" class="bg-surface-bright text-xs text-on-surface-variant font-semibold"></tr></thead>
+                            <tbody id="att-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="view-payroll" class="view-section">
+                    <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div>
+                            <p class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-1">Payroll & Advances</p>
+                            <h2 class="text-[32px] font-black tracking-tight text-on-surface leading-none" id="payroll-month-year-display"></h2>
+                        </div>
+                        <div class="flex items-center bg-white border border-outline-variant rounded-md overflow-hidden shadow-sm">
+                            <button onclick="changePayrollMonth(-1)" class="w-8 h-8 flex items-center justify-center active:bg-surface-container transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_left</span></button>
+                            <div class="w-px h-5 bg-outline-variant"></div>
+                            <button onclick="changePayrollMonth(1)" class="w-8 h-8 flex items-center justify-center active:bg-surface-container transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_right</span></button>
+                        </div>
+                    </div>
+                    <div class="bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+                        <div class="overflow-x-auto custom-scrollbar">
+                            <table class="w-full text-left border-collapse min-w-[800px]">
+                                <thead>
+                                    <tr class="bg-surface-container text-xs text-on-surface-variant uppercase tracking-wider">
+                                        <th class="px-6 py-4 font-semibold">Employee</th>
+                                        <th class="px-6 py-4 font-semibold text-center">Attendance</th>
+                                        <th class="px-6 py-4 font-semibold text-right">Earned (₹)</th>
+                                        <th class="px-6 py-4 font-semibold text-right text-error">Advance Given (₹)</th>
+                                        <th class="px-6 py-4 font-semibold text-right text-primary">Net Payable (₹)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="payroll-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="view-wfh" class="view-section">
+                    <div class="mb-6">
+                        <h2 class="text-2xl font-bold text-on-surface mb-4">Work From Home Hub</h2>
+                        <div class="flex gap-3 overflow-x-auto custom-scrollbar pb-1">
+                            <button id="tab-wfh-employees" onclick="switchWfhTab('employees')" class="wfh-tab active bg-primary text-on-primary px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">WFH Employees</button>
+                            <button id="tab-wfh-orders" onclick="switchWfhTab('orders')" class="wfh-tab bg-white border border-outline-variant text-on-surface-variant active:bg-surface-container px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">WFH Orders</button>
+                        </div>
+                    </div>
+
+                    <div id="section-wfh-employees" class="wfh-section-container block">
+                        <div class="flex justify-end mb-4">
+                            <button onclick="openWfhAddEmployeeModal()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">person_add</span> Add WFH Employee</button>
+                        </div>
+                        <div class="bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+                            <div class="overflow-x-auto custom-scrollbar">
+                                <table class="w-full text-left border-collapse min-w-[600px]">
+                                    <thead>
+                                        <tr class="bg-surface-container text-xs text-on-surface-variant uppercase tracking-wider">
+                                            <th class="px-6 py-4 font-semibold">Employee ID</th><th class="px-6 py-4 font-semibold">Name</th><th class="px-6 py-4 font-semibold">Role</th><th class="px-6 py-4 font-semibold">Base Salary</th><th class="px-6 py-4 font-semibold">Status</th><th class="px-6 py-4 font-semibold text-right">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="wfh-staff-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="section-wfh-orders" class="wfh-section-container hidden">
+                        <div class="flex justify-end mb-4">
+                            <button onclick="openWfhOrderForm()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">add</span> New WFH Order</button>
+                        </div>
+                        <div class="bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+                            <div class="overflow-x-auto custom-scrollbar">
+                                <table class="w-full text-left border-collapse min-w-[850px]">
+                                    <thead>
+                                        <tr class="bg-surface-container text-xs text-on-surface-variant uppercase tracking-wider">
+                                            <th class="px-6 py-4 font-semibold">Order ID</th>
+                                            <th class="px-6 py-4 font-semibold text-primary">Assigned WFH Employee</th>
+                                            <th class="px-6 py-4 font-semibold">Products</th>
+                                            <th class="px-6 py-4 font-semibold">Financials (₹)</th>
+                                            <th class="px-6 py-4 font-semibold">Status</th>
+                                            <th class="px-6 py-4 font-semibold text-right">Date</th>
+                                            <th class="px-6 py-4 font-semibold text-right">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="wfh-orders-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="view-staff" class="view-section">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+                        <h2 class="text-2xl font-bold text-on-surface">Factory Staff Directory</h2>
+                        <button onclick="openAddEmployeeModal()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">person_add</span> Add Employee</button>
+                    </div>
+                    <div class="bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+                        <div class="overflow-x-auto custom-scrollbar">
+                            <table class="w-full text-left border-collapse min-w-[600px]">
+                                <thead>
+                                    <tr class="bg-surface-container text-xs text-on-surface-variant uppercase tracking-wider">
+                                        <th class="px-6 py-4 font-semibold">Employee ID</th><th class="px-6 py-4 font-semibold">Name</th><th class="px-6 py-4 font-semibold">Role</th><th class="px-6 py-4 font-semibold">Base Salary</th><th class="px-6 py-4 font-semibold">Status</th><th class="px-6 py-4 font-semibold text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="staff-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
                             </table>
                         </div>
                     </div>
@@ -468,23 +301,13 @@
                                 </div>
                                 <hr class="border-outline-variant">
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Supplier / Client Name</label><input type="text" id="order-supplier-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="Enter name...">
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Order Date</label><input type="date" id="order-date" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary">
-                                    </div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Supplier / Client Name</label><input type="text" id="order-supplier-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="Enter name..."></div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Order Date</label><input type="date" id="order-date" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary"></div>
                                 </div>
-                                <div>
-                                    <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Products / Materials</label><textarea id="order-products-details" required rows="3" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="Enter item details and quantities..."></textarea>
-                                </div>
+                                <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Products / Materials</label><textarea id="order-products-details" required rows="3" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="Enter item details and quantities..."></textarea></div>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total Bill Amount (₹)</label><input type="number" id="order-total-bill" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="0">
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Advance Paid (₹)</label><input type="number" id="order-advance-paid" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="0">
-                                    </div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total Bill Amount (₹)</label><input type="number" id="order-total-bill" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="0"></div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Advance Paid (₹)</label><input type="number" id="order-advance-paid" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="0"></div>
                                 </div>
                                 <div class="flex justify-end gap-3 mt-8">
                                     <button type="button" onclick="cancelOrderEdit()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container rounded-lg transition-colors">Cancel</button>
@@ -498,11 +321,9 @@
                 <div id="view-wfh-new-order" class="view-section">
                     <div class="flex items-center gap-4 mb-6">
                         <button onclick="cancelWfhOrderEdit()" class="text-on-surface-variant active:bg-surface-container p-2 rounded-full transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
-                        <h2 id="wfh-order-form-title" class="text-2xl font-bold text-on-surface">Create New WFH Order
-                        </h2>
+                        <h2 id="wfh-order-form-title" class="text-2xl font-bold text-on-surface">Create New WFH Order</h2>
                     </div>
-                    <div
-                        class="bg-white border border-outline-variant rounded-xl p-6 shadow-sm max-w-2xl border-l-4 border-l-primary">
+                    <div class="bg-white border border-outline-variant rounded-xl p-6 shadow-sm max-w-2xl border-l-4 border-l-primary">
                         <form id="wfh-new-order-form" onsubmit="submitWfhOrder(event)">
                             <div class="space-y-6">
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -511,21 +332,13 @@
                                         <select id="wfh-order-employee-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-primary-fixed-dim bg-opacity-20 focus:ring-primary focus:border-primary font-medium text-primary">
                                             </select>
                                     </div>
-                                    <div>
-                                        <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Order Date</label><input type="date" id="wfh-order-date" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary">
-                                    </div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Order Date</label><input type="date" id="wfh-order-date" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary"></div>
                                 </div>
-
-                                <div>
-                                    <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Task / Products / Details</label><textarea id="wfh-order-products-details" required rows="3" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="Enter task details or materials assigned..."></textarea>
-                                </div>
+                                
+                                <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Task / Products / Details</label><textarea id="wfh-order-products-details" required rows="3" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="Enter task details or materials assigned..."></textarea></div>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total Bill Amount (₹)</label><input type="number" id="wfh-order-total-bill" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="0">
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Advance Paid (₹)</label><input type="number" id="wfh-order-advance-paid" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="0">
-                                    </div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total Bill Amount (₹)</label><input type="number" id="wfh-order-total-bill" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="0"></div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Advance Paid (₹)</label><input type="number" id="wfh-order-advance-paid" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="0"></div>
                                 </div>
                                 <div class="flex justify-end gap-3 mt-8">
                                     <button type="button" onclick="cancelWfhOrderEdit()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container rounded-lg transition-colors">Cancel</button>
@@ -538,19 +351,24 @@
 
             </main>
         </div>
-
-        <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-1 bg-surface border-t border-outline-variant overflow-x-auto transform translate-y-0 transition-transform duration-300 ease-in-out"
-            id="mobile-nav">
-            <button data-target="wfh" class="nav-btn active flex flex-1 flex-col items-center justify-center py-2 text-primary rounded-xl active:bg-surface-container transition-all"><span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">home_work</span><span class="text-[10px] mt-0.5">WFH</span></button>
-            <button data-target="staff" class="nav-btn flex flex-1 flex-col items-center justify-center py-2 text-on-surface-variant rounded-xl active:bg-surface-container transition-all"><span class="material-symbols-outlined text-[24px]">groups</span><span class="text-[10px] mt-0.5">Staff</span></button>
-            <button data-target="attendance" class="nav-btn flex flex-1 flex-col items-center justify-center py-2 text-on-surface-variant rounded-xl active:bg-surface-container transition-all"><span class="material-symbols-outlined text-[24px]">calendar_today</span><span class="text-[10px] mt-0.5">Matrix</span></button>
-            <button data-target="payroll" class="nav-btn flex flex-1 flex-col items-center justify-center py-2 text-on-surface-variant rounded-xl active:bg-surface-container transition-all"><span class="material-symbols-outlined text-[24px]">payments</span><span class="text-[10px] mt-0.5">Payroll</span></button>
-            <button data-target="orders" class="nav-btn flex flex-1 flex-col items-center justify-center py-2 text-on-surface-variant rounded-xl active:bg-surface-container transition-all"><span class="material-symbols-outlined text-[24px]">inventory_2</span><span class="text-[10px] mt-0.5">Orders</span></button>
+        
+        <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-1 bg-surface border-t border-outline-variant overflow-x-auto transform translate-y-0 transition-transform duration-300 ease-in-out shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]" id="mobile-nav">
+            <button data-target="orders" class="nav-btn active flex flex-1 flex-col items-center justify-center py-2 text-primary rounded-xl active:bg-surface-container transition-all">
+                <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+                <span class="text-[10px] mt-0.5">Orders</span>
+            </button>
+            <button data-target="attendance" class="nav-btn flex flex-1 flex-col items-center justify-center py-2 text-on-surface-variant rounded-xl active:bg-surface-container transition-all">
+                <span class="material-symbols-outlined text-[24px]">calendar_today</span>
+                <span class="text-[10px] mt-0.5">Matrix</span>
+            </button>
+            <button data-target="payroll" class="nav-btn flex flex-1 flex-col items-center justify-center py-2 text-on-surface-variant rounded-xl active:bg-surface-container transition-all">
+                <span class="material-symbols-outlined text-[24px]">payments</span>
+                <span class="text-[10px] mt-0.5">Payroll</span>
+            </button>
         </nav>
     </div>
 
-    <div id="add-employee-modal"
-        class="fixed inset-0 bg-on-surface bg-opacity-50 z-[100] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+    <div id="add-employee-modal" class="fixed inset-0 bg-on-surface bg-opacity-50 z-[100] hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-surface border border-outline-variant rounded-xl shadow-xl w-full max-w-md overflow-hidden">
             <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-white">
                 <h3 class="text-lg font-bold text-on-surface" id="modal-title">Add Main Factory Employee</h3>
@@ -559,17 +377,10 @@
             <div class="p-6 bg-white">
                 <form id="add-employee-form" onsubmit="submitEmployee(event)">
                     <div class="space-y-4">
-                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Full Name</label><input type="text" id="emp-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-on-surface-variant mb-1">Role / Department</label><input type="text" id="emp-role" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-on-surface-variant mb-1">Base Salary (₹)</label><input type="number" id="emp-salary" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-on-surface-variant mb-1">Status</label><select id="emp-status" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-white"><option value="Active">Active</option><option value="Inactive">Inactive</option></select>
-                        </div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Full Name</label><input type="text" id="emp-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Role / Department</label><input type="text" id="emp-role" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Base Salary (₹)</label><input type="number" id="emp-salary" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Status</label><select id="emp-status" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-white"><option value="Active">Active</option><option value="Inactive">Inactive</option></select></div>
                     </div>
                     <div class="mt-8 flex justify-end gap-3">
                         <button type="button" onclick="closeAddEmployeeModal()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container rounded-lg">Cancel</button>
@@ -580,10 +391,8 @@
         </div>
     </div>
 
-    <div id="wfh-add-employee-modal"
-        class="fixed inset-0 bg-on-surface bg-opacity-50 z-[100] hidden flex items-center justify-center p-4 backdrop-blur-sm">
-        <div
-            class="bg-surface border border-outline-variant rounded-xl shadow-xl w-full max-w-md overflow-hidden border-l-4 border-l-primary">
+    <div id="wfh-add-employee-modal" class="fixed inset-0 bg-on-surface bg-opacity-50 z-[100] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-surface border border-outline-variant rounded-xl shadow-xl w-full max-w-md overflow-hidden border-l-4 border-l-primary">
             <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-white">
                 <h3 class="text-lg font-bold text-on-surface" id="wfh-modal-title">Add WFH Employee</h3>
                 <button onclick="closeWfhAddEmployeeModal()" class="text-on-surface-variant active:text-error transition-colors"><span class="material-symbols-outlined">close</span></button>
@@ -591,17 +400,10 @@
             <div class="p-6 bg-white">
                 <form id="wfh-add-employee-form" onsubmit="submitWfhEmployee(event)">
                     <div class="space-y-4">
-                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Full Name</label><input type="text" id="wfh-emp-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-on-surface-variant mb-1">Role / Title</label><input type="text" id="wfh-emp-role" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-on-surface-variant mb-1">Base Salary (₹)</label><input type="number" id="wfh-emp-salary" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-on-surface-variant mb-1">Status</label><select id="wfh-emp-status" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-white"><option value="Active">Active</option><option value="Inactive">Inactive</option></select>
-                        </div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Full Name</label><input type="text" id="wfh-emp-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Role / Title</label><input type="text" id="wfh-emp-role" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Base Salary (₹)</label><input type="number" id="wfh-emp-salary" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Status</label><select id="wfh-emp-status" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-white"><option value="Active">Active</option><option value="Inactive">Inactive</option></select></div>
                     </div>
                     <div class="mt-8 flex justify-end gap-3">
                         <button type="button" onclick="closeWfhAddEmployeeModal()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container rounded-lg">Cancel</button>
@@ -639,7 +441,7 @@
         
         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         
-        // Removed 'W' from cycle, added 'O' for Holiday
+        // Cycle layout (O = Holiday)
         const statusCycle = [null, 'P', 'H', 'A', 'O'];
         
         let editingEmployeeId = null;
@@ -698,12 +500,12 @@
 
         // Touch swipe gestures & ANTI-REFRESH GLITCH for APK Webviews
         let touchStartY = 0;
-        window.addEventListener('touchstart', (e) => {
+        mainContent.addEventListener('touchstart', (e) => {
             touchStartY = e.touches[0].clientY;
         }, { passive: true });
 
         // NOTE: passive is strictly false here so we can block the native Android pull-to-refresh
-        window.addEventListener('touchmove', (e) => {
+        mainContent.addEventListener('touchmove', (e) => {
             const touchCurrentY = e.touches[0].clientY;
             const windowHeight = window.innerHeight;
             
@@ -735,8 +537,8 @@
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
             if(document.getElementById(`view-${viewId}`)) document.getElementById(`view-${viewId}`).classList.add('active');
             
-            document.querySelectorAll('#desktop-nav .nav-btn, #mobile-nav .nav-btn').forEach(el => {
-                const isMobile = el.parentElement.id === 'mobile-nav';
+            document.querySelectorAll('.nav-btn').forEach(el => {
+                const isMobile = el.closest('#mobile-nav') !== null;
                 el.classList.remove(isMobile ? 'text-primary' : 'bg-primary', isMobile ? 'dummy' : 'text-on-primary', isMobile ? 'dummy' : 'font-medium');
                 if(!isMobile) el.classList.add('text-on-surface-variant');
                 else {
@@ -1343,5 +1145,4 @@
         function removeEmployee(id) { if(confirm('Are you sure you want to remove this employee?')) { employees = employees.filter(e => e.id !== id); saveToDatabase(); } }
     </script>
 </body>
-
 </html>
