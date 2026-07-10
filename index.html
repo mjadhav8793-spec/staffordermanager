@@ -2,12 +2,13 @@
 <html class="light" lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
     <title>STAFFORDERMANAGER</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     
+    <!-- FIREBASE SCRIPTS -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
@@ -30,16 +31,28 @@
         }
     </script>
     <style>
-        /* FIX: Forcibly disables the mobile pull-to-refresh natively */
-        html, body { overscroll-behavior: none !important; height: 100%; width: 100%; margin: 0; padding: 0;}
-        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        /* 🛑 ANTI-REFRESH GLITCH LOCKDOWN 🛑 */
+        html, body { 
+            overscroll-behavior: none !important; 
+            -webkit-overflow-scrolling: none !important;
+            height: 100%; width: 100%; 
+            margin: 0; padding: 0; 
+            overflow: hidden; 
+        }
         
-        #main-content { overscroll-behavior-y: contain; }
+        #main-content {
+            height: 100vh;
+            overflow-y: auto;
+            overscroll-behavior-y: none;
+            -webkit-overflow-scrolling: touch;
+        }
 
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
         .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; display: inline-block; vertical-align: middle; }
         .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #dce2f7; border-radius: 10px; }
+        
         .view-section { display: none; animation: fadeIn 0.3s ease-in-out; }
         .view-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
@@ -61,9 +74,11 @@
         .status-O { background-color: #e0e7ff; color: #3730a3; font-weight: bold; border-radius: 4px; }
     </style>
 </head>
-<body class="bg-surface text-on-surface overflow-hidden">
+<body class="bg-surface text-on-surface">
 
-    <div class="flex h-screen w-full">
+    <div class="flex h-screen w-full flex-col md:flex-row">
+        
+        <!-- Desktop Sidebar -->
         <aside class="hidden md:flex flex-col w-72 bg-surface border-r border-outline-variant shrink-0 h-full z-20">
             <div class="p-6">
                 <div class="flex items-center gap-2 mb-8">
@@ -82,23 +97,28 @@
             </nav>
         </aside>
 
+        <!-- Main Workspace -->
         <div class="flex-1 flex flex-col h-full min-w-0 bg-surface-bright relative">
             
-            <header class="md:hidden flex items-center justify-start gap-3 p-4 border-b border-outline-variant bg-surface z-10">
+            <!-- Mobile Header -->
+            <header class="md:hidden flex items-center justify-start gap-3 p-4 border-b border-outline-variant bg-surface z-10 shrink-0">
                 <div class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center shadow-sm shrink-0">
                     <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0, 'wght' 500;">precision_manufacturing</span>
                 </div>
                 <h1 class="text-lg font-bold tracking-tight text-on-surface truncate">STAFFORDERMANAGER</h1>
             </header>
 
-            <main id="main-content" class="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-8 pb-32 relative">
+            <!-- 🛑 MAIN SCROLLABLE CONTENT (pb-32 ensures no overlap with mobile nav) 🛑 -->
+            <main id="main-content" class="flex-1 p-4 md:p-8 pb-32 md:pb-8 relative">
                 
+                <!-- MAIN FACTORY ORDERS -->
                 <div id="view-orders" class="view-section active">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                         <h2 class="text-2xl font-bold text-on-surface">Main Order Management</h2>
                         <button onclick="openOrderForm()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">add</span> New Main Order</button>
                     </div>
 
+                    <!-- PASSBOOK STYLE FILTERS -->
                     <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant mb-6 flex flex-col sm:flex-row gap-4 items-end shadow-sm">
                         <div class="flex-1 w-full">
                             <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Search Orders</label>
@@ -145,6 +165,7 @@
                     </div>
                 </div>
 
+                <!-- ATTENDANCE MATRIX -->
                 <div id="view-attendance" class="view-section">
                     <div class="mb-6">
                         <div class="flex items-center gap-4">
@@ -170,6 +191,7 @@
                     </div>
                 </div>
 
+                <!-- PAYROLL -->
                 <div id="view-payroll" class="view-section">
                     <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                         <div>
@@ -200,6 +222,7 @@
                     </div>
                 </div>
 
+                <!-- WORK FROM HOME HUB -->
                 <div id="view-wfh" class="view-section">
                     <div class="mb-6">
                         <h2 class="text-2xl font-bold text-on-surface mb-4">Work From Home Hub</h2>
@@ -209,6 +232,7 @@
                         </div>
                     </div>
 
+                    <!-- WFH Employees Sub-Section -->
                     <div id="section-wfh-employees" class="wfh-section-container block">
                         <div class="flex justify-end mb-4">
                             <button onclick="openWfhAddEmployeeModal()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">person_add</span> Add WFH Employee</button>
@@ -227,6 +251,7 @@
                         </div>
                     </div>
 
+                    <!-- WFH Orders Sub-Section -->
                     <div id="section-wfh-orders" class="wfh-section-container hidden">
                         <div class="flex justify-end mb-4">
                             <button onclick="openWfhOrderForm()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">add</span> New WFH Order</button>
@@ -252,6 +277,7 @@
                     </div>
                 </div>
 
+                <!-- MAIN FACTORY STAFF DIRECTORY -->
                 <div id="view-staff" class="view-section">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                         <h2 class="text-2xl font-bold text-on-surface">Factory Staff Directory</h2>
@@ -271,6 +297,7 @@
                     </div>
                 </div>
 
+                <!-- MAIN NEW/EDIT ORDER FORM -->
                 <div id="view-new-order" class="view-section">
                     <div class="flex items-center gap-4 mb-6">
                         <button onclick="cancelOrderEdit()" class="text-on-surface-variant active:bg-surface-container p-2 rounded-full transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
@@ -305,6 +332,7 @@
                     </div>
                 </div>
 
+                <!-- WFH NEW/EDIT ORDER FORM -->
                 <div id="view-wfh-new-order" class="view-section">
                     <div class="flex items-center gap-4 mb-6">
                         <button onclick="cancelWfhOrderEdit()" class="text-on-surface-variant active:bg-surface-container p-2 rounded-full transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
@@ -317,7 +345,8 @@
                                     <div>
                                         <label class="block text-xs font-bold text-primary uppercase tracking-wider mb-1">Assign to WFH Employee</label>
                                         <select id="wfh-order-employee-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-primary-fixed-dim bg-opacity-20 focus:ring-primary focus:border-primary font-medium text-primary">
-                                            </select>
+                                            <!-- Will populate dynamically -->
+                                        </select>
                                     </div>
                                     <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Order Date</label><input type="date" id="wfh-order-date" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary"></div>
                                 </div>
@@ -339,31 +368,33 @@
             </main>
         </div>
         
-        <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-between items-center px-1 pt-2 pb-8 bg-surface border-t border-outline-variant shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]" id="mobile-nav">
-            <button data-target="orders" class="nav-btn active flex flex-1 flex-col items-center justify-center py-2 text-primary transition-colors">
-                <span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
-                <span class="text-[9px] mt-1 font-medium">Orders</span>
+        <!-- 🛑 FIX: 5-BUTTON MOBILE NAV (pb-8 applied to lift above Android System Navigation) 🛑 -->
+        <nav class="md:hidden fixed bottom-0 left-0 w-full z-[9999] bg-white border-t border-outline-variant flex justify-around items-start pt-2 pb-8 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]" id="mobile-nav">
+            <button data-target="orders" class="nav-btn active flex flex-col items-center justify-center text-primary transition-colors w-1/5">
+                <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+                <span class="text-[10px] mt-1 font-medium">Orders</span>
             </button>
-            <button data-target="attendance" class="nav-btn flex flex-1 flex-col items-center justify-center py-2 text-on-surface-variant transition-colors">
-                <span class="material-symbols-outlined text-[22px]">calendar_today</span>
-                <span class="text-[9px] mt-1 font-medium">Matrix</span>
+            <button data-target="attendance" class="nav-btn flex flex-col items-center justify-center text-on-surface-variant transition-colors w-1/5">
+                <span class="material-symbols-outlined text-[24px]">calendar_today</span>
+                <span class="text-[10px] mt-1 font-medium">Matrix</span>
             </button>
-            <button data-target="payroll" class="nav-btn flex flex-1 flex-col items-center justify-center py-2 text-on-surface-variant transition-colors">
-                <span class="material-symbols-outlined text-[22px]">payments</span>
-                <span class="text-[9px] mt-1 font-medium">Payroll</span>
+            <button data-target="payroll" class="nav-btn flex flex-col items-center justify-center text-on-surface-variant transition-colors w-1/5">
+                <span class="material-symbols-outlined text-[24px]">payments</span>
+                <span class="text-[10px] mt-1 font-medium">Payroll</span>
             </button>
-            <button data-target="wfh" class="nav-btn flex flex-1 flex-col items-center justify-center py-2 text-on-surface-variant transition-colors">
-                <span class="material-symbols-outlined text-[22px]">home_work</span>
-                <span class="text-[9px] mt-1 font-medium">WFH</span>
+            <button data-target="wfh" class="nav-btn flex flex-col items-center justify-center text-on-surface-variant transition-colors w-1/5">
+                <span class="material-symbols-outlined text-[24px]">home_work</span>
+                <span class="text-[10px] mt-1 font-medium">WFH</span>
             </button>
-            <button data-target="staff" class="nav-btn flex flex-1 flex-col items-center justify-center py-2 text-on-surface-variant transition-colors">
-                <span class="material-symbols-outlined text-[22px]">groups</span>
-                <span class="text-[9px] mt-1 font-medium">Staff</span>
+            <button data-target="staff" class="nav-btn flex flex-col items-center justify-center text-on-surface-variant transition-colors w-1/5">
+                <span class="material-symbols-outlined text-[24px]">groups</span>
+                <span class="text-[10px] mt-1 font-medium">Staff</span>
             </button>
         </nav>
     </div>
 
-    <div id="add-employee-modal" class="fixed inset-0 bg-on-surface bg-opacity-50 z-[100] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+    <!-- MAIN Add/Edit Employee Modal -->
+    <div id="add-employee-modal" class="fixed inset-0 bg-on-surface bg-opacity-50 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-surface border border-outline-variant rounded-xl shadow-xl w-full max-w-md overflow-hidden">
             <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-white">
                 <h3 class="text-lg font-bold text-on-surface" id="modal-title">Add Main Factory Employee</h3>
@@ -386,7 +417,8 @@
         </div>
     </div>
 
-    <div id="wfh-add-employee-modal" class="fixed inset-0 bg-on-surface bg-opacity-50 z-[100] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+    <!-- WFH Add/Edit Employee Modal -->
+    <div id="wfh-add-employee-modal" class="fixed inset-0 bg-on-surface bg-opacity-50 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-surface border border-outline-variant rounded-xl shadow-xl w-full max-w-md overflow-hidden border-l-4 border-l-primary">
             <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-white">
                 <h3 class="text-lg font-bold text-on-surface" id="wfh-modal-title">Add WFH Employee</h3>
@@ -409,7 +441,9 @@
         </div>
     </div>
 
+    <!-- Logic & Database -->
     <script>
+        // 🛑 YOUR PROVIDED FIREBASE KEYS 🛑
         const firebaseConfig = {
             apiKey: "AIzaSyAnwhEjJw7NiaCk4ARuP4pmYwAwQWr1WiQ",
             authDomain: "factory-admin-fc1cc.firebaseapp.com",
@@ -423,27 +457,18 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // Main Databases
         let employees = [], attendanceData = {}, advancesData = {}, wholesaleOrders = [], rawOrders = [];
-        // WFH Databases
         let wfhEmployees = [], wfhOrders = [];
         
-        // Dynamically set to the current real-world date
         const liveToday = new Date();
         let currentDate = new Date(liveToday.getFullYear(), liveToday.getMonth(), 1); 
         let payrollDate = new Date(liveToday.getFullYear(), liveToday.getMonth(), 1);
         
         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         
-        // Cycle layout (O = Holiday)
         const statusCycle = [null, 'P', 'H', 'A', 'O'];
         
-        let editingEmployeeId = null;
-        let editingOrderId = null; 
-        let editingOrderType = null;
-        
-        let editingWfhEmployeeId = null;
-        let editingWfhOrderId = null;
+        let editingEmployeeId = null, editingOrderId = null, editingOrderType = null, editingWfhEmployeeId = null, editingWfhOrderId = null;
 
         // REAL-TIME SYNC
         db.ref('factoryData').on('value', (snapshot) => {
@@ -454,7 +479,6 @@
                 advancesData = data.advancesData || {};
                 wholesaleOrders = data.wholesaleOrders || [];
                 rawOrders = data.rawOrders || [];
-                
                 wfhEmployees = data.wfhEmployees || [];
                 wfhOrders = data.wfhOrders || [];
             }
@@ -473,7 +497,7 @@
             });
         }
 
-        // 🛑 THE FIX FOR THE APK REFRESH GLITCH 🛑
+        // 🛑 ANTI-REFRESH INTERCEPTOR JAVASCRIPT 🛑
         const mainContent = document.getElementById('main-content');
         let touchStartY = 0;
 
@@ -481,15 +505,13 @@
             touchStartY = e.touches[0].clientY;
         }, { passive: true });
 
-        // NOTE: passive is false here to block the native Android pull-to-refresh
         mainContent.addEventListener('touchmove', (e) => {
             const touchCurrentY = e.touches[0].clientY;
-            
-            // If you are at the absolute top of the scroll area and swipe DOWN, it kills the refresh trigger.
+            // If the user is at the top of the content and swipes DOWN, intercept and stop it.
             if (mainContent.scrollTop <= 0 && touchCurrentY > touchStartY) {
                 e.preventDefault(); 
             }
-        }, { passive: false });
+        }, { passive: false }); // Must be false to intercept native behavior
 
         // NAVIGATION LOGIC
         document.querySelectorAll('.nav-btn').forEach(btn => {
@@ -522,11 +544,9 @@
 
             if(viewId === 'payroll') renderPayroll();
             if(viewId === 'attendance') renderAttendanceMatrix();
-            
             mainContent.scrollTop = 0; 
         }
         
-        // Helper to convert dates to YYYY-MM-DD for the HTML date picker safely
         function parseDateToYMD(dateStr) {
             if (!dateStr) return '';
             const d = new Date(dateStr);
@@ -540,17 +560,13 @@
             const activeBtn = document.getElementById(`tab-wfh-${tabId}`);
             if(activeBtn) { activeBtn.classList.remove('bg-white', 'text-on-surface-variant'); activeBtn.classList.add('bg-primary', 'text-on-primary'); }
             
-            document.querySelectorAll('.wfh-section-container').forEach(el => { 
-                el.classList.remove('block'); 
-                el.classList.add('hidden'); 
-            });
+            document.querySelectorAll('.wfh-section-container').forEach(el => { el.classList.remove('block'); el.classList.add('hidden'); });
             if(document.getElementById(`section-wfh-${tabId}`)) {
                 document.getElementById(`section-wfh-${tabId}`).classList.remove('hidden');
                 document.getElementById(`section-wfh-${tabId}`).classList.add('block');
             }
         }
 
-        // WFH Employees
         function renderWfhStaffList() {
             if (wfhEmployees.length === 0) { document.getElementById('wfh-staff-table-body').innerHTML = `<tr><td colspan="6" class="text-center py-8 text-on-surface-variant">No WFH staff added yet.</td></tr>`; return; }
             document.getElementById('wfh-staff-table-body').innerHTML = wfhEmployees.map(emp => {
@@ -582,7 +598,6 @@
 
         function removeWfhEmployee(id) { if(confirm('Remove this WFH employee?')) { wfhEmployees = wfhEmployees.filter(e => e.id !== id); saveToDatabase(); } }
 
-        // WFH Orders
         function renderWfhOrders() {
             if (wfhOrders.length === 0) { document.getElementById('wfh-orders-table-body').innerHTML = `<tr><td colspan="7" class="text-center py-8 text-on-surface-variant">No WFH Orders added yet.</td></tr>`; return; }
             document.getElementById('wfh-orders-table-body').innerHTML = wfhOrders.map((order) => {
@@ -613,39 +628,18 @@
             }).join('');
         }
 
-        function updateWfhOrderPayment(id, newPaidAmount) {
-            const order = wfhOrders.find(o => o.id === id);
-            if (order) { order.advancePaid = parseFloat(newPaidAmount) || 0; saveToDatabase(); }
-        }
-
-        function toggleWfhOrderStatus(id) {
-            const order = wfhOrders.find(o => o.id === id);
-            if (order) {
-                order.status = order.status === 'Processing' ? 'Fulfilled' : 'Processing';
-                saveToDatabase(); 
-            }
-        }
-
-        function deleteWfhOrder(id) {
-            if (confirm("Delete this WFH order?")) {
-                const idx = wfhOrders.findIndex(o => o.id === id);
-                if(idx > -1) { wfhOrders.splice(idx, 1); saveToDatabase(); }
-            }
-        }
+        function updateWfhOrderPayment(id, newPaidAmount) { const order = wfhOrders.find(o => o.id === id); if (order) { order.advancePaid = parseFloat(newPaidAmount) || 0; saveToDatabase(); } }
+        function toggleWfhOrderStatus(id) { const order = wfhOrders.find(o => o.id === id); if (order) { order.status = order.status === 'Processing' ? 'Fulfilled' : 'Processing'; saveToDatabase(); } }
+        function deleteWfhOrder(id) { if (confirm("Delete this WFH order?")) { const idx = wfhOrders.findIndex(o => o.id === id); if(idx > -1) { wfhOrders.splice(idx, 1); saveToDatabase(); } } }
 
         function openWfhOrderForm() {
             editingWfhOrderId = null;
             document.getElementById('wfh-order-form-title').textContent = "Create New WFH Order";
             document.getElementById('wfh-new-order-form').reset();
             document.getElementById('wfh-order-date').value = new Date().toISOString().split('T')[0];
-            
-            // Populate Dropdown
             const select = document.getElementById('wfh-order-employee-name');
-            if(wfhEmployees.length === 0) {
-                select.innerHTML = '<option value="" disabled selected>Add a WFH Employee first...</option>';
-            } else {
-                select.innerHTML = wfhEmployees.map(emp => `<option value="${emp.name}">${emp.name}</option>`).join('');
-            }
+            if(wfhEmployees.length === 0) select.innerHTML = '<option value="" disabled selected>Add a WFH Employee first...</option>';
+            else select.innerHTML = wfhEmployees.map(emp => `<option value="${emp.name}">${emp.name}</option>`).join('');
             switchView('wfh-new-order');
         }
 
@@ -655,55 +649,36 @@
                 editingWfhOrderId = id;
                 document.getElementById('wfh-order-form-title').textContent = "Edit WFH Order";
                 const order = wfhOrders[idx];
-                
-                // Populate Dropdown and set value
                 const select = document.getElementById('wfh-order-employee-name');
                 select.innerHTML = wfhEmployees.map(emp => `<option value="${emp.name}">${emp.name}</option>`).join('');
-                // Add the currently assigned one if they were deleted
-                if(!wfhEmployees.find(e => e.name === order.assignedEmployee)) {
-                    select.innerHTML += `<option value="${order.assignedEmployee}">${order.assignedEmployee} (Removed)</option>`;
-                }
+                if(!wfhEmployees.find(e => e.name === order.assignedEmployee)) select.innerHTML += `<option value="${order.assignedEmployee}">${order.assignedEmployee} (Removed)</option>`;
                 select.value = order.assignedEmployee;
-                
                 document.getElementById('wfh-order-date').value = parseDateToYMD(order.date);
                 document.getElementById('wfh-order-products-details').value = order.products;
                 document.getElementById('wfh-order-total-bill').value = order.totalBill;
                 document.getElementById('wfh-order-advance-paid').value = order.advancePaid;
-                
                 switchView('wfh-new-order');
             }
         }
 
-        function cancelWfhOrderEdit() {
-            document.getElementById('wfh-new-order-form').reset();
-            editingWfhOrderId = null;
-            switchView('wfh');
-            switchWfhTab('orders');
-        }
+        function cancelWfhOrderEdit() { document.getElementById('wfh-new-order-form').reset(); editingWfhOrderId = null; switchView('wfh'); switchWfhTab('orders'); }
 
         function submitWfhOrder(e) {
             e.preventDefault();
             const assignedEmployee = document.getElementById('wfh-order-employee-name').value;
             if(!assignedEmployee) { alert("Please select a WFH Employee."); return; }
-            
             const date = document.getElementById('wfh-order-date').value;
             const products = document.getElementById('wfh-order-products-details').value;
             const totalBill = parseFloat(document.getElementById('wfh-order-total-bill').value) || 0;
             const advancePaid = parseFloat(document.getElementById('wfh-order-advance-paid').value) || 0;
-            
             if (editingWfhOrderId !== null) {
                 const idx = wfhOrders.findIndex(o => o.id === editingWfhOrderId);
-                if(idx > -1) {
-                    wfhOrders[idx] = { ...wfhOrders[idx], assignedEmployee, products, totalBill, advancePaid, date };
-                }
+                if(idx > -1) wfhOrders[idx] = { ...wfhOrders[idx], assignedEmployee, products, totalBill, advancePaid, date };
             } else {
                 const id = 'WFH-ORD-' + Math.floor(Math.random() * 1000).toString().padStart(3, '0');
-                const status = 'Processing';
-                wfhOrders.unshift({ id, assignedEmployee, products, totalBill, advancePaid, status, date }); 
+                wfhOrders.unshift({ id, assignedEmployee, products, totalBill, advancePaid, status: 'Processing', date }); 
             }
-
-            cancelWfhOrderEdit(); 
-            saveToDatabase(); 
+            cancelWfhOrderEdit(); saveToDatabase(); 
         }
 
         // ================= MAIN FACTORY LOGIC =================
@@ -711,53 +686,18 @@
             document.querySelectorAll('.order-tab').forEach(el => { el.classList.remove('bg-primary', 'text-on-primary'); el.classList.add('bg-white', 'text-on-surface-variant'); });
             const activeBtn = document.getElementById(`tab-${tabId}`);
             if(activeBtn) { activeBtn.classList.remove('bg-white', 'text-on-surface-variant'); activeBtn.classList.add('bg-primary', 'text-on-primary'); }
-            
-            document.querySelectorAll('.order-table-container').forEach(el => { 
-                el.classList.remove('block'); 
-                el.classList.add('hidden'); 
-            });
-            if(document.getElementById(`table-${tabId}`)) {
-                document.getElementById(`table-${tabId}`).classList.remove('hidden');
-                document.getElementById(`table-${tabId}`).classList.add('block');
-            }
+            document.querySelectorAll('.order-table-container').forEach(el => { el.classList.remove('block'); el.classList.add('hidden'); });
+            if(document.getElementById(`table-${tabId}`)) { document.getElementById(`table-${tabId}`).classList.remove('hidden'); document.getElementById(`table-${tabId}`).classList.add('block'); }
         }
 
-        function getOrderList(type) {
-            return type === 'wholesale' ? wholesaleOrders : rawOrders;
-        }
-
-        function updateOrderPayment(type, id, newPaidAmount) {
-            const list = getOrderList(type);
-            const order = list.find(o => o.id === id);
-            if (order) {
-                order.advancePaid = parseFloat(newPaidAmount) || 0;
-                saveToDatabase();
-            }
-        }
-
-        function toggleOrderStatus(type, id) {
-            const list = getOrderList(type);
-            const order = list.find(o => o.id === id);
-            if (order) {
-                if (type === 'wholesale') order.status = order.status === 'Processing' ? 'Fulfilled' : 'Processing';
-                else order.status = order.status === 'In Transit' ? 'Received' : 'In Transit';
-                saveToDatabase();
-            }
-        }
-
-        function deleteOrder(type, id) {
-            if (confirm("Are you sure you want to delete this main order?")) {
-                const list = getOrderList(type);
-                const idx = list.findIndex(o => o.id === id);
-                if (idx > -1) list.splice(idx, 1);
-                saveToDatabase();
-            }
-        }
+        function getOrderList(type) { return type === 'wholesale' ? wholesaleOrders : rawOrders; }
+        function updateOrderPayment(type, id, newPaidAmount) { const list = getOrderList(type); const order = list.find(o => o.id === id); if (order) { order.advancePaid = parseFloat(newPaidAmount) || 0; saveToDatabase(); } }
+        function toggleOrderStatus(type, id) { const list = getOrderList(type); const order = list.find(o => o.id === id); if (order) { if (type === 'wholesale') order.status = order.status === 'Processing' ? 'Fulfilled' : 'Processing'; else order.status = order.status === 'In Transit' ? 'Received' : 'In Transit'; saveToDatabase(); } }
+        function deleteOrder(type, id) { if (confirm("Are you sure you want to delete this main order?")) { const list = getOrderList(type); const idx = list.findIndex(o => o.id === id); if (idx > -1) list.splice(idx, 1); saveToDatabase(); } }
 
         function renderOrders() {
             const searchInput = document.getElementById('order-search-input');
             const searchText = (searchInput ? searchInput.value : '').toLowerCase();
-            
             const monthDropdown = document.getElementById('order-month-filter');
             const monthFilter = monthDropdown ? monthDropdown.value : 'all';
 
@@ -765,7 +705,6 @@
                 const nameStr = (order.name || '').toString().toLowerCase();
                 const idStr = (order.id || '').toString().toLowerCase();
                 const matchSearch = nameStr.includes(searchText) || idStr.includes(searchText);
-                
                 let matchDate = true;
                 if (monthFilter !== 'all') {
                     const oDate = new Date(order.date);
@@ -775,12 +714,9 @@
                         const oYear = oDate.getFullYear();
                         const tMonth = today.getMonth();
                         const tYear = today.getFullYear();
-
-                        if (monthFilter === 'this_month') {
-                            matchDate = (oMonth === tMonth && oYear === tYear);
-                        } else if (monthFilter === 'last_month') {
-                            let lMonth = tMonth - 1;
-                            let lYear = tYear;
+                        if (monthFilter === 'this_month') matchDate = (oMonth === tMonth && oYear === tYear);
+                        else if (monthFilter === 'last_month') {
+                            let lMonth = tMonth - 1, lYear = tYear;
                             if (lMonth < 0) { lMonth = 11; lYear--; }
                             matchDate = (oMonth === lMonth && oYear === lYear);
                         }
@@ -792,74 +728,23 @@
             const filteredWholesale = wholesaleOrders.filter(filterOrderCriteria);
             const filteredRaw = rawOrders.filter(filterOrderCriteria);
 
-            // Render Wholesale
-            if(filteredWholesale.length === 0) {
-                document.getElementById('wholesale-table-body').innerHTML = `<tr><td colspan="7" class="text-center py-8 text-on-surface-variant">No wholesale orders found.</td></tr>`;
-            } else {
-                document.getElementById('wholesale-table-body').innerHTML = filteredWholesale.map((order) => {
-                    const sc = order.status === 'Processing' ? 'bg-primary-container text-primary bg-opacity-20' : 'bg-secondary-container text-on-secondary-container';
-                    const total = parseFloat(order.totalBill) || 0;
-                    const paid = parseFloat(order.advancePaid) || 0;
-                    const due = total - paid;
-                    
-                    return `<tr class="hover:bg-surface-container-lowest transition-colors">
-                        <td class="px-6 py-4 font-mono text-xs text-on-surface-variant">${order.id || 'N/A'}</td>
-                        <td class="px-6 py-4 font-medium text-on-surface">${order.name || 'N/A'}</td>
-                        <td class="px-6 py-4">${order.products || 'N/A'}</td>
-                        <td class="px-6 py-4">
-                            <div class="text-xs text-on-surface-variant">Total: ₹${total.toLocaleString('en-IN')}</div>
-                            <div class="flex items-center gap-1 mt-1">
-                                <span class="text-[10px] text-primary font-bold uppercase">Paid:</span>
-                                <input type="number" min="0" value="${paid || ''}" placeholder="0" onblur="updateOrderPayment('wholesale', '${order.id}', this.value)" class="w-20 border-outline-variant rounded text-xs px-2 py-1 h-6 focus:ring-primary focus:border-primary">
-                            </div>
-                            <div class="text-xs text-error font-bold mt-1">Due: ₹${due.toLocaleString('en-IN')}</div>
-                        </td>
-                        <td class="px-6 py-4"><span onclick="toggleOrderStatus('wholesale', '${order.id}')" class="px-2 py-1 rounded text-xs font-bold cursor-pointer active:opacity-80 transition-opacity whitespace-nowrap ${sc}">${order.status}</span></td>
-                        <td class="px-6 py-4 text-right text-on-surface-variant whitespace-nowrap">${order.date || ''}</td>
-                        <td class="px-6 py-4 text-right whitespace-nowrap">
-                            <button onclick="editOrder('wholesale', '${order.id}')" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button>
-                            <button onclick="deleteOrder('wholesale', '${order.id}')" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button>
-                        </td>
-                    </tr>`;
-                }).join('');
-            }
+            if(filteredWholesale.length === 0) document.getElementById('wholesale-table-body').innerHTML = `<tr><td colspan="7" class="text-center py-8 text-on-surface-variant">No wholesale orders found.</td></tr>`;
+            else document.getElementById('wholesale-table-body').innerHTML = filteredWholesale.map((order) => {
+                const sc = order.status === 'Processing' ? 'bg-primary-container text-primary bg-opacity-20' : 'bg-secondary-container text-on-secondary-container';
+                const total = parseFloat(order.totalBill) || 0; const paid = parseFloat(order.advancePaid) || 0; const due = total - paid;
+                return `<tr class="hover:bg-surface-container-lowest transition-colors"><td class="px-6 py-4 font-mono text-xs text-on-surface-variant">${order.id || 'N/A'}</td><td class="px-6 py-4 font-medium text-on-surface">${order.name || 'N/A'}</td><td class="px-6 py-4">${order.products || 'N/A'}</td><td class="px-6 py-4"><div class="text-xs text-on-surface-variant">Total: ₹${total.toLocaleString('en-IN')}</div><div class="flex items-center gap-1 mt-1"><span class="text-[10px] text-primary font-bold uppercase">Paid:</span><input type="number" min="0" value="${paid || ''}" placeholder="0" onblur="updateOrderPayment('wholesale', '${order.id}', this.value)" class="w-20 border-outline-variant rounded text-xs px-2 py-1 h-6 focus:ring-primary focus:border-primary"></div><div class="text-xs text-error font-bold mt-1">Due: ₹${due.toLocaleString('en-IN')}</div></td><td class="px-6 py-4"><span onclick="toggleOrderStatus('wholesale', '${order.id}')" class="px-2 py-1 rounded text-xs font-bold cursor-pointer active:opacity-80 transition-opacity whitespace-nowrap ${sc}">${order.status}</span></td><td class="px-6 py-4 text-right text-on-surface-variant whitespace-nowrap">${order.date || ''}</td><td class="px-6 py-4 text-right whitespace-nowrap"><button onclick="editOrder('wholesale', '${order.id}')" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button><button onclick="deleteOrder('wholesale', '${order.id}')" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button></td></tr>`;
+            }).join('');
 
-            // Render Raw Material
-            if(filteredRaw.length === 0) {
-                document.getElementById('raw-table-body').innerHTML = `<tr><td colspan="7" class="text-center py-8 text-on-surface-variant">No raw material orders found.</td></tr>`;
-            } else {
-                document.getElementById('raw-table-body').innerHTML = filteredRaw.map((order) => {
-                    const sc = order.status === 'In Transit' ? 'bg-primary-container text-primary bg-opacity-20' : 'bg-secondary-container text-on-secondary-container';
-                    const total = parseFloat(order.totalBill) || 0;
-                    const paid = parseFloat(order.advancePaid) || 0;
-                    const due = total - paid;
-
-                    return `<tr class="hover:bg-surface-container-lowest transition-colors">
-                        <td class="px-6 py-4 font-mono text-xs text-on-surface-variant">${order.id || 'N/A'}</td>
-                        <td class="px-6 py-4 font-medium text-on-surface">${order.name || 'N/A'}</td>
-                        <td class="px-6 py-4">${order.products || 'N/A'}</td>
-                        <td class="px-6 py-4">
-                            <div class="text-xs text-on-surface-variant">Total: ₹${total.toLocaleString('en-IN')}</div>
-                            <div class="flex items-center gap-1 mt-1">
-                                <span class="text-[10px] text-primary font-bold uppercase">Paid:</span>
-                                <input type="number" min="0" value="${paid || ''}" placeholder="0" onblur="updateOrderPayment('raw', '${order.id}', this.value)" class="w-20 border-outline-variant rounded text-xs px-2 py-1 h-6 focus:ring-primary focus:border-primary">
-                            </div>
-                            <div class="text-xs text-error font-bold mt-1">Due: ₹${due.toLocaleString('en-IN')}</div>
-                        </td>
-                        <td class="px-6 py-4"><span onclick="toggleOrderStatus('raw', '${order.id}')" class="px-2 py-1 rounded text-xs font-bold cursor-pointer active:opacity-80 transition-opacity whitespace-nowrap ${sc}">${order.status}</span></td>
-                        <td class="px-6 py-4 text-right text-on-surface-variant whitespace-nowrap">${order.date || ''}</td>
-                        <td class="px-6 py-4 text-right whitespace-nowrap">
-                            <button onclick="editOrder('raw', '${order.id}')" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button>
-                            <button onclick="deleteOrder('raw', '${order.id}')" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button>
-                        </td>
-                    </tr>`;
-                }).join('');
-            }
+            if(filteredRaw.length === 0) document.getElementById('raw-table-body').innerHTML = `<tr><td colspan="7" class="text-center py-8 text-on-surface-variant">No raw material orders found.</td></tr>`;
+            else document.getElementById('raw-table-body').innerHTML = filteredRaw.map((order) => {
+                const sc = order.status === 'In Transit' ? 'bg-primary-container text-primary bg-opacity-20' : 'bg-secondary-container text-on-secondary-container';
+                const total = parseFloat(order.totalBill) || 0; const paid = parseFloat(order.advancePaid) || 0; const due = total - paid;
+                return `<tr class="hover:bg-surface-container-lowest transition-colors"><td class="px-6 py-4 font-mono text-xs text-on-surface-variant">${order.id || 'N/A'}</td><td class="px-6 py-4 font-medium text-on-surface">${order.name || 'N/A'}</td><td class="px-6 py-4">${order.products || 'N/A'}</td><td class="px-6 py-4"><div class="text-xs text-on-surface-variant">Total: ₹${total.toLocaleString('en-IN')}</div><div class="flex items-center gap-1 mt-1"><span class="text-[10px] text-primary font-bold uppercase">Paid:</span><input type="number" min="0" value="${paid || ''}" placeholder="0" onblur="updateOrderPayment('raw', '${order.id}', this.value)" class="w-20 border-outline-variant rounded text-xs px-2 py-1 h-6 focus:ring-primary focus:border-primary"></div><div class="text-xs text-error font-bold mt-1">Due: ₹${due.toLocaleString('en-IN')}</div></td><td class="px-6 py-4"><span onclick="toggleOrderStatus('raw', '${order.id}')" class="px-2 py-1 rounded text-xs font-bold cursor-pointer active:opacity-80 transition-opacity whitespace-nowrap ${sc}">${order.status}</span></td><td class="px-6 py-4 text-right text-on-surface-variant whitespace-nowrap">${order.date || ''}</td><td class="px-6 py-4 text-right whitespace-nowrap"><button onclick="editOrder('raw', '${order.id}')" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button><button onclick="deleteOrder('raw', '${order.id}')" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button></td></tr>`;
+            }).join('');
         }
 
         function openOrderForm() {
-            editingOrderId = null;
-            editingOrderType = null;
+            editingOrderId = null; editingOrderType = null;
             document.getElementById('order-form-title').textContent = "Create New Main Order";
             document.getElementById('new-order-form').reset();
             document.getElementById('order-date').value = new Date().toISOString().split('T')[0];
@@ -868,18 +753,13 @@
         }
 
         function editOrder(type, id) {
-            const list = getOrderList(type);
-            const idx = list.findIndex(o => o.id === id);
-            
+            const list = getOrderList(type); const idx = list.findIndex(o => o.id === id);
             if (idx > -1) {
-                editingOrderId = id;
-                editingOrderType = type;
+                editingOrderId = id; editingOrderType = type;
                 document.getElementById('order-form-title').textContent = "Edit Main Order";
                 const order = list[idx];
-                
                 document.querySelector(`input[name="orderType"][value="${type}"]`).checked = true;
                 document.querySelectorAll('input[name="orderType"]').forEach(r => r.disabled = true); 
-                
                 document.getElementById('order-supplier-name').value = order.name;
                 document.getElementById('order-date').value = parseDateToYMD(order.date);
                 document.getElementById('order-products-details').value = order.products;
@@ -889,13 +769,7 @@
             }
         }
 
-        function cancelOrderEdit() {
-            document.getElementById('new-order-form').reset();
-            document.querySelectorAll('input[name="orderType"]').forEach(r => r.disabled = false);
-            editingOrderId = null;
-            editingOrderType = null;
-            switchView('orders');
-        }
+        function cancelOrderEdit() { document.getElementById('new-order-form').reset(); document.querySelectorAll('input[name="orderType"]').forEach(r => r.disabled = false); editingOrderId = null; editingOrderType = null; switchView('orders'); }
 
         function submitNewOrder(e) {
             e.preventDefault();
@@ -907,18 +781,12 @@
             const advancePaid = parseFloat(document.getElementById('order-advance-paid').value) || 0;
             
             if (editingOrderId !== null) {
-                const list = getOrderList(editingOrderType);
-                const idx = list.findIndex(o => o.id === editingOrderId);
-                if (idx > -1) {
-                    list[idx] = { ...list[idx], name, products, totalBill, advancePaid, date };
-                }
+                const list = getOrderList(editingOrderType); const idx = list.findIndex(o => o.id === editingOrderId);
+                if (idx > -1) list[idx] = { ...list[idx], name, products, totalBill, advancePaid, date };
             } else {
                 const id = (type === 'wholesale' ? 'WS-2026-' : 'RM-2026-') + Math.floor(Math.random() * 1000).toString().padStart(3, '0');
-                if (type === 'wholesale') { 
-                    wholesaleOrders.unshift({ id, name, products, totalBill, advancePaid, status: 'Processing', date }); 
-                } else { 
-                    rawOrders.unshift({ id, name, products, totalBill, advancePaid, status: 'In Transit', date }); 
-                }
+                if (type === 'wholesale') wholesaleOrders.unshift({ id, name, products, totalBill, advancePaid, status: 'Processing', date }); 
+                else rawOrders.unshift({ id, name, products, totalBill, advancePaid, status: 'In Transit', date }); 
             }
             cancelOrderEdit(); saveToDatabase(); switchOrderTab(type === 'wholesale' ? 'wholesale' : 'raw');
         }
@@ -928,16 +796,8 @@
         
         function getAttStatus(empId, year, month, day) {
             let status = null;
-            if (attendanceData[year] && attendanceData[year][month] && attendanceData[year][month][empId] && attendanceData[year][month][empId][day] !== undefined) {
-                status = attendanceData[year][month][empId][day];
-            }
-            // If it hasn't been set to anything, check if it's a Sunday and default to 'O'
-            if (status === null) {
-                const d = new Date(year, month, day);
-                if (d.getMonth() === month && d.getDay() === 0) {
-                    status = 'O';
-                }
-            }
+            if (attendanceData[year] && attendanceData[year][month] && attendanceData[year][month][empId] && attendanceData[year][month][empId][day] !== undefined) status = attendanceData[year][month][empId][day];
+            if (status === null) { const d = new Date(year, month, day); if (d.getMonth() === month && d.getDay() === 0) status = 'O'; }
             return status;
         }
 
@@ -945,19 +805,12 @@
             if(!attendanceData[year]) attendanceData[year] = {}; 
             if(!attendanceData[year][month]) attendanceData[year][month] = {}; 
             if(!attendanceData[year][month][empId]) attendanceData[year][month][empId] = {};
-            
             const cur = getAttStatus(empId, year, month, day);
             let nxt = statusCycle[(statusCycle.indexOf(cur) + 1) % statusCycle.length];
-            
-            // Prevent Sundays from looking "unchanged" by skipping the blank/null state
             const d = new Date(year, month, day);
-            if (d.getMonth() === month && d.getDay() === 0 && nxt === null) {
-                nxt = 'P'; // Skip 'null', go straight to Present
-            }
-
+            if (d.getMonth() === month && d.getDay() === 0 && nxt === null) nxt = 'P';
             if (nxt === null) delete attendanceData[year][month][empId][day]; 
             else attendanceData[year][month][empId][day] = nxt;
-            
             saveToDatabase(); 
         }
 
@@ -974,22 +827,16 @@
             const y = currentDate.getFullYear(), m = currentDate.getMonth();
             const daysInMonth = new Date(y, m + 1, 0).getDate();
             document.getElementById('att-month-year-display').textContent = `${monthNames[m]} ${y}`;
-            
             let head = '<th class="w-48 min-w-[180px] bg-surface-bright">EMPLOYEE</th>';
             for(let i = 1; i <= daysInMonth; i++) head += `<th class="w-10 min-w-[40px] text-xs font-medium text-outline">${i}</th>`;
             document.getElementById('att-table-head').innerHTML = head;
-            
             const combinedStaff = [...employees, ...wfhEmployees];
-
-            if (combinedStaff.length === 0) {
-                document.getElementById('att-table-body').innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center py-16 bg-white"><p class="text-on-surface-variant text-sm">No employees found.</p></td></tr>`; return;
-            }
+            if (combinedStaff.length === 0) { document.getElementById('att-table-body').innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center py-16 bg-white"><p class="text-on-surface-variant text-sm">No employees found.</p></td></tr>`; return; }
 
             document.getElementById('att-table-body').innerHTML = combinedStaff.map(emp => {
                 const isWFH = emp.id.includes('WFH');
                 const labelColor = isWFH ? 'text-primary' : 'text-on-surface';
                 const labelIcon = isWFH ? `<span class="material-symbols-outlined text-[14px] mr-1" title="WFH Employee">home_work</span>` : '';
-                
                 let r = `<tr class="bg-white hover:bg-surface-container-lowest transition-colors"><td class="font-medium ${labelColor} bg-white truncate flex items-center" title="${emp.name}">${labelIcon}${emp.name}</td>`;
                 for(let i = 1; i <= daysInMonth; i++) r += `<td class="att-cell-interactive p-1" onclick="cycleStatus('${emp.id}', ${y}, ${m}, ${i})">${renderCellContent(getAttStatus(emp.id, y, m, i))}</td>`;
                 return r + `</tr>`;
@@ -998,51 +845,28 @@
 
         // ================= PAYROLL =================
         function changePayrollMonth(delta) { payrollDate.setMonth(payrollDate.getMonth() + delta); renderPayroll(); }
-
-        function updateAdvance(empId, year, month, value) {
-            if(!advancesData[year]) advancesData[year] = {};
-            if(!advancesData[year][month]) advancesData[year][month] = {};
-            advancesData[year][month][empId] = parseFloat(value) || 0;
-            saveToDatabase();
-        }
+        function updateAdvance(empId, year, month, value) { if(!advancesData[year]) advancesData[year] = {}; if(!advancesData[year][month]) advancesData[year][month] = {}; advancesData[year][month][empId] = parseFloat(value) || 0; saveToDatabase(); }
         
         function renderPayroll() {
             const y = payrollDate.getFullYear();
             const m = payrollDate.getMonth();
             const daysInMonth = new Date(y, m + 1, 0).getDate();
             document.getElementById('payroll-month-year-display').textContent = `${monthNames[m]} ${y}`;
-            
             const combinedStaff = [...employees, ...wfhEmployees];
             const tbody = document.getElementById('payroll-table-body');
-            
-            if (combinedStaff.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="text-center py-8 text-on-surface-variant">No employees to calculate.</td></tr>`;
-                return;
-            }
+            if (combinedStaff.length === 0) { tbody.innerHTML = `<tr><td colspan="5" class="text-center py-8 text-on-surface-variant">No employees to calculate.</td></tr>`; return; }
 
             let html = '';
             combinedStaff.forEach(emp => {
                 let p = 0, w = 0, h = 0, a = 0, o = 0;
                 for(let i = 1; i <= daysInMonth; i++) {
                     const status = getAttStatus(emp.id, y, m, i);
-                    if(status === 'P') p++;
-                    if(status === 'W') w++;
-                    if(status === 'H') h++;
-                    if(status === 'A') a++;
-                    if(status === 'O') o++;
+                    if(status === 'P') p++; if(status === 'W') w++; if(status === 'H') h++; if(status === 'A') a++; if(status === 'O') o++;
                 }
-                
                 const baseSalary = parseFloat(emp.salary) || 0;
                 const dailyRate = baseSalary / daysInMonth; 
-                
-                // WFH (w) and Holiday (o) treated as full working day alongside Present (p)
                 const earned = ((p + w + o) * dailyRate) + (h * (dailyRate / 2));
-                
-                let advance = 0;
-                if (advancesData[y] && advancesData[y][m] && advancesData[y][m][emp.id]) {
-                    advance = advancesData[y][m][emp.id];
-                }
-
+                let advance = 0; if (advancesData[y] && advancesData[y][m] && advancesData[y][m][emp.id]) advance = advancesData[y][m][emp.id];
                 const netPayable = earned - advance;
                 const isWFH = emp.id.includes('WFH');
                 const iconColor = isWFH ? 'bg-primary text-on-primary' : 'bg-primary-container text-on-primary-container';
@@ -1053,22 +877,7 @@
                 payrollBadges += `<span class="px-2 py-1 bg-[#fef08a] text-[#854d0e] rounded font-bold ml-1" title="Half-day">${h} H</span>`;
                 payrollBadges += `<span class="px-2 py-1 bg-error-container text-on-error-container rounded font-bold ml-1" title="Absent">${a} A</span>`;
 
-                html += `<tr class="hover:bg-surface-container-lowest transition-colors">
-                    <td class="px-6 py-4">
-                        <div class="font-medium text-on-surface flex items-center gap-3"><div class="w-8 h-8 rounded-full ${iconColor} flex items-center justify-center font-bold text-xs">${emp.name.charAt(0)}</div>${emp.name}</div>
-                        <div class="text-xs text-on-surface-variant mt-1 ml-11">Base: ₹${baseSalary.toLocaleString('en-IN')}</div>
-                    </td>
-                    <td class="px-6 py-4 text-center">
-                        <div class="inline-flex gap-2 text-xs flex-wrap justify-center">
-                            ${payrollBadges}
-                        </div>
-                    </td>
-                    <td class="px-6 py-4 text-right font-medium text-on-surface">₹${earned.toLocaleString('en-IN', {maximumFractionDigits: 0})}</td>
-                    <td class="px-6 py-4 text-right">
-                        <input type="number" min="0" value="${advance || ''}" placeholder="0" onblur="updateAdvance('${emp.id}', ${y}, ${m}, this.value)" class="w-24 border-outline-variant rounded text-sm px-2 py-1 text-right focus:ring-error focus:border-error">
-                    </td>
-                    <td class="px-6 py-4 text-right font-black text-primary text-lg">₹${netPayable.toLocaleString('en-IN', {maximumFractionDigits: 0})}</td>
-                </tr>`;
+                html += `<tr class="hover:bg-surface-container-lowest transition-colors"><td class="px-6 py-4"><div class="font-medium text-on-surface flex items-center gap-3"><div class="w-8 h-8 rounded-full ${iconColor} flex items-center justify-center font-bold text-xs">${emp.name.charAt(0)}</div>${emp.name}</div><div class="text-xs text-on-surface-variant mt-1 ml-11">Base: ₹${baseSalary.toLocaleString('en-IN')}</div></td><td class="px-6 py-4 text-center"><div class="inline-flex gap-2 text-xs flex-wrap justify-center">${payrollBadges}</div></td><td class="px-6 py-4 text-right font-medium text-on-surface">₹${earned.toLocaleString('en-IN', {maximumFractionDigits: 0})}</td><td class="px-6 py-4 text-right"><input type="number" min="0" value="${advance || ''}" placeholder="0" onblur="updateAdvance('${emp.id}', ${y}, ${m}, this.value)" class="w-24 border-outline-variant rounded text-sm px-2 py-1 text-right focus:ring-error focus:border-error"></td><td class="px-6 py-4 text-right font-black text-primary text-lg">₹${netPayable.toLocaleString('en-IN', {maximumFractionDigits: 0})}</td></tr>`;
             });
             tbody.innerHTML = html;
         }
