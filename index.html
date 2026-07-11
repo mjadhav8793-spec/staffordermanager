@@ -89,6 +89,7 @@
                 </div>
             </div>
             <nav class="flex-1 px-4 space-y-2 overflow-y-auto custom-scrollbar" id="desktop-nav">
+                <!-- Desktop has all 5 options -->
                 <button data-target="orders" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm bg-primary text-on-primary font-medium transition-colors"><span class="material-symbols-outlined text-[20px]">inventory_2</span> Main Orders</button>
                 <button data-target="attendance" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant active:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">calendar_today</span> Matrix</button>
                 <button data-target="payroll" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant active:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">payments</span> Payroll</button>
@@ -256,6 +257,26 @@
                         <div class="flex justify-end mb-4">
                             <button onclick="openWfhOrderForm()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">add</span> New WFH Order</button>
                         </div>
+                        
+                        <!-- 🛑 WFH ORDER SEARCH & FILTER UI 🛑 -->
+                        <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant mb-4 flex flex-col sm:flex-row gap-4 items-end shadow-sm">
+                            <div class="flex-1 w-full">
+                                <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Search WFH Orders</label>
+                                <div class="relative">
+                                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+                                    <input type="text" id="wfh-order-search-input" onkeyup="renderWfhOrders()" class="w-full border-outline-variant rounded-lg text-sm pl-9 pr-3 py-2 bg-white focus:ring-primary focus:border-primary" placeholder="Search by Employee, Order ID, or Details...">
+                                </div>
+                            </div>
+                            <div class="w-full sm:w-56">
+                                <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Time Period</label>
+                                <select id="wfh-order-month-filter" onchange="renderWfhOrders()" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-white focus:ring-primary focus:border-primary font-medium text-on-surface">
+                                    <option value="all">All Orders (Overall)</option>
+                                    <option value="this_month">This Month</option>
+                                    <option value="last_month">Last Month</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm">
                             <div class="overflow-x-auto custom-scrollbar">
                                 <table class="w-full text-left border-collapse min-w-[850px]">
@@ -368,27 +389,27 @@
             </main>
         </div>
         
-        <!-- 🛑 FIX: 5-BUTTON MOBILE NAV (pb-8 applied to lift above Android System Navigation) 🛑 -->
-        <nav class="md:hidden fixed bottom-0 left-0 w-full z-[9999] bg-white border-t border-outline-variant flex justify-around items-start pt-2 pb-8 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]" id="mobile-nav">
-            <button data-target="orders" class="nav-btn active flex flex-col items-center justify-center text-primary transition-colors w-1/5">
+        <!-- 🛑 5-BUTTON MOBILE NAV (pb-8 applied to lift above Android System Navigation) 🛑 -->
+        <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-between items-center px-1 pt-2 pb-8 bg-surface border-t border-outline-variant shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]" id="mobile-nav">
+            <button data-target="orders" class="nav-btn active flex flex-col items-center justify-center py-2 text-primary transition-colors w-1/5">
                 <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
-                <span class="text-[10px] mt-1 font-medium">Orders</span>
+                <span class="text-[9px] mt-1 font-medium">Orders</span>
             </button>
-            <button data-target="attendance" class="nav-btn flex flex-col items-center justify-center text-on-surface-variant transition-colors w-1/5">
+            <button data-target="attendance" class="nav-btn flex flex-col items-center justify-center py-2 text-on-surface-variant transition-colors w-1/5">
                 <span class="material-symbols-outlined text-[24px]">calendar_today</span>
-                <span class="text-[10px] mt-1 font-medium">Matrix</span>
+                <span class="text-[9px] mt-1 font-medium">Matrix</span>
             </button>
-            <button data-target="payroll" class="nav-btn flex flex-col items-center justify-center text-on-surface-variant transition-colors w-1/5">
+            <button data-target="payroll" class="nav-btn flex flex-col items-center justify-center py-2 text-on-surface-variant transition-colors w-1/5">
                 <span class="material-symbols-outlined text-[24px]">payments</span>
-                <span class="text-[10px] mt-1 font-medium">Payroll</span>
+                <span class="text-[9px] mt-1 font-medium">Payroll</span>
             </button>
-            <button data-target="wfh" class="nav-btn flex flex-col items-center justify-center text-on-surface-variant transition-colors w-1/5">
+            <button data-target="wfh" class="nav-btn flex flex-col items-center justify-center py-2 text-on-surface-variant transition-colors w-1/5">
                 <span class="material-symbols-outlined text-[24px]">home_work</span>
-                <span class="text-[10px] mt-1 font-medium">WFH</span>
+                <span class="text-[9px] mt-1 font-medium">WFH</span>
             </button>
-            <button data-target="staff" class="nav-btn flex flex-col items-center justify-center text-on-surface-variant transition-colors w-1/5">
+            <button data-target="staff" class="nav-btn flex flex-col items-center justify-center py-2 text-on-surface-variant transition-colors w-1/5">
                 <span class="material-symbols-outlined text-[24px]">groups</span>
-                <span class="text-[10px] mt-1 font-medium">Staff</span>
+                <span class="text-[9px] mt-1 font-medium">Staff</span>
             </button>
         </nav>
     </div>
@@ -443,7 +464,6 @@
 
     <!-- Logic & Database -->
     <script>
-        // 🛑 YOUR PROVIDED FIREBASE KEYS 🛑
         const firebaseConfig = {
             apiKey: "AIzaSyAnwhEjJw7NiaCk4ARuP4pmYwAwQWr1WiQ",
             authDomain: "factory-admin-fc1cc.firebaseapp.com",
@@ -507,11 +527,10 @@
 
         mainContent.addEventListener('touchmove', (e) => {
             const touchCurrentY = e.touches[0].clientY;
-            // If the user is at the top of the content and swipes DOWN, intercept and stop it.
             if (mainContent.scrollTop <= 0 && touchCurrentY > touchStartY) {
                 e.preventDefault(); 
             }
-        }, { passive: false }); // Must be false to intercept native behavior
+        }, { passive: false }); 
 
         // NAVIGATION LOGIC
         document.querySelectorAll('.nav-btn').forEach(btn => {
@@ -598,9 +617,50 @@
 
         function removeWfhEmployee(id) { if(confirm('Remove this WFH employee?')) { wfhEmployees = wfhEmployees.filter(e => e.id !== id); saveToDatabase(); } }
 
+        // 🛑 WFH ORDERS RENDER WITH LIVE SEARCH & FILTERING 🛑
         function renderWfhOrders() {
-            if (wfhOrders.length === 0) { document.getElementById('wfh-orders-table-body').innerHTML = `<tr><td colspan="7" class="text-center py-8 text-on-surface-variant">No WFH Orders added yet.</td></tr>`; return; }
-            document.getElementById('wfh-orders-table-body').innerHTML = wfhOrders.map((order) => {
+            const searchInput = document.getElementById('wfh-order-search-input');
+            const searchText = (searchInput ? searchInput.value : '').toLowerCase();
+            const monthDropdown = document.getElementById('wfh-order-month-filter');
+            const monthFilter = monthDropdown ? monthDropdown.value : 'all';
+
+            function filterOrderCriteria(order) {
+                const empStr = (order.assignedEmployee || '').toString().toLowerCase();
+                const idStr = (order.id || '').toString().toLowerCase();
+                const prodStr = (order.products || '').toString().toLowerCase();
+                const matchSearch = empStr.includes(searchText) || idStr.includes(searchText) || prodStr.includes(searchText);
+                
+                let matchDate = true;
+                if (monthFilter !== 'all') {
+                    const oDate = new Date(order.date);
+                    if (!isNaN(oDate.getTime())) {
+                        const today = new Date();
+                        const oMonth = oDate.getMonth();
+                        const oYear = oDate.getFullYear();
+                        const tMonth = today.getMonth();
+                        const tYear = today.getFullYear();
+
+                        if (monthFilter === 'this_month') {
+                            matchDate = (oMonth === tMonth && oYear === tYear);
+                        } else if (monthFilter === 'last_month') {
+                            let lMonth = tMonth - 1;
+                            let lYear = tYear;
+                            if (lMonth < 0) { lMonth = 11; lYear--; }
+                            matchDate = (oMonth === lMonth && oYear === lYear);
+                        }
+                    }
+                }
+                return matchSearch && matchDate;
+            }
+
+            const filteredOrders = wfhOrders.filter(filterOrderCriteria);
+
+            if (filteredOrders.length === 0) { 
+                document.getElementById('wfh-orders-table-body').innerHTML = `<tr><td colspan="7" class="text-center py-8 text-on-surface-variant">No WFH Orders found.</td></tr>`; 
+                return; 
+            }
+            
+            document.getElementById('wfh-orders-table-body').innerHTML = filteredOrders.map((order) => {
                 const sc = order.status === 'Processing' ? 'bg-primary-container text-primary bg-opacity-20' : 'bg-secondary-container text-on-secondary-container';
                 const total = parseFloat(order.totalBill) || 0;
                 const paid = parseFloat(order.advancePaid) || 0;
