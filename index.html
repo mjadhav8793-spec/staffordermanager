@@ -368,7 +368,7 @@
                     </div>
                 </div>
 
-                <!-- PAYMENT HISTORY (Replaces Payroll) -->
+                <!-- PAYMENT HISTORY -->
                 <div id="view-payments" class="view-section">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                         <h2 class="text-2xl font-bold text-on-surface">Payment History</h2>
@@ -707,7 +707,7 @@
         </div>
     </div>
 
-    <!-- NEW Add Payment Modal -->
+    <!-- Add/Edit Payment Modal -->
     <div id="add-payment-modal"
         class="fixed inset-0 bg-on-surface bg-opacity-50 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-surface border border-outline-variant rounded-xl shadow-xl w-full max-w-md overflow-hidden">
@@ -764,7 +764,7 @@
 
         let employees = [], attendanceData = {}, advancesData = {}, wholesaleOrders = [], rawOrders = [];
         let wfhEmployees = [], wfhOrders = [];
-        let paymentHistory = []; // New array for Payment History
+        let paymentHistory = [];
         
         const liveToday = new Date();
         let currentDate = new Date(liveToday.getFullYear(), liveToday.getMonth(), 1); 
@@ -772,7 +772,7 @@
         
         const statusCycle = [null, 'P', 'H', 'A', 'O'];
         
-        let editingEmployeeId = null, editingOrderId = null, editingOrderType = null, editingWfhEmployeeId = null, editingWfhOrderId = null;
+        let editingEmployeeId = null, editingOrderId = null, editingOrderType = null, editingWfhEmployeeId = null, editingWfhOrderId = null, editingPaymentId = null;
 
         // REAL-TIME SYNC
         db.ref('factoryData').on('value', (snapshot) => {
@@ -785,7 +785,7 @@
                 rawOrders = data.rawOrders || [];
                 wfhEmployees = data.wfhEmployees || [];
                 wfhOrders = data.wfhOrders || [];
-                paymentHistory = data.paymentHistory || []; // Sync payments
+                paymentHistory = data.paymentHistory || []; 
             }
             renderAttendanceMatrix(); 
             renderOrders(); 
@@ -903,7 +903,6 @@
 
         function removeWfhEmployee(id) { if(confirm('Remove this WFH employee?')) { wfhEmployees = wfhEmployees.filter(e => e.id !== id); saveToDatabase(); } }
 
-        // 🛑 WFH ORDERS RENDER WITH LIVE SEARCH & FILTERING 🛑
         function renderWfhOrders() {
             const searchInput = document.getElementById('wfh-order-search-input');
             const searchText = (searchInput ? searchInput.value : '').toLowerCase();
@@ -1027,28 +1026,51 @@
             cancelWfhOrderEdit(); saveToDatabase(); 
         }
 
-        // ================= NEW PAYMENT HISTORY LOGIC =================
+        // ================= PAYMENT HISTORY LOGIC =================
         function openAddPaymentModal() {
+            editingPaymentId = null;
+            document.getElementById('payment-modal-title').textContent = "Add Payment History";
             document.getElementById('add-payment-form').reset();
             document.getElementById('pay-date').value = new Date().toISOString().split('T')[0];
             document.getElementById('add-payment-modal').classList.remove('hidden');
         }
 
         function closeAddPaymentModal() {
+            editingPaymentId = null;
             document.getElementById('add-payment-modal').classList.add('hidden');
+            document.getElementById('add-payment-form').reset();
+        }
+
+        function editPayment(id) {
+            const pay = paymentHistory.find(p => p.id === id);
+            if (pay) {
+                editingPaymentId = id;
+                document.getElementById('payment-modal-title').textContent = "Edit Payment History";
+                document.getElementById('pay-date').value = parseDateToYMD(pay.date);
+                document.getElementById('pay-type').value = pay.type;
+                document.getElementById('pay-amount').value = pay.amount;
+                document.getElementById('pay-reference').value = pay.reference;
+                document.getElementById('add-payment-modal').classList.remove('hidden');
+            }
         }
 
         function submitPayment(e) {
             e.preventDefault();
-            const p = {
-                id: 'PAY-' + Math.floor(Math.random() * 100000).toString().padStart(5, '0'),
-                date: document.getElementById('pay-date').value,
-                type: document.getElementById('pay-type').value,
-                amount: parseFloat(document.getElementById('pay-amount').value) || 0,
-                reference: document.getElementById('pay-reference').value
-            };
+            const date = document.getElementById('pay-date').value;
+            const type = document.getElementById('pay-type').value;
+            const amount = parseFloat(document.getElementById('pay-amount').value) || 0;
+            const reference = document.getElementById('pay-reference').value;
+
+            if (editingPaymentId !== null) {
+                const idx = paymentHistory.findIndex(p => p.id === editingPaymentId);
+                if (idx > -1) {
+                    paymentHistory[idx] = { ...paymentHistory[idx], date, type, amount, reference };
+                }
+            } else {
+                const id = 'PAY-' + Math.floor(Math.random() * 100000).toString().padStart(5, '0');
+                paymentHistory.unshift({ id, date, type, amount, reference });
+            }
             
-            paymentHistory.unshift(p); // Add to beginning of array
             closeAddPaymentModal();
             saveToDatabase();
         }
@@ -1097,6 +1119,7 @@
                     </td>
                     <td class="px-6 py-4 text-right font-black text-primary text-lg">₹${pay.amount.toLocaleString('en-IN')}</td>
                     <td class="px-6 py-4 text-right whitespace-nowrap">
+                        <button onclick="editPayment('${pay.id}')" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button>
                         <button onclick="deletePayment('${pay.id}')" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button>
                     </td>
                 </tr>`;
