@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
-    <title>STAFFORDERMANAGER</title>
+    <title>SOM</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -202,7 +202,7 @@
                         <div class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center shadow-sm shrink-0">
                             <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0, 'wght' 500;">precision_manufacturing</span>
                         </div>
-                        <h1 class="text-xl font-bold tracking-tight text-on-surface truncate">STAFFORDER</h1>
+                        <h1 class="text-xl font-bold tracking-tight text-on-surface truncate">SOM</h1>
                     </div>
                     <!-- Desktop Theme Toggle -->
                     <button onclick="toggleTheme()" class="p-2 bg-surface-container rounded-full text-on-surface-variant flex items-center justify-center shadow-sm active:scale-95 transition-all">
@@ -228,7 +228,7 @@
                     <div class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center shrink-0">
                         <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0, 'wght' 500;">precision_manufacturing</span>
                     </div>
-                    <h1 class="text-lg font-bold tracking-tight text-on-surface truncate uppercase tracking-wider">FACTORY</h1>
+                    <h1 class="text-lg font-bold tracking-tight text-on-surface truncate uppercase tracking-wider">SOM</h1>
                 </div>
                 <!-- Mobile Theme Toggle -->
                 <button onclick="toggleTheme()" class="p-2 bg-surface-container rounded-full text-on-surface-variant flex items-center justify-center shadow-sm active:scale-95 transition-all">
@@ -245,6 +245,7 @@
                         <button onclick="openOrderForm()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 transition-all"><span class="material-symbols-outlined text-[18px]">add</span> New Main Order</button>
                     </div>
 
+                    <!-- PASSBOOK STYLE FILTERS -->
                     <div class="bg-surface-container p-4 rounded-xl border border-outline-variant mb-6 flex flex-col sm:flex-row gap-4 items-end">
                         <div class="flex-1 w-full">
                             <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Search Orders</label>
@@ -1242,14 +1243,14 @@
             let head = '<th class="w-48 min-w-[180px] bg-surface-bright">EMPLOYEE</th>';
             for(let i = 1; i <= daysInMonth; i++) head += `<th class="w-10 min-w-[40px] text-xs font-medium text-outline border-b border-outline-variant">${i}</th>`;
             document.getElementById('att-table-head').innerHTML = head;
-            const combinedStaff = [...employees, ...wfhEmployees];
-            if (combinedStaff.length === 0) { document.getElementById('att-table-body').innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center py-16 text-on-surface-variant text-sm">No employees found.</td></tr>`; return; }
+            
+            // FIX: Uses strictly regular employees, removing WFH from Matrix
+            const staffList = [...employees];
+            
+            if (staffList.length === 0) { document.getElementById('att-table-body').innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center py-16 text-on-surface-variant text-sm">No employees found.</td></tr>`; return; }
 
-            document.getElementById('att-table-body').innerHTML = combinedStaff.map(emp => {
-                const isWFH = emp.id.includes('WFH');
-                const labelColor = isWFH ? 'text-primary' : 'text-on-surface';
-                const labelIcon = isWFH ? `<span class="material-symbols-outlined text-[14px] mr-1" title="WFH Employee">home_work</span>` : '';
-                let r = `<tr class="hover:bg-surface-container transition-colors"><td class="font-medium ${labelColor} truncate flex items-center border-b border-outline-variant" title="${emp.name}">${labelIcon}${emp.name}</td>`;
+            document.getElementById('att-table-body').innerHTML = staffList.map(emp => {
+                let r = `<tr class="hover:bg-surface-container transition-colors"><td class="font-medium text-on-surface truncate flex items-center border-b border-outline-variant" title="${emp.name}">${emp.name}</td>`;
                 for(let i = 1; i <= daysInMonth; i++) r += `<td class="att-cell-interactive p-1 border-b border-outline-variant" onclick="cycleStatus('${emp.id}', ${y}, ${m}, ${i})">${renderCellContent(getVisualAttStatus(emp.id, y, m, i))}</td>`;
                 return r + `</tr>`;
             }).join('');
@@ -1277,14 +1278,16 @@
             const m = payrollDate.getMonth();
             const daysInMonth = new Date(y, m + 1, 0).getDate();
             displayEl.textContent = `${monthNames[m]} ${y}`;
-            const combinedStaff = [...employees, ...wfhEmployees];
+            
+            // FIX: Uses strictly regular employees, removing WFH from Payroll
+            const staffList = [...employees];
             const tbody = document.getElementById('payroll-table-body');
             if (!tbody) return;
             
-            if (combinedStaff.length === 0) { tbody.innerHTML = `<tr><td colspan="5" class="text-center py-8 text-on-surface-variant">No employees to calculate.</td></tr>`; return; }
+            if (staffList.length === 0) { tbody.innerHTML = `<tr><td colspan="5" class="text-center py-8 text-on-surface-variant">No employees to calculate.</td></tr>`; return; }
 
             let html = '';
-            combinedStaff.forEach(emp => {
+            staffList.forEach(emp => {
                 let p = 0, w = 0, h = 0, a = 0, o = 0;
                 for(let i = 1; i <= daysInMonth; i++) {
                     const status = getRawAttStatus(emp.id, y, m, i);
@@ -1295,8 +1298,8 @@
                 const earned = ((p + w + o) * dailyRate) + (h * (dailyRate / 2));
                 let advance = 0; if (advancesData[y] && advancesData[y][m] && advancesData[y][m][emp.id]) advance = advancesData[y][m][emp.id];
                 const netPayable = earned - advance;
-                const isWFH = emp.id.includes('WFH');
-                const iconColor = isWFH ? 'bg-primary text-on-primary' : 'bg-primary-container text-on-primary-container';
+                
+                const iconColor = 'bg-primary-container text-on-primary-container';
                 
                 let payrollBadges = `<span class="px-2 py-1 bg-[var(--badge-green-bg)] text-[var(--badge-green-txt)] rounded font-bold" title="Present">${p} P</span>`;
                 if (o > 0) payrollBadges += `<span class="px-2 py-1 bg-[var(--badge-indigo-bg)] text-[var(--badge-indigo-txt)] rounded font-bold ml-1" title="Holiday">${o} O</span>`;
