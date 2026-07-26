@@ -257,16 +257,23 @@
                         <div class="w-full sm:w-56">
                             <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Time Period</label>
                             <select id="order-month-filter" onchange="renderOrders()" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
-                                <option value="all">All Orders (Overall)</option>
+                                <option value="all">Overall</option>
                                 <option value="this_month">This Month</option>
+                                <option value="this_year">This Year</option>
                                 <option value="last_month">Last Month</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="flex gap-3 mb-6 overflow-x-auto custom-scrollbar pb-1">
-                        <button id="tab-wholesale" onclick="switchOrderTab('wholesale')" class="order-tab active bg-primary text-on-primary px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">Wholesale Orders</button>
-                        <button id="tab-raw" onclick="switchOrderTab('raw')" class="order-tab bg-surface-container border border-outline-variant text-on-surface-variant active:bg-surface-container-low px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">Raw Material Orders</button>
+                    <!-- TABS AND NET BILL BUTTON -->
+                    <div class="flex flex-col sm:flex-row gap-3 mb-6 sm:items-center sm:justify-between">
+                        <div class="flex gap-3 overflow-x-auto custom-scrollbar pb-1">
+                            <button id="tab-wholesale" onclick="switchOrderTab('wholesale')" class="order-tab active bg-primary text-on-primary px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">Wholesale Orders</button>
+                            <button id="tab-raw" onclick="switchOrderTab('raw')" class="order-tab bg-surface-container border border-outline-variant text-on-surface-variant active:bg-surface-container-low px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">Raw Material Orders</button>
+                        </div>
+                        <button id="btn-net-bill" onclick="openNetBillModal()" class="flex bg-surface-container border border-outline-variant text-primary px-4 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-colors items-center gap-2 active:scale-95 shadow-sm">
+                            <span class="material-symbols-outlined text-[18px]">receipt_long</span> Client Net Bills
+                        </button>
                     </div>
 
                     <div id="table-wholesale" class="order-table-container bg-surface-container border border-outline-variant rounded-xl overflow-hidden block">
@@ -408,8 +415,9 @@
                             <div class="w-full sm:w-56">
                                 <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Time Period</label>
                                 <select id="wfh-order-month-filter" onchange="renderWfhOrders()" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
-                                    <option value="all">All Orders (Overall)</option>
+                                    <option value="all">Overall</option>
                                     <option value="this_month">This Month</option>
+                                    <option value="this_year">This Year</option>
                                     <option value="last_month">Last Month</option>
                                 </select>
                             </div>
@@ -672,6 +680,40 @@
         </div>
     </div>
 
+    <!-- 🛑 CLIENT NET BILL MODAL 🛑 -->
+    <div id="net-bill-modal" class="fixed inset-0 bg-black bg-opacity-70 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-surface-container border border-outline-variant rounded-xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="px-6 py-4 border-b border-outline-variant flex flex-col gap-4 bg-surface-container shrink-0">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-bold text-on-surface">Client Net Bills</h3>
+                    <button onclick="closeNetBillModal()" class="text-on-surface-variant active:text-error transition-colors"><span class="material-symbols-outlined">close</span></button>
+                </div>
+                <div class="w-full sm:w-64">
+                    <select id="net-bill-period-filter" onchange="renderNetBillTable()" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
+                        <option value="overall">Overall</option>
+                        <option value="this_month">Monthly (This Month)</option>
+                        <option value="this_year">Yearly (This Year)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="p-0 overflow-y-auto custom-scrollbar flex-1 bg-surface-container-lowest">
+                <table class="w-full text-left border-collapse">
+                    <thead class="sticky top-0 bg-surface-container-low z-10 shadow-sm">
+                        <tr class="text-xs text-on-surface-variant uppercase tracking-wider">
+                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Client Name</th>
+                            <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Billed (₹)</th>
+                            <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Paid (₹)</th>
+                            <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Net Due (₹)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="net-bill-table-body" class="divide-y divide-outline-variant text-sm">
+                        <!-- Content injected via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
     <!-- Logic & Database -->
     <script>
         // 🛑 THEME TOGGLE LOGIC 🛑
@@ -766,7 +808,6 @@
 
         mainContent.addEventListener('touchmove', (e) => {
             const touchCurrentY = e.touches[0].clientY;
-            // If the user is at the top of the content and swipes DOWN, intercept and stop it.
             if (mainContent.scrollTop <= 0 && touchCurrentY > touchStartY) {
                 e.preventDefault(); 
             }
@@ -882,6 +923,8 @@
 
                         if (monthFilter === 'this_month') {
                             matchDate = (oMonth === tMonth && oYear === tYear);
+                        } else if (monthFilter === 'this_year') {
+                            matchDate = (oYear === tYear);
                         } else if (monthFilter === 'last_month') {
                             let lMonth = tMonth - 1;
                             let lYear = tYear;
@@ -1088,6 +1131,85 @@
             if(activeBtn) { activeBtn.classList.remove('bg-surface-container', 'text-on-surface-variant'); activeBtn.classList.add('bg-primary', 'text-on-primary'); }
             document.querySelectorAll('.order-table-container').forEach(el => { el.classList.remove('block'); el.classList.add('hidden'); });
             if(document.getElementById(`table-${tabId}`)) { document.getElementById(`table-${tabId}`).classList.remove('hidden'); document.getElementById(`table-${tabId}`).classList.add('block'); }
+            
+            const netBillBtn = document.getElementById('btn-net-bill');
+            if (netBillBtn) {
+                if (tabId === 'wholesale') {
+                    netBillBtn.classList.remove('hidden');
+                    netBillBtn.classList.add('flex');
+                } else {
+                    netBillBtn.classList.remove('flex');
+                    netBillBtn.classList.add('hidden');
+                }
+            }
+        }
+
+        // 🛑 OPEN CLIENT NET BILL MODAL WITH GROUPING 🛑
+        function openNetBillModal() {
+            document.getElementById('net-bill-period-filter').value = 'overall';
+            renderNetBillTable();
+            document.getElementById('net-bill-modal').classList.remove('hidden');
+        }
+
+        function closeNetBillModal() {
+            document.getElementById('net-bill-modal').classList.add('hidden');
+        }
+
+        function renderNetBillTable() {
+            const filter = document.getElementById('net-bill-period-filter').value;
+            let filteredWholesale = wholesaleOrders;
+
+            if (filter !== 'overall') {
+                filteredWholesale = wholesaleOrders.filter(order => {
+                    const oDate = new Date(order.date);
+                    if (!isNaN(oDate.getTime())) {
+                        const today = new Date();
+                        const oMonth = oDate.getMonth();
+                        const oYear = oDate.getFullYear();
+                        const tMonth = today.getMonth();
+                        const tYear = today.getFullYear();
+
+                        if (filter === 'this_month') {
+                            return (oMonth === tMonth && oYear === tYear);
+                        } else if (filter === 'this_year') {
+                            return (oYear === tYear);
+                        }
+                    }
+                    return false; 
+                });
+            }
+
+            const clientTotals = {};
+            filteredWholesale.forEach(order => {
+                let rawName = (order.name || 'Unknown').trim();
+                let clientKey = rawName.toLowerCase();
+                
+                if (!clientTotals[clientKey]) {
+                    let cleanName = rawName.charAt(0).toUpperCase() + rawName.slice(1);
+                    clientTotals[clientKey] = { displayName: cleanName, total: 0, paid: 0, due: 0 };
+                }
+                const total = parseFloat(order.totalBill) || 0;
+                const paid = parseFloat(order.advancePaid) || 0;
+                clientTotals[clientKey].total += total;
+                clientTotals[clientKey].paid += paid;
+                clientTotals[clientKey].due += (total - paid);
+            });
+
+            const tbody = document.getElementById('net-bill-table-body');
+            if (Object.keys(clientTotals).length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="text-center py-8 text-on-surface-variant">No wholesale data for this period.</td></tr>`;
+            } else {
+                let html = '';
+                for (const [clientKey, data] of Object.entries(clientTotals)) {
+                    html += `<tr class="hover:bg-surface-container transition-colors">
+                        <td class="px-6 py-4 font-bold text-primary border-b border-outline-variant">${data.displayName}</td>
+                        <td class="px-6 py-4 text-right border-b border-outline-variant">₹${data.total.toLocaleString('en-IN')}</td>
+                        <td class="px-6 py-4 text-right text-[var(--badge-green-txt)] border-b border-outline-variant">₹${data.paid.toLocaleString('en-IN')}</td>
+                        <td class="px-6 py-4 text-right font-black text-error border-b border-outline-variant">₹${data.due.toLocaleString('en-IN')}</td>
+                    </tr>`;
+                }
+                tbody.innerHTML = html;
+            }
         }
 
         function getOrderList(type) { return type === 'wholesale' ? wholesaleOrders : rawOrders; }
@@ -1115,6 +1237,7 @@
                         const tMonth = today.getMonth();
                         const tYear = today.getFullYear();
                         if (monthFilter === 'this_month') matchDate = (oMonth === tMonth && oYear === tYear);
+                        else if (monthFilter === 'this_year') matchDate = (oYear === tYear);
                         else if (monthFilter === 'last_month') {
                             let lMonth = tMonth - 1, lYear = tYear;
                             if (lMonth < 0) { lMonth = 11; lYear--; }
