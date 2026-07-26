@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html class="dark" lang="en" style="color-scheme: dark;">
-
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
     <title>SOM</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-
+    
     <!-- FIREBASE SCRIPTS -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
@@ -50,7 +47,7 @@
             }
         }
     </script>
-
+    
     <script>
         // INIT THEME IMMEDIATELY TO PREVENT FLASH
         const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -89,21 +86,11 @@
             --primary-fixed-dim: #b4c5ff;
 
             /* Dynamic Badges (Light) */
-            --badge-green-bg: #6cf8bb;
-            --badge-green-txt: #00714d;
-            --badge-green-border: #00714d;
-            --badge-blue-bg: #dce2f7;
-            --badge-blue-txt: #004ac6;
-            --badge-blue-border: #004ac6;
-            --badge-yellow-bg: #fef08a;
-            --badge-yellow-txt: #854d0e;
-            --badge-yellow-border: #eab308;
-            --badge-red-bg: #ffdad6;
-            --badge-red-txt: #93000a;
-            --badge-red-border: #93000a;
-            --badge-indigo-bg: #e0e7ff;
-            --badge-indigo-txt: #3730a3;
-            --badge-indigo-border: #4f46e5;
+            --badge-green-bg: #6cf8bb; --badge-green-txt: #00714d; --badge-green-border: #00714d;
+            --badge-blue-bg: #dce2f7; --badge-blue-txt: #004ac6; --badge-blue-border: #004ac6;
+            --badge-yellow-bg: #fef08a; --badge-yellow-txt: #854d0e; --badge-yellow-border: #eab308;
+            --badge-red-bg: #ffdad6; --badge-red-txt: #93000a; --badge-red-border: #93000a;
+            --badge-indigo-bg: #e0e7ff; --badge-indigo-txt: #3730a3; --badge-indigo-border: #4f46e5;
         }
 
         /* 🛑 DARK MODE VARIABLES (NOTHING OS PITCH BLACK) 🛑 */
@@ -131,37 +118,24 @@
             --primary-fixed-dim: #27272a;
 
             /* Dynamic Badges (Dark) */
-            --badge-green-bg: #064e3b;
-            --badge-green-txt: #6ee7b7;
-            --badge-green-border: #10b981;
-            --badge-blue-bg: #1e3a8a;
-            --badge-blue-txt: #93c5fd;
-            --badge-blue-border: #3b82f6;
-            --badge-yellow-bg: #713f12;
-            --badge-yellow-txt: #fde047;
-            --badge-yellow-border: #eab308;
-            --badge-red-bg: #7f1d1d;
-            --badge-red-txt: #fca5a5;
-            --badge-red-border: #ef4444;
-            --badge-indigo-bg: #312e81;
-            --badge-indigo-txt: #c7d2fe;
-            --badge-indigo-border: #4f46e5;
+            --badge-green-bg: #064e3b; --badge-green-txt: #6ee7b7; --badge-green-border: #10b981;
+            --badge-blue-bg: #1e3a8a; --badge-blue-txt: #93c5fd; --badge-blue-border: #3b82f6;
+            --badge-yellow-bg: #713f12; --badge-yellow-txt: #fde047; --badge-yellow-border: #eab308;
+            --badge-red-bg: #7f1d1d; --badge-red-txt: #fca5a5; --badge-red-border: #ef4444;
+            --badge-indigo-bg: #312e81; --badge-indigo-txt: #c7d2fe; --badge-indigo-border: #4f46e5;
         }
 
         /* ANTI-REFRESH GLITCH LOCKDOWN */
-        html,
-        body {
-            overscroll-behavior: none !important;
+        html, body { 
+            overscroll-behavior: none !important; 
             -webkit-overflow-scrolling: none !important;
-            height: 100%;
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
+            height: 100%; width: 100%; 
+            margin: 0; padding: 0; 
+            overflow: hidden; 
             background-color: var(--surface);
             color: var(--on-surface);
         }
-
+        
         #main-content {
             height: 100vh;
             overflow-y: auto;
@@ -169,221 +143,61 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL'0, 'wght'400, 'GRAD'0, 'opsz'24;
-            display: inline-block;
-            vertical-align: middle;
-        }
-
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; display: inline-block; vertical-align: middle; }
+        
         /* Themed Scrollbar */
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: var(--surface);
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: var(--outline-variant);
-            border-radius: 10px;
-        }
-
-        .view-section {
-            display: none;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        .view-section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(5px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: var(--surface); }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--outline-variant); border-radius: 10px; }
+        
+        .view-section { display: none; animation: fadeIn 0.3s ease-in-out; }
+        .view-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Themed Table Overrides */
-        .att-table-wrapper {
-            overflow-x: auto;
-            border-radius: 0.5rem;
-            border: 1px solid var(--outline-variant);
-            background: var(--surface-container-lowest);
-        }
-
-        .att-table {
-            border-collapse: separate;
-            border-spacing: 0;
-            min-width: 100%;
-        }
-
-        .att-table th,
-        .att-table td {
-            border-right: 1px solid var(--outline-variant);
-            border-bottom: 1px solid var(--outline-variant);
-            padding: 8px 12px;
-            text-align: center;
-            height: 48px;
-        }
-
-        .att-table th:last-child,
-        .att-table td:last-child {
-            border-right: none;
-        }
-
-        .att-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .att-cell-interactive {
-            cursor: pointer;
-            user-select: none;
-            transition: background 0.1s;
-        }
-
-        .att-cell-interactive:hover {
-            background-color: var(--surface-container);
-        }
-
-        .att-table th:first-child,
-        .att-table td:first-child {
-            position: sticky;
-            left: 0;
-            z-index: 10;
-            background-color: var(--surface-container-lowest);
-            text-align: left;
-            font-weight: 500;
-            border-right: 2px solid var(--outline-variant);
-            min-width: 180px;
-        }
-
-        .att-table th:first-child {
-            z-index: 11;
-            background-color: var(--surface-container-low);
-        }
-
+        .att-table-wrapper { overflow-x: auto; border-radius: 0.5rem; border: 1px solid var(--outline-variant); background: var(--surface-container-lowest); }
+        .att-table { border-collapse: separate; border-spacing: 0; min-width: 100%; }
+        .att-table th, .att-table td { border-right: 1px solid var(--outline-variant); border-bottom: 1px solid var(--outline-variant); padding: 8px 12px; text-align: center; height: 48px; }
+        .att-table th:last-child, .att-table td:last-child { border-right: none; }
+        .att-table tr:last-child td { border-bottom: none; }
+        .att-cell-interactive { cursor: pointer; user-select: none; transition: background 0.1s; }
+        .att-cell-interactive:hover { background-color: var(--surface-container); }
+        .att-table th:first-child, .att-table td:first-child { position: sticky; left: 0; z-index: 10; background-color: var(--surface-container-lowest); text-align: left; font-weight: 500; border-right: 2px solid var(--outline-variant); min-width: 180px; }
+        .att-table th:first-child { z-index: 11; background-color: var(--surface-container-low); }
+        
         /* Matrix Badges */
-        .status-P {
-            background-color: var(--badge-green-bg);
-            color: var(--badge-green-txt);
-            font-weight: bold;
-            border-radius: 4px;
-        }
-
-        .status-W {
-            background-color: var(--badge-blue-bg);
-            color: var(--badge-blue-txt);
-            font-weight: bold;
-            border-radius: 4px;
-        }
-
-        .status-H {
-            background-color: var(--badge-yellow-bg);
-            color: var(--badge-yellow-txt);
-            font-weight: bold;
-            border-radius: 4px;
-        }
-
-        .status-A {
-            background-color: var(--badge-red-bg);
-            color: var(--badge-red-txt);
-            font-weight: bold;
-            border-radius: 4px;
-        }
-
-        .status-O {
-            background-color: var(--badge-indigo-bg);
-            color: var(--badge-indigo-txt);
-            font-weight: bold;
-            border-radius: 4px;
-        }
-
+        .status-P { background-color: var(--badge-green-bg); color: var(--badge-green-txt); font-weight: bold; border-radius: 4px; }
+        .status-W { background-color: var(--badge-blue-bg); color: var(--badge-blue-txt); font-weight: bold; border-radius: 4px; }
+        .status-H { background-color: var(--badge-yellow-bg); color: var(--badge-yellow-txt); font-weight: bold; border-radius: 4px; }
+        .status-A { background-color: var(--badge-red-bg); color: var(--badge-red-txt); font-weight: bold; border-radius: 4px; }
+        .status-O { background-color: var(--badge-indigo-bg); color: var(--badge-indigo-txt); font-weight: bold; border-radius: 4px; }
+        
         /* Payment & Order Type Badges */
-        .type-Wholesale {
-            background-color: var(--badge-blue-bg);
-            color: var(--badge-blue-txt);
-        }
-
-        .type-Raw {
-            background-color: var(--badge-red-bg);
-            color: var(--badge-red-txt);
-        }
-
-        .type-WFH {
-            background-color: var(--badge-green-bg);
-            color: var(--badge-green-txt);
-        }
+        .type-Wholesale { background-color: var(--badge-blue-bg); color: var(--badge-blue-txt); }
+        .type-Raw { background-color: var(--badge-red-bg); color: var(--badge-red-txt); }
+        .type-WFH { background-color: var(--badge-green-bg); color: var(--badge-green-txt); }
 
         /* Order Status Colored Badges */
-        .status-Processing {
-            background-color: var(--badge-indigo-bg);
-            color: var(--badge-indigo-txt);
-            border: 1px solid var(--badge-indigo-border);
-        }
-
-        .status-Fulfilled {
-            background-color: var(--badge-green-bg);
-            color: var(--badge-green-txt);
-            border: 1px solid var(--badge-green-border);
-        }
-
-        .status-In-Transit {
-            background-color: var(--badge-yellow-bg);
-            color: var(--badge-yellow-txt);
-            border: 1px solid var(--badge-yellow-border);
-        }
-
-        .status-Received {
-            background-color: var(--badge-green-bg);
-            color: var(--badge-green-txt);
-            border: 1px solid var(--badge-green-border);
-        }
-
+        .status-Processing { background-color: var(--badge-indigo-bg); color: var(--badge-indigo-txt); border: 1px solid var(--badge-indigo-border); }
+        .status-Fulfilled { background-color: var(--badge-green-bg); color: var(--badge-green-txt); border: 1px solid var(--badge-green-border); }
+        .status-In-Transit { background-color: var(--badge-yellow-bg); color: var(--badge-yellow-txt); border: 1px solid var(--badge-yellow-border); }
+        .status-Received { background-color: var(--badge-green-bg); color: var(--badge-green-txt); border: 1px solid var(--badge-green-border); }
+        
         /* Staff Status Colored Badges */
-        .status-Active {
-            background-color: var(--badge-green-bg);
-            color: var(--badge-green-txt);
-            border: 1px solid var(--badge-green-border);
-        }
+        .status-Active { background-color: var(--badge-green-bg); color: var(--badge-green-txt); border: 1px solid var(--badge-green-border); }
+        .status-Inactive { background-color: var(--badge-red-bg); color: var(--badge-red-txt); border: 1px solid var(--badge-red-border); }
 
-        .status-Inactive {
-            background-color: var(--badge-red-bg);
-            color: var(--badge-red-txt);
-            border: 1px solid var(--badge-red-border);
-        }
-
-        .nav-active {
-            color: var(--primary) !important;
-        }
+        .nav-active { color: var(--primary) !important; }
 
         /* Login Portal Styles */
         #login-portal {
-            position: fixed;
-            inset: 0;
-            z-index: 99999;
-            background-color: var(--surface);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            position: fixed; inset: 0; z-index: 99999; background-color: var(--surface);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
             transition: opacity 0.3s;
         }
     </style>
 </head>
-
 <body class="bg-surface text-on-surface">
 
     <!-- 🛑 LOGIN PORTAL 🛑 -->
@@ -393,7 +207,7 @@
         </div>
         <h1 class="text-3xl font-black tracking-tight text-on-surface mb-2">SOM Workspace</h1>
         <p class="text-on-surface-variant text-sm mb-10 text-center px-6">Log in to access your secure factory data.</p>
-
+        
         <button onclick="signInWithGoogle()" class="flex items-center gap-3 bg-surface-container border border-outline-variant hover:bg-surface-container-low transition-colors px-6 py-3 rounded-full shadow-sm font-medium text-on-surface active:scale-95">
             <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/><path fill="none" d="M1 1h22v22H1z"/></svg>
             Sign in with Google
@@ -401,16 +215,14 @@
     </div>
 
     <!-- 🛑 MAIN APP (Hidden until logged in) 🛑 -->
-    <div id="app-container"
-        class="flex h-screen w-full flex-col md:flex-row hidden opacity-0 transition-opacity duration-500">
-
+    <div id="app-container" class="flex h-screen w-full flex-col md:flex-row hidden opacity-0 transition-opacity duration-500">
+        
         <!-- Desktop Sidebar -->
         <aside class="hidden md:flex flex-col w-72 bg-surface border-r border-outline-variant shrink-0 h-full z-20">
             <div class="p-6">
                 <div class="flex items-center justify-between mb-8">
                     <div class="flex items-center gap-2">
-                        <div
-                            class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center shadow-sm shrink-0">
+                        <div class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center shadow-sm shrink-0">
                             <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0, 'wght' 500;">precision_manufacturing</span>
                         </div>
                         <h1 class="text-xl font-bold tracking-tight text-on-surface truncate">SOM</h1>
@@ -437,16 +249,14 @@
 
         <!-- Main Workspace -->
         <div class="flex-1 flex flex-col h-full min-w-0 bg-surface-bright relative">
-
+            
             <!-- Mobile Header -->
-            <header
-                class="md:hidden flex items-center justify-between p-4 border-b border-outline-variant bg-surface z-10 shrink-0">
+            <header class="md:hidden flex items-center justify-between p-4 border-b border-outline-variant bg-surface z-10 shrink-0">
                 <div class="flex items-center gap-3">
                     <div class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center shrink-0">
                         <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0, 'wght' 500;">precision_manufacturing</span>
                     </div>
-                    <h1 class="text-lg font-bold tracking-tight text-on-surface truncate uppercase tracking-wider">SOM
-                    </h1>
+                    <h1 class="text-lg font-bold tracking-tight text-on-surface truncate uppercase tracking-wider">SOM</h1>
                 </div>
                 <div class="flex items-center gap-2">
                     <button onclick="toggleTheme()" class="p-2 bg-surface-container rounded-full text-on-surface-variant flex items-center justify-center shadow-sm active:scale-95 transition-all">
@@ -459,7 +269,7 @@
             </header>
 
             <main id="main-content" class="flex-1 p-4 md:p-8 pb-32 md:pb-8 relative">
-
+                
                 <!-- MAIN FACTORY ORDERS -->
                 <div id="view-orders" class="view-section active">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
@@ -468,8 +278,7 @@
                     </div>
 
                     <!-- PASSBOOK STYLE FILTERS -->
-                    <div
-                        class="bg-surface-container p-4 rounded-xl border border-outline-variant mb-6 flex flex-col sm:flex-row gap-4 items-end">
+                    <div class="bg-surface-container p-4 rounded-xl border border-outline-variant mb-6 flex flex-col sm:flex-row gap-4 items-end">
                         <div class="flex-1 w-full">
                             <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Search Orders</label>
                             <div class="relative">
@@ -499,54 +308,22 @@
                         </button>
                     </div>
 
-                    <div id="table-wholesale"
-                        class="order-table-container bg-surface-container border border-outline-variant rounded-xl overflow-hidden block">
+                    <div id="table-wholesale" class="order-table-container bg-surface-container border border-outline-variant rounded-xl overflow-hidden block">
                         <div class="overflow-x-auto custom-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[850px]">
                                 <thead>
-                                    <tr
-                                        class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
-                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">Order ID
-                                        </th>
-                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">Client</th>
-                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">Products
-                                        </th>
-                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">Financials
-                                            (₹)</th>
-                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">Status</th>
-                                        <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">
-                                            Date</th>
-                                        <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">
-                                            Actions</th>
-                                    </tr>
+                                    <tr class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider"><th class="px-6 py-4 font-semibold border-b border-outline-variant">Order ID</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Client</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Products</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Financials (₹)</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Status</th><th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Date</th><th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Actions</th></tr>
                                 </thead>
-                                <tbody id="wholesale-table-body" class="divide-y divide-outline-variant text-sm">
-                                </tbody>
+                                <tbody id="wholesale-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
                             </table>
                         </div>
                     </div>
 
-                    <div id="table-raw"
-                        class="order-table-container bg-surface-container border border-outline-variant rounded-xl overflow-hidden hidden">
+                    <div id="table-raw" class="order-table-container bg-surface-container border border-outline-variant rounded-xl overflow-hidden hidden">
                         <div class="overflow-x-auto custom-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[850px]">
                                 <thead>
-                                    <tr
-                                        class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
-                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">PO Number
-                                        </th>
-                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">Supplier
-                                        </th>
-                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">Material
-                                            Specs</th>
-                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">Financials
-                                            (₹)</th>
-                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">Status</th>
-                                        <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">
-                                            Date</th>
-                                        <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">
-                                            Actions</th>
-                                    </tr>
+                                    <tr class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider"><th class="px-6 py-4 font-semibold border-b border-outline-variant">PO Number</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Supplier</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Material Specs</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Financials (₹)</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Status</th><th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Date</th><th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Actions</th></tr>
                                 </thead>
                                 <tbody id="raw-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
                             </table>
@@ -558,10 +335,8 @@
                 <div id="view-attendance" class="view-section">
                     <div class="mb-6">
                         <div class="flex items-center gap-4">
-                            <h2 class="text-[32px] font-black tracking-tight text-on-surface leading-none"
-                                id="att-month-year-display"></h2>
-                            <div
-                                class="flex items-center bg-surface-container border border-outline-variant rounded-md overflow-hidden">
+                            <h2 class="text-[32px] font-black tracking-tight text-on-surface leading-none" id="att-month-year-display"></h2>
+                            <div class="flex items-center bg-surface-container border border-outline-variant rounded-md overflow-hidden">
                                 <button onclick="changeMonth(-1)" class="w-8 h-8 flex items-center justify-center active:bg-surface-container-low transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_left</span></button>
                                 <div class="w-px h-5 bg-outline-variant"></div>
                                 <button onclick="changeMonth(1)" class="w-8 h-8 flex items-center justify-center active:bg-surface-container-low transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_right</span></button>
@@ -569,26 +344,14 @@
                         </div>
                     </div>
                     <div class="flex flex-wrap items-center gap-6 mb-4 text-sm text-on-surface-variant">
-                        <div class="flex items-center gap-2">
-                            <div class="w-3 h-3 rounded-full bg-[var(--badge-green-bg)]"></div><span>P - Present</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <div class="w-3 h-3 rounded-full bg-[var(--badge-yellow-bg)]"></div>
-                            <span>H - Half-day</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <div class="w-3 h-3 rounded-full bg-[var(--badge-red-bg)]"></div><span>A - Absent</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <div class="w-3 h-3 rounded-full bg-[var(--badge-indigo-bg)]"></div><span>O - Holiday</span>
-                        </div>
+                        <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-[var(--badge-green-bg)]"></div><span>P - Present</span></div>
+                        <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-[var(--badge-yellow-bg)]"></div><span>H - Half-day</span></div>
+                        <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-[var(--badge-red-bg)]"></div><span>A - Absent</span></div>
+                        <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-[var(--badge-indigo-bg)]"></div><span>O - Holiday</span></div>
                     </div>
                     <div class="att-table-wrapper shadow-sm">
                         <table class="att-table text-sm">
-                            <thead>
-                                <tr id="att-table-head"
-                                    class="bg-surface-container-low text-xs text-on-surface-variant font-semibold"></tr>
-                            </thead>
+                            <thead><tr id="att-table-head" class="bg-surface-container-low text-xs text-on-surface-variant font-semibold"></tr></thead>
                             <tbody id="att-table-body"></tbody>
                         </table>
                     </div>
@@ -601,8 +364,7 @@
                         <button onclick="openAddPaymentModal()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 transition-all"><span class="material-symbols-outlined text-[18px]">add</span> Add Payment</button>
                     </div>
 
-                    <div
-                        class="bg-surface-container p-4 rounded-xl border border-outline-variant mb-6 flex flex-col sm:flex-row gap-4 items-end">
+                    <div class="bg-surface-container p-4 rounded-xl border border-outline-variant mb-6 flex flex-col sm:flex-row gap-4 items-end">
                         <div class="flex-1 w-full">
                             <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Search Payments</label>
                             <div class="relative">
@@ -625,17 +387,12 @@
                         <div class="overflow-x-auto custom-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[700px]">
                                 <thead>
-                                    <tr
-                                        class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
+                                    <tr class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
                                         <th class="px-6 py-4 font-semibold border-b border-outline-variant">Date</th>
-                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">Order Type
-                                        </th>
-                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">Reference /
-                                            Details</th>
-                                        <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">
-                                            Amount (₹)</th>
-                                        <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">
-                                            Actions</th>
+                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">Order Type</th>
+                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">Reference / Details</th>
+                                        <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Amount (₹)</th>
+                                        <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody id="payment-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
@@ -662,25 +419,11 @@
                             <div class="overflow-x-auto custom-scrollbar">
                                 <table class="w-full text-left border-collapse min-w-[600px]">
                                     <thead>
-                                        <tr
-                                            class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
-                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Employee
-                                                ID</th>
-                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Name
-                                            </th>
-                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Role
-                                            </th>
-                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Base
-                                                Salary</th>
-                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Status
-                                            </th>
-                                            <th
-                                                class="px-6 py-4 font-semibold text-right border-b border-outline-variant">
-                                                Actions</th>
+                                        <tr class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
+                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Employee ID</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Name</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Role</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Base Salary</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Status</th><th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="wfh-staff-table-body" class="divide-y divide-outline-variant text-sm">
-                                    </tbody>
+                                    <tbody id="wfh-staff-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
                                 </table>
                             </div>
                         </div>
@@ -690,9 +433,8 @@
                         <div class="flex justify-end mb-4">
                             <button onclick="openWfhOrderForm()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 transition-all"><span class="material-symbols-outlined text-[18px]">add</span> New WFH Order</button>
                         </div>
-
-                        <div
-                            class="bg-surface-container p-4 rounded-xl border border-outline-variant mb-4 flex flex-col sm:flex-row gap-4 items-end">
+                        
+                        <div class="bg-surface-container p-4 rounded-xl border border-outline-variant mb-4 flex flex-col sm:flex-row gap-4 items-end">
                             <div class="flex-1 w-full">
                                 <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Search WFH Orders</label>
                                 <div class="relative">
@@ -715,29 +457,17 @@
                             <div class="overflow-x-auto custom-scrollbar">
                                 <table class="w-full text-left border-collapse min-w-[850px]">
                                     <thead>
-                                        <tr
-                                            class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
-                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Order ID
-                                            </th>
-                                            <th
-                                                class="px-6 py-4 font-semibold text-primary border-b border-outline-variant">
-                                                Assigned WFH Employee</th>
-                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Products
-                                            </th>
-                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">
-                                                Financials (₹)</th>
-                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Status
-                                            </th>
-                                            <th
-                                                class="px-6 py-4 font-semibold text-right border-b border-outline-variant">
-                                                Date</th>
-                                            <th
-                                                class="px-6 py-4 font-semibold text-right border-b border-outline-variant">
-                                                Actions</th>
+                                        <tr class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
+                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Order ID</th>
+                                            <th class="px-6 py-4 font-semibold text-primary border-b border-outline-variant">Assigned WFH Employee</th>
+                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Products</th>
+                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Financials (₹)</th>
+                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Status</th>
+                                            <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Date</th>
+                                            <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="wfh-orders-table-body" class="divide-y divide-outline-variant text-sm">
-                                    </tbody>
+                                    <tbody id="wfh-orders-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
                                 </table>
                             </div>
                         </div>
@@ -754,7 +484,6 @@
                         </div>
                     </div>
 
-                    <!-- Staff Directory Sub-Section -->
                     <div id="section-staff-directory" class="staff-section-container block">
                         <div class="flex justify-end mb-4">
                             <button onclick="openAddEmployeeModal()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 transition-all"><span class="material-symbols-outlined text-[18px]">person_add</span> Add Employee</button>
@@ -763,39 +492,22 @@
                             <div class="overflow-x-auto custom-scrollbar">
                                 <table class="w-full text-left border-collapse min-w-[600px]">
                                     <thead>
-                                        <tr
-                                            class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
-                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Employee
-                                                ID</th>
-                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Name
-                                            </th>
-                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Role
-                                            </th>
-                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Base
-                                                Salary</th>
-                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Status
-                                            </th>
-                                            <th
-                                                class="px-6 py-4 font-semibold text-right border-b border-outline-variant">
-                                                Actions</th>
+                                        <tr class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
+                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Employee ID</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Name</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Role</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Base Salary</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Status</th><th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="staff-table-body" class="divide-y divide-outline-variant text-sm">
-                                    </tbody>
+                                    <tbody id="staff-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Payroll Sub-Section -->
                     <div id="section-staff-payroll" class="staff-section-container hidden">
                         <div class="mb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                             <div>
-                                <h2 class="text-[24px] font-black tracking-tight text-on-surface leading-none"
-                                    id="payroll-month-year-display"></h2>
+                                <h2 class="text-[24px] font-black tracking-tight text-on-surface leading-none" id="payroll-month-year-display"></h2>
                             </div>
-                            <div
-                                class="flex items-center bg-surface-container border border-outline-variant rounded-md overflow-hidden">
+                            <div class="flex items-center bg-surface-container border border-outline-variant rounded-md overflow-hidden">
                                 <button onclick="changePayrollMonth(-1)" class="w-8 h-8 flex items-center justify-center active:bg-surface-container-low transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_left</span></button>
                                 <div class="w-px h-5 bg-outline-variant"></div>
                                 <button onclick="changePayrollMonth(1)" class="w-8 h-8 flex items-center justify-center active:bg-surface-container-low transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_right</span></button>
@@ -805,26 +517,15 @@
                             <div class="overflow-x-auto custom-scrollbar">
                                 <table class="w-full text-left border-collapse min-w-[800px]">
                                     <thead>
-                                        <tr
-                                            class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
-                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Employee
-                                            </th>
-                                            <th
-                                                class="px-6 py-4 font-semibold text-center border-b border-outline-variant">
-                                                Attendance</th>
-                                            <th
-                                                class="px-6 py-4 font-semibold text-right border-b border-outline-variant">
-                                                Earned (₹)</th>
-                                            <th
-                                                class="px-6 py-4 font-semibold text-right text-error border-b border-outline-variant">
-                                                Advance Given (₹)</th>
-                                            <th
-                                                class="px-6 py-4 font-semibold text-right text-primary border-b border-outline-variant">
-                                                Net Payable (₹)</th>
+                                        <tr class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
+                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Employee</th>
+                                            <th class="px-6 py-4 font-semibold text-center border-b border-outline-variant">Attendance</th>
+                                            <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Earned (₹)</th>
+                                            <th class="px-6 py-4 font-semibold text-right text-error border-b border-outline-variant">Advance Given (₹)</th>
+                                            <th class="px-6 py-4 font-semibold text-right text-primary border-b border-outline-variant">Net Payable (₹)</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="payroll-table-body" class="divide-y divide-outline-variant text-sm">
-                                    </tbody>
+                                    <tbody id="payroll-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
                                 </table>
                             </div>
                         </div>
@@ -849,23 +550,13 @@
                                 </div>
                                 <hr class="border-outline-variant">
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Supplier / Client Name</label><input type="text" id="order-supplier-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="Enter name...">
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Order Date</label><input type="date" id="order-date" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
-                                    </div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Supplier / Client Name</label><input type="text" id="order-supplier-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="Enter name..."></div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Order Date</label><input type="date" id="order-date" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div>
                                 </div>
-                                <div>
-                                    <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Products / Materials</label><textarea id="order-products-details" required rows="3" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="Enter item details and quantities..."></textarea>
-                                </div>
+                                <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Products / Materials</label><textarea id="order-products-details" required rows="3" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="Enter item details and quantities..."></textarea></div>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total Bill Amount (₹)</label><input type="number" id="order-total-bill" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="0">
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Advance Paid (₹)</label><input type="number" id="order-advance-paid" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="0">
-                                    </div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total Bill Amount (₹)</label><input type="number" id="order-total-bill" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="0"></div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Advance Paid (₹)</label><input type="number" id="order-advance-paid" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="0"></div>
                                 </div>
                                 <div class="flex justify-end gap-3 mt-8">
                                     <button type="button" onclick="cancelOrderEdit()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container-low rounded-lg transition-colors">Cancel</button>
@@ -880,11 +571,9 @@
                 <div id="view-wfh-new-order" class="view-section">
                     <div class="flex items-center gap-4 mb-6">
                         <button onclick="cancelWfhOrderEdit()" class="text-on-surface-variant active:bg-surface-container p-2 rounded-full transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
-                        <h2 id="wfh-order-form-title" class="text-2xl font-bold text-on-surface">Create New WFH Order
-                        </h2>
+                        <h2 id="wfh-order-form-title" class="text-2xl font-bold text-on-surface">Create New WFH Order</h2>
                     </div>
-                    <div
-                        class="bg-surface-container border border-outline-variant rounded-xl p-6 max-w-2xl border-l-4 border-l-primary">
+                    <div class="bg-surface-container border border-outline-variant rounded-xl p-6 max-w-2xl border-l-4 border-l-primary">
                         <form id="wfh-new-order-form" onsubmit="submitWfhOrder(event)">
                             <div class="space-y-6">
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -894,21 +583,13 @@
                                             <!-- Will populate dynamically -->
                                         </select>
                                     </div>
-                                    <div>
-                                        <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Order Date</label><input type="date" id="wfh-order-date" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
-                                    </div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Order Date</label><input type="date" id="wfh-order-date" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div>
                                 </div>
-
-                                <div>
-                                    <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Task / Products / Details</label><textarea id="wfh-order-products-details" required rows="3" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="Enter task details or materials assigned..."></textarea>
-                                </div>
+                                
+                                <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Task / Products / Details</label><textarea id="wfh-order-products-details" required rows="3" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="Enter task details or materials assigned..."></textarea></div>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total Bill Amount (₹)</label><input type="number" id="wfh-order-total-bill" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="0">
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Advance Paid (₹)</label><input type="number" id="wfh-order-advance-paid" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="0">
-                                    </div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total Bill Amount (₹)</label><input type="number" id="wfh-order-total-bill" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="0"></div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Advance Paid (₹)</label><input type="number" id="wfh-order-advance-paid" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="0"></div>
                                 </div>
                                 <div class="flex justify-end gap-3 mt-8">
                                     <button type="button" onclick="cancelWfhOrderEdit()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container-low rounded-lg transition-colors">Cancel</button>
@@ -921,10 +602,9 @@
 
             </main>
         </div>
-
+        
         <!-- 🛑 5-BUTTON MOBILE NAV 🛑 -->
-        <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-between items-center px-1 pt-2 pb-8 bg-surface border-t border-outline-variant shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]"
-            id="mobile-nav">
+        <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-between items-center px-1 pt-2 pb-8 bg-surface border-t border-outline-variant shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]" id="mobile-nav">
             <button data-target="orders" class="nav-btn active flex flex-col items-center justify-center py-2 text-primary transition-colors w-1/5">
                 <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
                 <span class="text-[9px] mt-1 font-medium">Orders</span>
@@ -949,28 +629,19 @@
     </div>
 
     <!-- Modals -->
-    <div id="add-employee-modal"
-        class="fixed inset-0 bg-black bg-opacity-70 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+    <div id="add-employee-modal" class="fixed inset-0 bg-black bg-opacity-70 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-surface-container border border-outline-variant rounded-xl w-full max-w-md overflow-hidden">
-            <div
-                class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-surface-container">
+            <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-surface-container">
                 <h3 class="text-lg font-bold text-on-surface" id="modal-title">Add Main Factory Employee</h3>
                 <button onclick="closeAddEmployeeModal()" class="text-on-surface-variant active:text-error transition-colors"><span class="material-symbols-outlined">close</span></button>
             </div>
             <div class="p-6 bg-surface-container">
                 <form id="add-employee-form" onsubmit="submitEmployee(event)">
                     <div class="space-y-4">
-                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Full Name</label><input type="text" id="emp-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-on-surface-variant mb-1">Role / Department</label><input type="text" id="emp-role" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-on-surface-variant mb-1">Base Salary (₹)</label><input type="number" id="emp-salary" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-on-surface-variant mb-1">Status</label><select id="emp-status" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"><option value="Active">Active</option><option value="Inactive">Inactive</option></select>
-                        </div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Full Name</label><input type="text" id="emp-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Role / Department</label><input type="text" id="emp-role" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Base Salary (₹)</label><input type="number" id="emp-salary" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Status</label><select id="emp-status" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"><option value="Active">Active</option><option value="Inactive">Inactive</option></select></div>
                     </div>
                     <div class="mt-8 flex justify-end gap-3">
                         <button type="button" onclick="closeAddEmployeeModal()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container-low rounded-lg">Cancel</button>
@@ -981,29 +652,19 @@
         </div>
     </div>
 
-    <div id="wfh-add-employee-modal"
-        class="fixed inset-0 bg-black bg-opacity-70 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
-        <div
-            class="bg-surface-container border border-outline-variant rounded-xl w-full max-w-md overflow-hidden border-l-4 border-l-primary">
-            <div
-                class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-surface-container">
+    <div id="wfh-add-employee-modal" class="fixed inset-0 bg-black bg-opacity-70 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-surface-container border border-outline-variant rounded-xl w-full max-w-md overflow-hidden border-l-4 border-l-primary">
+            <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-surface-container">
                 <h3 class="text-lg font-bold text-on-surface" id="wfh-modal-title">Add WFH Employee</h3>
                 <button onclick="closeWfhAddEmployeeModal()" class="text-on-surface-variant active:text-error transition-colors"><span class="material-symbols-outlined">close</span></button>
             </div>
             <div class="p-6 bg-surface-container">
                 <form id="wfh-add-employee-form" onsubmit="submitWfhEmployee(event)">
                     <div class="space-y-4">
-                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Full Name</label><input type="text" id="wfh-emp-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-on-surface-variant mb-1">Role / Title</label><input type="text" id="wfh-emp-role" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-on-surface-variant mb-1">Base Salary (₹)</label><input type="number" id="wfh-emp-salary" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-on-surface-variant mb-1">Status</label><select id="wfh-emp-status" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"><option value="Active">Active</option><option value="Inactive">Inactive</option></select>
-                        </div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Full Name</label><input type="text" id="wfh-emp-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Role / Title</label><input type="text" id="wfh-emp-role" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Base Salary (₹)</label><input type="number" id="wfh-emp-salary" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Status</label><select id="wfh-emp-status" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"><option value="Active">Active</option><option value="Inactive">Inactive</option></select></div>
                     </div>
                     <div class="mt-8 flex justify-end gap-3">
                         <button type="button" onclick="closeWfhAddEmployeeModal()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container-low rounded-lg">Cancel</button>
@@ -1014,20 +675,16 @@
         </div>
     </div>
 
-    <div id="add-payment-modal"
-        class="fixed inset-0 bg-black bg-opacity-70 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+    <div id="add-payment-modal" class="fixed inset-0 bg-black bg-opacity-70 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-surface-container border border-outline-variant rounded-xl w-full max-w-md overflow-hidden">
-            <div
-                class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-surface-container">
+            <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-surface-container">
                 <h3 class="text-lg font-bold text-on-surface" id="payment-modal-title">Add Payment History</h3>
                 <button onclick="closeAddPaymentModal()" class="text-on-surface-variant active:text-error transition-colors"><span class="material-symbols-outlined">close</span></button>
             </div>
             <div class="p-6 bg-surface-container">
                 <form id="add-payment-form" onsubmit="submitPayment(event)">
                     <div class="space-y-4">
-                        <div>
-                            <label class="block text-xs font-bold text-on-surface-variant mb-1">Payment Date</label><input type="date" id="pay-date" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
-                        </div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Payment Date</label><input type="date" id="pay-date" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div>
                         <div>
                             <label class="block text-xs font-bold text-on-surface-variant mb-1">Order Type</label>
                             <select id="pay-type" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
@@ -1037,12 +694,8 @@
                                 <option value="WFH">WFH</option>
                             </select>
                         </div>
-                        <div>
-                            <label class="block text-xs font-bold text-on-surface-variant mb-1">Amount (₹)</label><input type="number" id="pay-amount" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="0">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-on-surface-variant mb-1">Reference / Notes</label><input type="text" id="pay-reference" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="Order ID or Description...">
-                        </div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Amount (₹)</label><input type="number" id="pay-amount" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="0"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Reference / Notes</label><input type="text" id="pay-reference" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="Order ID or Description..."></div>
                     </div>
                     <div class="mt-8 flex justify-end gap-3">
                         <button type="button" onclick="closeAddPaymentModal()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container-low rounded-lg">Cancel</button>
@@ -1054,10 +707,8 @@
     </div>
 
     <!-- 🛑 CLIENT NET BILL MODAL 🛑 -->
-    <div id="net-bill-modal"
-        class="fixed inset-0 bg-black bg-opacity-70 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
-        <div
-            class="bg-surface-container border border-outline-variant rounded-xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
+    <div id="net-bill-modal" class="fixed inset-0 bg-black bg-opacity-70 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-surface-container border border-outline-variant rounded-xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
             <div class="px-6 py-4 border-b border-outline-variant flex flex-col gap-4 bg-surface-container shrink-0">
                 <div class="flex justify-between items-center">
                     <h3 class="text-lg font-bold text-on-surface">Client Net Bills</h3>
@@ -1076,11 +727,9 @@
                     <thead class="sticky top-0 bg-surface-container-low z-10 shadow-sm">
                         <tr class="text-xs text-on-surface-variant uppercase tracking-wider">
                             <th class="px-6 py-4 font-semibold border-b border-outline-variant">Client Name</th>
-                            <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Billed (₹)
-                            </th>
+                            <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Billed (₹)</th>
                             <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Paid (₹)</th>
-                            <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Net Due (₹)
-                            </th>
+                            <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Net Due (₹)</th>
                         </tr>
                     </thead>
                     <tbody id="net-bill-table-body" class="divide-y divide-outline-variant text-sm">
@@ -1093,7 +742,46 @@
 
     <!-- Logic & Database -->
     <script>
-        // 🛑 AUTHENTICATION LOGIC 🛑
+        // 🛑 THEME TOGGLE LOGIC 🛑
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                html.style.colorScheme = 'light';
+                localStorage.setItem('theme', 'light');
+                document.getElementById('theme-icon-mobile').textContent = 'dark_mode';
+                if(document.getElementById('theme-icon-desktop')) document.getElementById('theme-icon-desktop').textContent = 'dark_mode';
+            } else {
+                html.classList.add('dark');
+                html.style.colorScheme = 'dark';
+                localStorage.setItem('theme', 'dark');
+                document.getElementById('theme-icon-mobile').textContent = 'light_mode';
+                if(document.getElementById('theme-icon-desktop')) document.getElementById('theme-icon-desktop').textContent = 'light_mode';
+            }
+        }
+        
+        window.addEventListener('DOMContentLoaded', () => {
+            const isLight = !document.documentElement.classList.contains('dark');
+            const icon = isLight ? 'dark_mode' : 'light_mode';
+            if(document.getElementById('theme-icon-mobile')) document.getElementById('theme-icon-mobile').textContent = icon;
+            if(document.getElementById('theme-icon-desktop')) document.getElementById('theme-icon-desktop').textContent = icon;
+        });
+
+        // 🛑 1. INITIALIZE FIREBASE FIRST 🛑
+        const firebaseConfig = {
+            apiKey: "AIzaSyAnwhEjJw7NiaCk4ARuP4pmYwAwQWr1WiQ",
+            authDomain: "factory-admin-fc1cc.firebaseapp.com",
+            databaseURL: "https://factory-admin-fc1cc-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "factory-admin-fc1cc",
+            storageBucket: "factory-admin-fc1cc.firebasestorage.app",
+            messagingSenderId: "790894194445",
+            appId: "1:790894194445:web:cfb7173fe9302270204a44"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // 🛑 2. AUTHENTICATION LOGIC 🛑
         const auth = firebase.auth();
         const provider = new firebase.auth.GoogleAuthProvider();
         let currentUser = null;
@@ -1107,7 +795,7 @@
                 document.getElementById('app-container').classList.remove('hidden');
                 document.getElementById('app-container').classList.remove('opacity-0');
                 
-                // 🛑 ADD YOUR EMAILS HERE 🛑
+                // 🛑 EXACT EMAILS 🛑
                 const myEmail = "mjadhav8793@gmail.com";
                 const partnerEmail = "meghajadhav04@gmail.com";
 
@@ -1459,7 +1147,6 @@
                 return matchSearch && matchType;
             });
 
-            // Sort by date (newest first)
             filteredPayments.sort((a, b) => new Date(b.date) - new Date(a.date));
 
             const tbody = document.getElementById('payment-table-body');
@@ -1511,7 +1198,6 @@
             }
         }
 
-        // 🛑 OPEN CLIENT NET BILL MODAL WITH GROUPING 🛑
         function openNetBillModal() {
             document.getElementById('net-bill-period-filter').value = 'overall';
             renderNetBillTable();
@@ -1549,10 +1235,9 @@
             const clientTotals = {};
             filteredWholesale.forEach(order => {
                 let rawName = (order.name || 'Unknown').trim();
-                let clientKey = rawName.toLowerCase().replace(/\s+/g, ' '); // Strip double spaces
+                let clientKey = rawName.toLowerCase().replace(/\s+/g, ' '); 
                 
                 if (!clientTotals[clientKey]) {
-                    // Title case the display name for clean grouping
                     let cleanName = clientKey.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
                     clientTotals[clientKey] = { displayName: cleanName, total: 0, paid: 0, due: 0 };
                 }
@@ -1684,7 +1369,7 @@
 
         // ================= ATTENDANCE MATRIX & VISUAL HOLIDAY ONLY =================
         function changeMonth(delta) { currentDate.setMonth(currentDate.getMonth() + delta); renderAttendanceMatrix(); }
-        
+
         function getRawAttStatus(empId, year, month, day) {
             if (attendanceData[year] && attendanceData[year][month] && attendanceData[year][month][empId] && attendanceData[year][month][empId][day] !== undefined) {
                 return attendanceData[year][month][empId][day];
@@ -1748,7 +1433,6 @@
             for(let i = 1; i <= daysInMonth; i++) head += `<th class="w-10 min-w-[40px] text-xs font-medium text-outline border-b border-outline-variant">${i}</th>`;
             document.getElementById('att-table-head').innerHTML = head;
             
-            // Uses strictly regular employees, removing WFH from Matrix
             const staffList = [...employees];
             
             if (staffList.length === 0) { document.getElementById('att-table-body').innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center py-16 text-on-surface-variant text-sm">No employees found.</td></tr>`; return; }
@@ -1759,7 +1443,7 @@
                 return r + `</tr>`;
             }).join('');
         }
-        
+
         // ================= STAFF TAB SECTION =================
         function switchStaffTab(tabId) {
             document.querySelectorAll('.staff-tab').forEach(el => { el.classList.remove('bg-primary', 'text-on-primary'); el.classList.add('bg-surface-container', 'text-on-surface-variant'); });
@@ -1773,7 +1457,7 @@
         // ================= PAYROLL =================
         function changePayrollMonth(delta) { payrollDate.setMonth(payrollDate.getMonth() + delta); renderPayroll(); }
         function updateAdvance(empId, year, month, value) { if(!advancesData[year]) advancesData[year] = {}; if(!advancesData[year][month]) advancesData[year][month] = {}; advancesData[year][month][empId] = parseFloat(value) || 0; saveToDatabase(); }
-        
+
         function renderPayroll() {
             const displayEl = document.getElementById('payroll-month-year-display');
             if (!displayEl) return;
@@ -1783,7 +1467,6 @@
             const daysInMonth = new Date(y, m + 1, 0).getDate();
             displayEl.textContent = `${monthNames[m]} ${y}`;
             
-            // Uses strictly regular employees, removing WFH from Payroll
             const staffList = [...employees];
             const tbody = document.getElementById('payroll-table-body');
             if (!tbody) return;
@@ -1827,7 +1510,7 @@
 
         function openAddEmployeeModal() { document.getElementById('modal-title').textContent = "Add Main Factory Employee"; document.getElementById('add-employee-modal').classList.remove('hidden'); }
         function closeAddEmployeeModal() { document.getElementById('add-employee-modal').classList.add('hidden'); document.getElementById('add-employee-form').reset(); editingEmployeeId = null; }
-        
+
         function editEmployee(id) {
             const emp = employees.find(e => e.id === id);
             if(emp) {
@@ -1849,5 +1532,4 @@
         function removeEmployee(id) { if(confirm('Are you sure you want to remove this employee?')) { employees = employees.filter(e => e.id !== id); saveToDatabase(); } }
     </script>
 </body>
-
 </html>
