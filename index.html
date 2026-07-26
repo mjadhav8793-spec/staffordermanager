@@ -189,19 +189,12 @@
         .status-Inactive { background-color: var(--badge-red-bg); color: var(--badge-red-txt); border: 1px solid var(--badge-red-border); }
 
         .nav-active { color: var(--primary) !important; }
-
-        /* Login Portal Styles */
-        #login-portal {
-            position: fixed; inset: 0; z-index: 99999; background-color: var(--surface);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: opacity 0.3s;
-        }
     </style>
 </head>
 <body class="bg-surface text-on-surface">
 
     <!-- 🛑 LOGIN PORTAL 🛑 -->
-    <div id="login-portal">
+    <div id="login-portal" class="fixed inset-0 z-[99999] bg-surface flex flex-col items-center justify-center transition-opacity duration-300">
         <div class="w-16 h-16 bg-primary text-on-primary rounded-2xl flex items-center justify-center shadow-lg mb-6">
             <span class="material-symbols-outlined text-[36px]" style="font-variation-settings: 'FILL' 0, 'wght' 500;">precision_manufacturing</span>
         </div>
@@ -215,7 +208,7 @@
     </div>
 
     <!-- 🛑 MAIN APP (Hidden until logged in) 🛑 -->
-    <div id="app-container" class="flex h-screen w-full flex-col md:flex-row hidden opacity-0 transition-opacity duration-500">
+    <div id="app-container" class="hidden h-screen w-full flex-col md:flex-row opacity-0 transition-opacity duration-500">
         
         <!-- Desktop Sidebar -->
         <aside class="hidden md:flex flex-col w-72 bg-surface border-r border-outline-variant shrink-0 h-full z-20">
@@ -789,11 +782,20 @@
         let dbRef = null;
 
         auth.onAuthStateChanged(user => {
+            const portal = document.getElementById('login-portal');
+            const app = document.getElementById('app-container');
+
             if (user) {
                 currentUser = user;
-                document.getElementById('login-portal').classList.add('hidden');
-                document.getElementById('app-container').classList.remove('hidden');
-                document.getElementById('app-container').classList.remove('opacity-0');
+                
+                // Hide Portal securely using JS classes instead of CSS overrides
+                portal.classList.remove('flex');
+                portal.classList.add('hidden');
+                
+                // Show App securely
+                app.classList.remove('hidden');
+                app.classList.add('flex');
+                setTimeout(() => app.classList.remove('opacity-0'), 50);
                 
                 // 🛑 EXACT EMAILS 🛑
                 const myEmail = "mjadhav8793@gmail.com";
@@ -836,9 +838,15 @@
                 currentUser = null;
                 currentUserDataPath = null;
                 if(dbRef) dbRef.off();
-                document.getElementById('login-portal').classList.remove('hidden');
-                document.getElementById('app-container').classList.add('hidden');
-                document.getElementById('app-container').classList.add('opacity-0');
+                
+                // Show Portal
+                portal.classList.remove('hidden');
+                portal.classList.add('flex');
+                
+                // Hide App
+                app.classList.remove('flex');
+                app.classList.add('hidden');
+                app.classList.add('opacity-0');
                 
                 employees = []; attendanceData = {}; advancesData = {}; wholesaleOrders = []; rawOrders = []; wfhEmployees = []; wfhOrders = []; paymentHistory = [];
             }
