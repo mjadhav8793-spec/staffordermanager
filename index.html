@@ -1213,7 +1213,6 @@
         function cycleStatus(empId, year, month, day) {
             if(!attendanceData[year]) attendanceData[year] = {}; 
             if(!attendanceData[year][month]) attendanceData[year][month] = {}; 
-            if(!attendanceData[year][month][empId]) attendanceData[year][month][empId] = {};
             
             const cur = getVisualAttStatus(empId, year, month, day);
             let nxt = statusCycle[(statusCycle.indexOf(cur) + 1) % statusCycle.length];
@@ -1221,8 +1220,22 @@
             const d = new Date(year, month, day);
             if (d.getMonth() === month && d.getDay() === 0 && nxt === null) nxt = 'P';
             
-            if (nxt === null) delete attendanceData[year][month][empId][day]; 
-            else attendanceData[year][month][empId][day] = nxt;
+            if (nxt === 'O') {
+                if (confirm("Do you want to mark this day as a Holiday for ALL employees?")) {
+                    const allStaff = [...employees, ...wfhEmployees];
+                    allStaff.forEach(staff => {
+                        if(!attendanceData[year][month][staff.id]) attendanceData[year][month][staff.id] = {};
+                        attendanceData[year][month][staff.id][day] = 'O';
+                    });
+                } else {
+                    if(!attendanceData[year][month][empId]) attendanceData[year][month][empId] = {};
+                    attendanceData[year][month][empId][day] = 'O';
+                }
+            } else {
+                if(!attendanceData[year][month][empId]) attendanceData[year][month][empId] = {};
+                if (nxt === null) delete attendanceData[year][month][empId][day]; 
+                else attendanceData[year][month][empId][day] = nxt;
+            }
             
             saveToDatabase(); 
         }
@@ -1244,7 +1257,7 @@
             for(let i = 1; i <= daysInMonth; i++) head += `<th class="w-10 min-w-[40px] text-xs font-medium text-outline border-b border-outline-variant">${i}</th>`;
             document.getElementById('att-table-head').innerHTML = head;
             
-            // FIX: Uses strictly regular employees, removing WFH from Matrix
+            // Uses strictly regular employees, removing WFH from Matrix
             const staffList = [...employees];
             
             if (staffList.length === 0) { document.getElementById('att-table-body').innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center py-16 text-on-surface-variant text-sm">No employees found.</td></tr>`; return; }
@@ -1279,7 +1292,7 @@
             const daysInMonth = new Date(y, m + 1, 0).getDate();
             displayEl.textContent = `${monthNames[m]} ${y}`;
             
-            // FIX: Uses strictly regular employees, removing WFH from Payroll
+            // Uses strictly regular employees, removing WFH from Payroll
             const staffList = [...employees];
             const tbody = document.getElementById('payroll-table-body');
             if (!tbody) return;
