@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="light" lang="en">
+<html class="dark" lang="en" style="color-scheme: dark;">
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
@@ -18,26 +18,121 @@
             theme: {
                 extend: {
                     colors: {
-                        "surface": "#f9f9ff", "surface-container-lowest": "#ffffff", "surface-container-low": "#f1f3ff", "surface-container": "#e9edff",
-                        "on-surface": "#141b2b", "on-surface-variant": "#434655", "outline": "#737686", "outline-variant": "#c3c6d7",
-                        "primary": "#004ac6", "on-primary": "#ffffff", "primary-container": "#2563eb", "on-primary-container": "#eeefff",
-                        "secondary": "#006c49", "on-secondary": "#ffffff", "secondary-container": "#6cf8bb", "on-secondary-container": "#00714d",
-                        "tertiary": "#943700", "error": "#ba1a1a", "error-container": "#ffdad6", "on-error-container": "#93000a",
-                        "primary-fixed-dim": "#b4c5ff"
+                        /* 🛑 DYNAMIC CSS VARIABLES FOR THEME SWITCHING 🛑 */
+                        "surface": "var(--surface)", 
+                        "surface-container-lowest": "var(--surface-container-lowest)", 
+                        "surface-container-low": "var(--surface-container-low)", 
+                        "surface-container": "var(--surface-container)", 
+                        "surface-bright": "var(--surface-bright)",
+                        "on-surface": "var(--on-surface)", 
+                        "on-surface-variant": "var(--on-surface-variant)", 
+                        "outline": "var(--outline)", 
+                        "outline-variant": "var(--outline-variant)",
+                        "primary": "var(--primary)", 
+                        "on-primary": "var(--on-primary)", 
+                        "primary-container": "var(--primary-container)", 
+                        "on-primary-container": "var(--on-primary-container)",
+                        "secondary": "var(--secondary)", 
+                        "on-secondary": "var(--on-secondary)", 
+                        "secondary-container": "var(--secondary-container)", 
+                        "on-secondary-container": "var(--on-secondary-container)",
+                        "error": "var(--error)", 
+                        "error-container": "var(--error-container)", 
+                        "on-error-container": "var(--on-error-container)",
+                        "primary-fixed-dim": "var(--primary-fixed-dim)"
                     },
                     fontFamily: { "display-lg": ["Inter", "sans-serif"], "body-lg": ["Inter", "sans-serif"] }
                 }
             }
         }
     </script>
+    
+    <script>
+        // INIT THEME IMMEDIATELY TO PREVENT FLASH
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        if (savedTheme === 'light') {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.style.colorScheme = 'light';
+        } else {
+            document.documentElement.classList.add('dark');
+            document.documentElement.style.colorScheme = 'dark';
+        }
+    </script>
+
     <style>
-        /* 🛑 ANTI-REFRESH GLITCH LOCKDOWN 🛑 */
+        /* 🛑 ROOT VARIABLES (LIGHT MODE) 🛑 */
+        :root {
+            --surface: #f9f9ff;
+            --surface-container-lowest: #ffffff;
+            --surface-container-low: #f1f3ff;
+            --surface-container: #e9edff;
+            --surface-bright: #f9f9ff;
+            --on-surface: #141b2b;
+            --on-surface-variant: #434655;
+            --outline: #737686;
+            --outline-variant: #c3c6d7;
+            --primary: #004ac6;
+            --on-primary: #ffffff;
+            --primary-container: #2563eb;
+            --on-primary-container: #eeefff;
+            --secondary: #006c49;
+            --on-secondary: #ffffff;
+            --secondary-container: #6cf8bb;
+            --on-secondary-container: #00714d;
+            --error: #ba1a1a;
+            --error-container: #ffdad6;
+            --on-error-container: #93000a;
+            --primary-fixed-dim: #b4c5ff;
+
+            /* Dynamic Badges (Light) */
+            --badge-green-bg: #6cf8bb; --badge-green-txt: #00714d; --badge-green-border: #00714d;
+            --badge-blue-bg: #dce2f7; --badge-blue-txt: #004ac6; --badge-blue-border: #004ac6;
+            --badge-yellow-bg: #fef08a; --badge-yellow-txt: #854d0e; --badge-yellow-border: #eab308;
+            --badge-red-bg: #ffdad6; --badge-red-txt: #93000a; --badge-red-border: #93000a;
+            --badge-indigo-bg: #e0e7ff; --badge-indigo-txt: #3730a3; --badge-indigo-border: #4f46e5;
+        }
+
+        /* 🛑 DARK MODE VARIABLES (NOTHING OS PITCH BLACK) 🛑 */
+        .dark {
+            --surface: #000000;
+            --surface-container-lowest: #000000;
+            --surface-container-low: #0a0a0a;
+            --surface-container: #121212;
+            --surface-bright: #000000;
+            --on-surface: #ffffff;
+            --on-surface-variant: #a1a1aa;
+            --outline: #3f3f46;
+            --outline-variant: #27272a;
+            --primary: #ffffff;
+            --on-primary: #000000;
+            --primary-container: #27272a;
+            --on-primary-container: #ffffff;
+            --secondary: #a1a1aa;
+            --on-secondary: #000000;
+            --secondary-container: #27272a;
+            --on-secondary-container: #ffffff;
+            --error: #ef4444;
+            --error-container: #7f1d1d;
+            --on-error-container: #fca5a5;
+            --primary-fixed-dim: #27272a;
+
+            /* Dynamic Badges (Dark) */
+            --badge-green-bg: #064e3b; --badge-green-txt: #6ee7b7; --badge-green-border: #10b981;
+            --badge-blue-bg: #1e3a8a; --badge-blue-txt: #93c5fd; --badge-blue-border: #3b82f6;
+            --badge-yellow-bg: #713f12; --badge-yellow-txt: #fde047; --badge-yellow-border: #eab308;
+            --badge-red-bg: #7f1d1d; --badge-red-txt: #fca5a5; --badge-red-border: #ef4444;
+            --badge-indigo-bg: #312e81; --badge-indigo-txt: #c7d2fe; --badge-indigo-border: #4f46e5;
+        }
+
+        /* ANTI-REFRESH GLITCH LOCKDOWN */
         html, body { 
             overscroll-behavior: none !important; 
             -webkit-overflow-scrolling: none !important;
             height: 100%; width: 100%; 
             margin: 0; padding: 0; 
             overflow: hidden; 
+            background-color: var(--surface);
+            color: var(--on-surface);
         }
         
         #main-content {
@@ -49,34 +144,50 @@
 
         body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
         .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; display: inline-block; vertical-align: middle; }
+        
+        /* Themed Scrollbar */
         .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #dce2f7; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: var(--surface); }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--outline-variant); border-radius: 10px; }
         
         .view-section { display: none; animation: fadeIn 0.3s ease-in-out; }
         .view-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        .att-table-wrapper { overflow-x: auto; border-radius: 0.5rem; border: 1px solid #c3c6d7; background: #ffffff; }
+        /* Themed Table Overrides */
+        .att-table-wrapper { overflow-x: auto; border-radius: 0.5rem; border: 1px solid var(--outline-variant); background: var(--surface-container-lowest); }
         .att-table { border-collapse: separate; border-spacing: 0; min-width: 100%; }
-        .att-table th, .att-table td { border-right: 1px solid #e9edff; border-bottom: 1px solid #e9edff; padding: 8px 12px; text-align: center; height: 48px; }
+        .att-table th, .att-table td { border-right: 1px solid var(--outline-variant); border-bottom: 1px solid var(--outline-variant); padding: 8px 12px; text-align: center; height: 48px; }
         .att-table th:last-child, .att-table td:last-child { border-right: none; }
         .att-table tr:last-child td { border-bottom: none; }
         .att-cell-interactive { cursor: pointer; user-select: none; transition: background 0.1s; }
-        .att-cell-interactive:hover { background-color: #f1f3ff; }
-        .att-table th:first-child, .att-table td:first-child { position: sticky; left: 0; z-index: 10; background-color: #ffffff; text-align: left; font-weight: 500; border-right: 2px solid #e9edff; min-width: 180px; }
-        .att-table th:first-child { z-index: 11; background-color: #f9f9ff; }
+        .att-cell-interactive:hover { background-color: var(--surface-container); }
+        .att-table th:first-child, .att-table td:first-child { position: sticky; left: 0; z-index: 10; background-color: var(--surface-container-lowest); text-align: left; font-weight: 500; border-right: 2px solid var(--outline-variant); min-width: 180px; }
+        .att-table th:first-child { z-index: 11; background-color: var(--surface-container-low); }
         
-        .status-P { background-color: #6cf8bb; color: #00714d; font-weight: bold; border-radius: 4px; }
-        .status-W { background-color: #dce2f7; color: #004ac6; font-weight: bold; border-radius: 4px; }
-        .status-H { background-color: #fef08a; color: #854d0e; font-weight: bold; border-radius: 4px; }
-        .status-A { background-color: #ffdad6; color: #93000a; font-weight: bold; border-radius: 4px; }
-        .status-O { background-color: #e0e7ff; color: #3730a3; font-weight: bold; border-radius: 4px; }
+        /* Matrix Badges */
+        .status-P { background-color: var(--badge-green-bg); color: var(--badge-green-txt); font-weight: bold; border-radius: 4px; }
+        .status-W { background-color: var(--badge-blue-bg); color: var(--badge-blue-txt); font-weight: bold; border-radius: 4px; }
+        .status-H { background-color: var(--badge-yellow-bg); color: var(--badge-yellow-txt); font-weight: bold; border-radius: 4px; }
+        .status-A { background-color: var(--badge-red-bg); color: var(--badge-red-txt); font-weight: bold; border-radius: 4px; }
+        .status-O { background-color: var(--badge-indigo-bg); color: var(--badge-indigo-txt); font-weight: bold; border-radius: 4px; }
         
-        /* Payment Type Badges */
-        .type-Wholesale { background-color: #e9edff; color: #004ac6; }
-        .type-Raw { background-color: #ffdad6; color: #93000a; }
-        .type-WFH { background-color: #6cf8bb; color: #00714d; }
+        /* Payment & Order Type Badges */
+        .type-Wholesale { background-color: var(--badge-blue-bg); color: var(--badge-blue-txt); }
+        .type-Raw { background-color: var(--badge-red-bg); color: var(--badge-red-txt); }
+        .type-WFH { background-color: var(--badge-green-bg); color: var(--badge-green-txt); }
+
+        /* Order Status Colored Badges */
+        .status-Processing { background-color: var(--badge-indigo-bg); color: var(--badge-indigo-txt); border: 1px solid var(--badge-indigo-border); }
+        .status-Fulfilled { background-color: var(--badge-green-bg); color: var(--badge-green-txt); border: 1px solid var(--badge-green-border); }
+        .status-In-Transit { background-color: var(--badge-yellow-bg); color: var(--badge-yellow-txt); border: 1px solid var(--badge-yellow-border); }
+        .status-Received { background-color: var(--badge-green-bg); color: var(--badge-green-txt); border: 1px solid var(--badge-green-border); }
+        
+        /* Staff Status Colored Badges */
+        .status-Active { background-color: var(--badge-green-bg); color: var(--badge-green-txt); border: 1px solid var(--badge-green-border); }
+        .status-Inactive { background-color: var(--badge-red-bg); color: var(--badge-red-txt); border: 1px solid var(--badge-red-border); }
+
+        .nav-active { color: var(--primary) !important; }
     </style>
 </head>
 <body class="bg-surface text-on-surface">
@@ -86,15 +197,20 @@
         <!-- Desktop Sidebar -->
         <aside class="hidden md:flex flex-col w-72 bg-surface border-r border-outline-variant shrink-0 h-full z-20">
             <div class="p-6">
-                <div class="flex items-center gap-2 mb-8">
-                    <div class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center shadow-sm shrink-0">
-                        <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0, 'wght' 500;">precision_manufacturing</span>
+                <div class="flex items-center justify-between mb-8">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center shadow-sm shrink-0">
+                            <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0, 'wght' 500;">precision_manufacturing</span>
+                        </div>
+                        <h1 class="text-xl font-bold tracking-tight text-on-surface truncate">STAFFORDER</h1>
                     </div>
-                    <h1 class="text-xl font-bold tracking-tight text-on-surface truncate">STAFFORDERMANAGER</h1>
+                    <!-- Desktop Theme Toggle -->
+                    <button onclick="toggleTheme()" class="p-2 bg-surface-container rounded-full text-on-surface-variant flex items-center justify-center shadow-sm active:scale-95 transition-all">
+                        <span id="theme-icon-desktop" class="material-symbols-outlined text-[20px]">light_mode</span>
+                    </button>
                 </div>
             </div>
             <nav class="flex-1 px-4 space-y-2 overflow-y-auto custom-scrollbar" id="desktop-nav">
-                <!-- Desktop has all 5 options -->
                 <button data-target="orders" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm bg-primary text-on-primary font-medium transition-colors"><span class="material-symbols-outlined text-[20px]">inventory_2</span> Main Orders</button>
                 <button data-target="attendance" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant active:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">calendar_today</span> Matrix</button>
                 <button data-target="payments" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-on-surface-variant active:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">payments</span> Payments</button>
@@ -106,36 +222,40 @@
         <!-- Main Workspace -->
         <div class="flex-1 flex flex-col h-full min-w-0 bg-surface-bright relative">
             
-            <!-- Mobile Header -->
-            <header class="md:hidden flex items-center justify-start gap-3 p-4 border-b border-outline-variant bg-surface z-10 shrink-0">
-                <div class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center shadow-sm shrink-0">
-                    <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0, 'wght' 500;">precision_manufacturing</span>
+            <!-- Mobile Header with Theme Toggle -->
+            <header class="md:hidden flex items-center justify-between p-4 border-b border-outline-variant bg-surface z-10 shrink-0">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center shrink-0">
+                        <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0, 'wght' 500;">precision_manufacturing</span>
+                    </div>
+                    <h1 class="text-lg font-bold tracking-tight text-on-surface truncate uppercase tracking-wider">FACTORY</h1>
                 </div>
-                <h1 class="text-lg font-bold tracking-tight text-on-surface truncate">STAFFORDERMANAGER</h1>
+                <!-- Mobile Theme Toggle -->
+                <button onclick="toggleTheme()" class="p-2 bg-surface-container rounded-full text-on-surface-variant flex items-center justify-center shadow-sm active:scale-95 transition-all">
+                    <span id="theme-icon-mobile" class="material-symbols-outlined text-[20px]">light_mode</span>
+                </button>
             </header>
 
-            <!-- 🛑 MAIN SCROLLABLE CONTENT (pb-32 ensures no overlap with mobile nav) 🛑 -->
             <main id="main-content" class="flex-1 p-4 md:p-8 pb-32 md:pb-8 relative">
                 
                 <!-- MAIN FACTORY ORDERS -->
                 <div id="view-orders" class="view-section active">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                         <h2 class="text-2xl font-bold text-on-surface">Main Order Management</h2>
-                        <button onclick="openOrderForm()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">add</span> New Main Order</button>
+                        <button onclick="openOrderForm()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 transition-all"><span class="material-symbols-outlined text-[18px]">add</span> New Main Order</button>
                     </div>
 
-                    <!-- PASSBOOK STYLE FILTERS -->
-                    <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant mb-6 flex flex-col sm:flex-row gap-4 items-end shadow-sm">
+                    <div class="bg-surface-container p-4 rounded-xl border border-outline-variant mb-6 flex flex-col sm:flex-row gap-4 items-end">
                         <div class="flex-1 w-full">
                             <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Search Orders</label>
                             <div class="relative">
                                 <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
-                                <input type="text" id="order-search-input" onkeyup="renderOrders()" class="w-full border-outline-variant rounded-lg text-sm pl-9 pr-3 py-2 bg-white focus:ring-primary focus:border-primary" placeholder="Search by Client/Supplier name or Order ID...">
+                                <input type="text" id="order-search-input" onkeyup="renderOrders()" class="w-full border-outline-variant rounded-lg text-sm pl-9 pr-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary placeholder-outline" placeholder="Search by Client/Supplier name or Order ID...">
                             </div>
                         </div>
                         <div class="w-full sm:w-56">
                             <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Time Period</label>
-                            <select id="order-month-filter" onchange="renderOrders()" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-white focus:ring-primary focus:border-primary font-medium text-on-surface">
+                            <select id="order-month-filter" onchange="renderOrders()" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
                                 <option value="all">All Orders (Overall)</option>
                                 <option value="this_month">This Month</option>
                                 <option value="last_month">Last Month</option>
@@ -145,25 +265,25 @@
 
                     <div class="flex gap-3 mb-6 overflow-x-auto custom-scrollbar pb-1">
                         <button id="tab-wholesale" onclick="switchOrderTab('wholesale')" class="order-tab active bg-primary text-on-primary px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">Wholesale Orders</button>
-                        <button id="tab-raw" onclick="switchOrderTab('raw')" class="order-tab bg-white border border-outline-variant text-on-surface-variant active:bg-surface-container px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">Raw Material Orders</button>
+                        <button id="tab-raw" onclick="switchOrderTab('raw')" class="order-tab bg-surface-container border border-outline-variant text-on-surface-variant active:bg-surface-container-low px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">Raw Material Orders</button>
                     </div>
 
-                    <div id="table-wholesale" class="order-table-container bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm block">
+                    <div id="table-wholesale" class="order-table-container bg-surface-container border border-outline-variant rounded-xl overflow-hidden block">
                         <div class="overflow-x-auto custom-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[850px]">
                                 <thead>
-                                    <tr class="bg-surface-container text-xs text-on-surface-variant uppercase tracking-wider"><th class="px-6 py-4 font-semibold">Order ID</th><th class="px-6 py-4 font-semibold">Client</th><th class="px-6 py-4 font-semibold">Products</th><th class="px-6 py-4 font-semibold">Financials (₹)</th><th class="px-6 py-4 font-semibold">Status</th><th class="px-6 py-4 font-semibold text-right">Date</th><th class="px-6 py-4 font-semibold text-right">Actions</th></tr>
+                                    <tr class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider"><th class="px-6 py-4 font-semibold border-b border-outline-variant">Order ID</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Client</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Products</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Financials (₹)</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Status</th><th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Date</th><th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Actions</th></tr>
                                 </thead>
                                 <tbody id="wholesale-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
                             </table>
                         </div>
                     </div>
 
-                    <div id="table-raw" class="order-table-container bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm hidden">
+                    <div id="table-raw" class="order-table-container bg-surface-container border border-outline-variant rounded-xl overflow-hidden hidden">
                         <div class="overflow-x-auto custom-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[850px]">
                                 <thead>
-                                    <tr class="bg-surface-container text-xs text-on-surface-variant uppercase tracking-wider"><th class="px-6 py-4 font-semibold">PO Number</th><th class="px-6 py-4 font-semibold">Supplier</th><th class="px-6 py-4 font-semibold">Material Specs</th><th class="px-6 py-4 font-semibold">Financials (₹)</th><th class="px-6 py-4 font-semibold">Status</th><th class="px-6 py-4 font-semibold text-right">Date</th><th class="px-6 py-4 font-semibold text-right">Actions</th></tr>
+                                    <tr class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider"><th class="px-6 py-4 font-semibold border-b border-outline-variant">PO Number</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Supplier</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Material Specs</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Financials (₹)</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Status</th><th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Date</th><th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Actions</th></tr>
                                 </thead>
                                 <tbody id="raw-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
                             </table>
@@ -176,22 +296,22 @@
                     <div class="mb-6">
                         <div class="flex items-center gap-4">
                             <h2 class="text-[32px] font-black tracking-tight text-on-surface leading-none" id="att-month-year-display"></h2>
-                            <div class="flex items-center bg-white border border-outline-variant rounded-md overflow-hidden shadow-sm">
-                                <button onclick="changeMonth(-1)" class="w-8 h-8 flex items-center justify-center active:bg-surface-container transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_left</span></button>
+                            <div class="flex items-center bg-surface-container border border-outline-variant rounded-md overflow-hidden">
+                                <button onclick="changeMonth(-1)" class="w-8 h-8 flex items-center justify-center active:bg-surface-container-low transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_left</span></button>
                                 <div class="w-px h-5 bg-outline-variant"></div>
-                                <button onclick="changeMonth(1)" class="w-8 h-8 flex items-center justify-center active:bg-surface-container transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_right</span></button>
+                                <button onclick="changeMonth(1)" class="w-8 h-8 flex items-center justify-center active:bg-surface-container-low transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_right</span></button>
                             </div>
                         </div>
                     </div>
                     <div class="flex flex-wrap items-center gap-6 mb-4 text-sm text-on-surface-variant">
-                        <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-secondary"></div><span>P - Present</span></div>
-                        <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full" style="background-color: #fef08a;"></div><span>H - Half-day</span></div>
-                        <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-error"></div><span>A - Absent</span></div>
-                        <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full" style="background-color: #e0e7ff;"></div><span>O - Holiday</span></div>
+                        <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-[var(--badge-green-bg)]"></div><span>P - Present</span></div>
+                        <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-[var(--badge-yellow-bg)]"></div><span>H - Half-day</span></div>
+                        <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-[var(--badge-red-bg)]"></div><span>A - Absent</span></div>
+                        <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-[var(--badge-indigo-bg)]"></div><span>O - Holiday</span></div>
                     </div>
                     <div class="att-table-wrapper shadow-sm">
                         <table class="att-table text-sm">
-                            <thead><tr id="att-table-head" class="bg-surface-bright text-xs text-on-surface-variant font-semibold"></tr></thead>
+                            <thead><tr id="att-table-head" class="bg-surface-container-low text-xs text-on-surface-variant font-semibold"></tr></thead>
                             <tbody id="att-table-body"></tbody>
                         </table>
                     </div>
@@ -201,20 +321,20 @@
                 <div id="view-payments" class="view-section">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                         <h2 class="text-2xl font-bold text-on-surface">Payment History</h2>
-                        <button onclick="openAddPaymentModal()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">add</span> Add Payment</button>
+                        <button onclick="openAddPaymentModal()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 transition-all"><span class="material-symbols-outlined text-[18px]">add</span> Add Payment</button>
                     </div>
 
-                    <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant mb-6 flex flex-col sm:flex-row gap-4 items-end shadow-sm">
+                    <div class="bg-surface-container p-4 rounded-xl border border-outline-variant mb-6 flex flex-col sm:flex-row gap-4 items-end">
                         <div class="flex-1 w-full">
                             <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Search Payments</label>
                             <div class="relative">
                                 <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
-                                <input type="text" id="payment-search-input" onkeyup="renderPayments()" class="w-full border-outline-variant rounded-lg text-sm pl-9 pr-3 py-2 bg-white focus:ring-primary focus:border-primary" placeholder="Search by reference, order ID...">
+                                <input type="text" id="payment-search-input" onkeyup="renderPayments()" class="w-full border-outline-variant rounded-lg text-sm pl-9 pr-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary placeholder-outline" placeholder="Search by reference, order ID...">
                             </div>
                         </div>
                         <div class="w-full sm:w-56">
                             <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Order Type</label>
-                            <select id="payment-type-filter" onchange="renderPayments()" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-white focus:ring-primary focus:border-primary font-medium text-on-surface">
+                            <select id="payment-type-filter" onchange="renderPayments()" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
                                 <option value="all">All Types</option>
                                 <option value="Wholesale">Wholesale Orders</option>
                                 <option value="Raw Material">Raw Material Orders</option>
@@ -223,16 +343,16 @@
                         </div>
                     </div>
 
-                    <div class="bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+                    <div class="bg-surface-container border border-outline-variant rounded-xl overflow-hidden">
                         <div class="overflow-x-auto custom-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[700px]">
                                 <thead>
-                                    <tr class="bg-surface-container text-xs text-on-surface-variant uppercase tracking-wider">
-                                        <th class="px-6 py-4 font-semibold">Date</th>
-                                        <th class="px-6 py-4 font-semibold">Order Type</th>
-                                        <th class="px-6 py-4 font-semibold">Reference / Details</th>
-                                        <th class="px-6 py-4 font-semibold text-right">Amount (₹)</th>
-                                        <th class="px-6 py-4 font-semibold text-right">Actions</th>
+                                    <tr class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
+                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">Date</th>
+                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">Order Type</th>
+                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">Reference / Details</th>
+                                        <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Amount (₹)</th>
+                                        <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody id="payment-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
@@ -247,21 +367,21 @@
                         <h2 class="text-2xl font-bold text-on-surface mb-4">Work From Home Hub</h2>
                         <div class="flex gap-3 overflow-x-auto custom-scrollbar pb-1">
                             <button id="tab-wfh-employees" onclick="switchWfhTab('employees')" class="wfh-tab active bg-primary text-on-primary px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">WFH Employees</button>
-                            <button id="tab-wfh-orders" onclick="switchWfhTab('orders')" class="wfh-tab bg-white border border-outline-variant text-on-surface-variant active:bg-surface-container px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">WFH Orders</button>
+                            <button id="tab-wfh-orders" onclick="switchWfhTab('orders')" class="wfh-tab bg-surface-container border border-outline-variant text-on-surface-variant active:bg-surface-container-low px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">WFH Orders</button>
                         </div>
                     </div>
 
                     <!-- WFH Employees Sub-Section -->
                     <div id="section-wfh-employees" class="wfh-section-container block">
                         <div class="flex justify-end mb-4">
-                            <button onclick="openWfhAddEmployeeModal()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">person_add</span> Add WFH Employee</button>
+                            <button onclick="openWfhAddEmployeeModal()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 transition-all"><span class="material-symbols-outlined text-[18px]">person_add</span> Add WFH Employee</button>
                         </div>
-                        <div class="bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+                        <div class="bg-surface-container border border-outline-variant rounded-xl overflow-hidden">
                             <div class="overflow-x-auto custom-scrollbar">
                                 <table class="w-full text-left border-collapse min-w-[600px]">
                                     <thead>
-                                        <tr class="bg-surface-container text-xs text-on-surface-variant uppercase tracking-wider">
-                                            <th class="px-6 py-4 font-semibold">Employee ID</th><th class="px-6 py-4 font-semibold">Name</th><th class="px-6 py-4 font-semibold">Role</th><th class="px-6 py-4 font-semibold">Base Salary</th><th class="px-6 py-4 font-semibold">Status</th><th class="px-6 py-4 font-semibold text-right">Actions</th>
+                                        <tr class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
+                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Employee ID</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Name</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Role</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Base Salary</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Status</th><th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody id="wfh-staff-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
@@ -273,21 +393,20 @@
                     <!-- WFH Orders Sub-Section -->
                     <div id="section-wfh-orders" class="wfh-section-container hidden">
                         <div class="flex justify-end mb-4">
-                            <button onclick="openWfhOrderForm()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">add</span> New WFH Order</button>
+                            <button onclick="openWfhOrderForm()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 transition-all"><span class="material-symbols-outlined text-[18px]">add</span> New WFH Order</button>
                         </div>
                         
-                        <!-- 🛑 WFH ORDER SEARCH & FILTER UI 🛑 -->
-                        <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant mb-4 flex flex-col sm:flex-row gap-4 items-end shadow-sm">
+                        <div class="bg-surface-container p-4 rounded-xl border border-outline-variant mb-4 flex flex-col sm:flex-row gap-4 items-end">
                             <div class="flex-1 w-full">
                                 <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Search WFH Orders</label>
                                 <div class="relative">
                                     <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
-                                    <input type="text" id="wfh-order-search-input" onkeyup="renderWfhOrders()" class="w-full border-outline-variant rounded-lg text-sm pl-9 pr-3 py-2 bg-white focus:ring-primary focus:border-primary" placeholder="Search by Employee, Order ID, or Details...">
+                                    <input type="text" id="wfh-order-search-input" onkeyup="renderWfhOrders()" class="w-full border-outline-variant rounded-lg text-sm pl-9 pr-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary placeholder-outline" placeholder="Search by Employee, Order ID, or Details...">
                                 </div>
                             </div>
                             <div class="w-full sm:w-56">
                                 <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Time Period</label>
-                                <select id="wfh-order-month-filter" onchange="renderWfhOrders()" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-white focus:ring-primary focus:border-primary font-medium text-on-surface">
+                                <select id="wfh-order-month-filter" onchange="renderWfhOrders()" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
                                     <option value="all">All Orders (Overall)</option>
                                     <option value="this_month">This Month</option>
                                     <option value="last_month">Last Month</option>
@@ -295,18 +414,18 @@
                             </div>
                         </div>
 
-                        <div class="bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+                        <div class="bg-surface-container border border-outline-variant rounded-xl overflow-hidden">
                             <div class="overflow-x-auto custom-scrollbar">
                                 <table class="w-full text-left border-collapse min-w-[850px]">
                                     <thead>
-                                        <tr class="bg-surface-container text-xs text-on-surface-variant uppercase tracking-wider">
-                                            <th class="px-6 py-4 font-semibold">Order ID</th>
-                                            <th class="px-6 py-4 font-semibold text-primary">Assigned WFH Employee</th>
-                                            <th class="px-6 py-4 font-semibold">Products</th>
-                                            <th class="px-6 py-4 font-semibold">Financials (₹)</th>
-                                            <th class="px-6 py-4 font-semibold">Status</th>
-                                            <th class="px-6 py-4 font-semibold text-right">Date</th>
-                                            <th class="px-6 py-4 font-semibold text-right">Actions</th>
+                                        <tr class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
+                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Order ID</th>
+                                            <th class="px-6 py-4 font-semibold text-primary border-b border-outline-variant">Assigned WFH Employee</th>
+                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Products</th>
+                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Financials (₹)</th>
+                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Status</th>
+                                            <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Date</th>
+                                            <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody id="wfh-orders-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
@@ -316,22 +435,62 @@
                     </div>
                 </div>
 
-                <!-- MAIN FACTORY STAFF DIRECTORY -->
+                <!-- MAIN FACTORY STAFF DIRECTORY & PAYROLL -->
                 <div id="view-staff" class="view-section">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                        <h2 class="text-2xl font-bold text-on-surface">Factory Staff Directory</h2>
-                        <button onclick="openAddEmployeeModal()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 shadow-sm transition-all"><span class="material-symbols-outlined text-[18px]">person_add</span> Add Employee</button>
+                    <div class="mb-6">
+                        <h2 class="text-2xl font-bold text-on-surface mb-4">Factory Staff & Payroll</h2>
+                        <div class="flex gap-3 overflow-x-auto custom-scrollbar pb-1">
+                            <button id="tab-staff-directory" onclick="switchStaffTab('directory')" class="staff-tab active bg-primary text-on-primary px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">Staff Directory</button>
+                            <button id="tab-staff-payroll" onclick="switchStaffTab('payroll')" class="staff-tab bg-surface-container border border-outline-variant text-on-surface-variant active:bg-surface-container-low px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">Payroll & Advances</button>
+                        </div>
                     </div>
-                    <div class="bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm">
-                        <div class="overflow-x-auto custom-scrollbar">
-                            <table class="w-full text-left border-collapse min-w-[600px]">
-                                <thead>
-                                    <tr class="bg-surface-container text-xs text-on-surface-variant uppercase tracking-wider">
-                                        <th class="px-6 py-4 font-semibold">Employee ID</th><th class="px-6 py-4 font-semibold">Name</th><th class="px-6 py-4 font-semibold">Role</th><th class="px-6 py-4 font-semibold">Base Salary</th><th class="px-6 py-4 font-semibold">Status</th><th class="px-6 py-4 font-semibold text-right">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="staff-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
-                            </table>
+
+                    <!-- Staff Directory Sub-Section -->
+                    <div id="section-staff-directory" class="staff-section-container block">
+                        <div class="flex justify-end mb-4">
+                            <button onclick="openAddEmployeeModal()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 transition-all"><span class="material-symbols-outlined text-[18px]">person_add</span> Add Employee</button>
+                        </div>
+                        <div class="bg-surface-container border border-outline-variant rounded-xl overflow-hidden">
+                            <div class="overflow-x-auto custom-scrollbar">
+                                <table class="w-full text-left border-collapse min-w-[600px]">
+                                    <thead>
+                                        <tr class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
+                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Employee ID</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Name</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Role</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Base Salary</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Status</th><th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="staff-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payroll Sub-Section -->
+                    <div id="section-staff-payroll" class="staff-section-container hidden">
+                        <div class="mb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                            <div>
+                                <h2 class="text-[24px] font-black tracking-tight text-on-surface leading-none" id="payroll-month-year-display"></h2>
+                            </div>
+                            <div class="flex items-center bg-surface-container border border-outline-variant rounded-md overflow-hidden">
+                                <button onclick="changePayrollMonth(-1)" class="w-8 h-8 flex items-center justify-center active:bg-surface-container-low transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_left</span></button>
+                                <div class="w-px h-5 bg-outline-variant"></div>
+                                <button onclick="changePayrollMonth(1)" class="w-8 h-8 flex items-center justify-center active:bg-surface-container-low transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_right</span></button>
+                            </div>
+                        </div>
+                        <div class="bg-surface-container border border-outline-variant rounded-xl overflow-hidden">
+                            <div class="overflow-x-auto custom-scrollbar">
+                                <table class="w-full text-left border-collapse min-w-[800px]">
+                                    <thead>
+                                        <tr class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
+                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Employee</th>
+                                            <th class="px-6 py-4 font-semibold text-center border-b border-outline-variant">Attendance</th>
+                                            <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Earned (₹)</th>
+                                            <th class="px-6 py-4 font-semibold text-right text-error border-b border-outline-variant">Advance Given (₹)</th>
+                                            <th class="px-6 py-4 font-semibold text-right text-primary border-b border-outline-variant">Net Payable (₹)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="payroll-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -342,29 +501,28 @@
                         <button onclick="cancelOrderEdit()" class="text-on-surface-variant active:bg-surface-container p-2 rounded-full transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
                         <h2 id="order-form-title" class="text-2xl font-bold text-on-surface">Create New Main Order</h2>
                     </div>
-                    <div class="bg-white border border-outline-variant rounded-xl p-6 shadow-sm max-w-2xl">
+                    <div class="bg-surface-container border border-outline-variant rounded-xl p-6 max-w-2xl">
                         <form id="new-order-form" onsubmit="submitNewOrder(event)">
                             <div class="space-y-6">
                                 <div>
                                     <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Order Type</label>
                                     <div class="flex gap-4">
-                                        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="orderType" value="wholesale" checked class="text-primary focus:ring-primary"><span class="text-sm font-medium text-on-surface">Wholesale Order</span></label>
-                                        <!-- FIX: value changed to "raw" to match JS edit function -->
-                                        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="orderType" value="raw" class="text-primary focus:ring-primary"><span class="text-sm font-medium text-on-surface">Raw Material Order</span></label>
+                                        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="orderType" value="wholesale" checked class="text-primary focus:ring-primary bg-surface-container-lowest border-outline-variant"><span class="text-sm font-medium text-on-surface">Wholesale Order</span></label>
+                                        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="orderType" value="raw" class="text-primary focus:ring-primary bg-surface-container-lowest border-outline-variant"><span class="text-sm font-medium text-on-surface">Raw Material Order</span></label>
                                     </div>
                                 </div>
                                 <hr class="border-outline-variant">
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Supplier / Client Name</label><input type="text" id="order-supplier-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="Enter name..."></div>
-                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Order Date</label><input type="date" id="order-date" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary"></div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Supplier / Client Name</label><input type="text" id="order-supplier-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="Enter name..."></div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Order Date</label><input type="date" id="order-date" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div>
                                 </div>
-                                <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Products / Materials</label><textarea id="order-products-details" required rows="3" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="Enter item details and quantities..."></textarea></div>
+                                <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Products / Materials</label><textarea id="order-products-details" required rows="3" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="Enter item details and quantities..."></textarea></div>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total Bill Amount (₹)</label><input type="number" id="order-total-bill" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="0"></div>
-                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Advance Paid (₹)</label><input type="number" id="order-advance-paid" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="0"></div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total Bill Amount (₹)</label><input type="number" id="order-total-bill" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="0"></div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Advance Paid (₹)</label><input type="number" id="order-advance-paid" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="0"></div>
                                 </div>
                                 <div class="flex justify-end gap-3 mt-8">
-                                    <button type="button" onclick="cancelOrderEdit()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container rounded-lg transition-colors">Cancel</button>
+                                    <button type="button" onclick="cancelOrderEdit()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container-low rounded-lg transition-colors">Cancel</button>
                                     <button type="submit" class="px-4 py-2 text-sm font-medium bg-primary text-on-primary active:opacity-90 rounded-lg transition-colors">Save Order</button>
                                 </div>
                             </div>
@@ -378,26 +536,26 @@
                         <button onclick="cancelWfhOrderEdit()" class="text-on-surface-variant active:bg-surface-container p-2 rounded-full transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
                         <h2 id="wfh-order-form-title" class="text-2xl font-bold text-on-surface">Create New WFH Order</h2>
                     </div>
-                    <div class="bg-white border border-outline-variant rounded-xl p-6 shadow-sm max-w-2xl border-l-4 border-l-primary">
+                    <div class="bg-surface-container border border-outline-variant rounded-xl p-6 max-w-2xl border-l-4 border-l-primary">
                         <form id="wfh-new-order-form" onsubmit="submitWfhOrder(event)">
                             <div class="space-y-6">
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
                                         <label class="block text-xs font-bold text-primary uppercase tracking-wider mb-1">Assign to WFH Employee</label>
-                                        <select id="wfh-order-employee-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-primary-fixed-dim bg-opacity-20 focus:ring-primary focus:border-primary font-medium text-primary">
+                                        <select id="wfh-order-employee-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
                                             <!-- Will populate dynamically -->
                                         </select>
                                     </div>
-                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Order Date</label><input type="date" id="wfh-order-date" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary"></div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Order Date</label><input type="date" id="wfh-order-date" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div>
                                 </div>
                                 
-                                <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Task / Products / Details</label><textarea id="wfh-order-products-details" required rows="3" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="Enter task details or materials assigned..."></textarea></div>
+                                <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Task / Products / Details</label><textarea id="wfh-order-products-details" required rows="3" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="Enter task details or materials assigned..."></textarea></div>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total Bill Amount (₹)</label><input type="number" id="wfh-order-total-bill" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="0"></div>
-                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Advance Paid (₹)</label><input type="number" id="wfh-order-advance-paid" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest focus:ring-primary focus:border-primary" placeholder="0"></div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total Bill Amount (₹)</label><input type="number" id="wfh-order-total-bill" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="0"></div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Advance Paid (₹)</label><input type="number" id="wfh-order-advance-paid" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="0"></div>
                                 </div>
                                 <div class="flex justify-end gap-3 mt-8">
-                                    <button type="button" onclick="cancelWfhOrderEdit()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container rounded-lg transition-colors">Cancel</button>
+                                    <button type="button" onclick="cancelWfhOrderEdit()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container-low rounded-lg transition-colors">Cancel</button>
                                     <button type="submit" class="px-4 py-2 text-sm font-medium bg-primary text-on-primary active:opacity-90 rounded-lg transition-colors">Save WFH Order</button>
                                 </div>
                             </div>
@@ -434,22 +592,22 @@
     </div>
 
     <!-- MAIN Add/Edit Employee Modal -->
-    <div id="add-employee-modal" class="fixed inset-0 bg-on-surface bg-opacity-50 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-surface border border-outline-variant rounded-xl shadow-xl w-full max-w-md overflow-hidden">
-            <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-white">
+    <div id="add-employee-modal" class="fixed inset-0 bg-black bg-opacity-70 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-surface-container border border-outline-variant rounded-xl w-full max-w-md overflow-hidden">
+            <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-surface-container">
                 <h3 class="text-lg font-bold text-on-surface" id="modal-title">Add Main Factory Employee</h3>
                 <button onclick="closeAddEmployeeModal()" class="text-on-surface-variant active:text-error transition-colors"><span class="material-symbols-outlined">close</span></button>
             </div>
-            <div class="p-6 bg-white">
+            <div class="p-6 bg-surface-container">
                 <form id="add-employee-form" onsubmit="submitEmployee(event)">
                     <div class="space-y-4">
-                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Full Name</label><input type="text" id="emp-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2"></div>
-                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Role / Department</label><input type="text" id="emp-role" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2"></div>
-                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Base Salary (₹)</label><input type="number" id="emp-salary" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2"></div>
-                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Status</label><select id="emp-status" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-white"><option value="Active">Active</option><option value="Inactive">Inactive</option></select></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Full Name</label><input type="text" id="emp-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Role / Department</label><input type="text" id="emp-role" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Base Salary (₹)</label><input type="number" id="emp-salary" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Status</label><select id="emp-status" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"><option value="Active">Active</option><option value="Inactive">Inactive</option></select></div>
                     </div>
                     <div class="mt-8 flex justify-end gap-3">
-                        <button type="button" onclick="closeAddEmployeeModal()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container rounded-lg">Cancel</button>
+                        <button type="button" onclick="closeAddEmployeeModal()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container-low rounded-lg">Cancel</button>
                         <button type="submit" class="px-4 py-2 text-sm font-medium bg-primary text-on-primary rounded-lg">Save</button>
                     </div>
                 </form>
@@ -458,22 +616,22 @@
     </div>
 
     <!-- WFH Add/Edit Employee Modal -->
-    <div id="wfh-add-employee-modal" class="fixed inset-0 bg-on-surface bg-opacity-50 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-surface border border-outline-variant rounded-xl shadow-xl w-full max-w-md overflow-hidden border-l-4 border-l-primary">
-            <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-white">
+    <div id="wfh-add-employee-modal" class="fixed inset-0 bg-black bg-opacity-70 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-surface-container border border-outline-variant rounded-xl w-full max-w-md overflow-hidden border-l-4 border-l-primary">
+            <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-surface-container">
                 <h3 class="text-lg font-bold text-on-surface" id="wfh-modal-title">Add WFH Employee</h3>
                 <button onclick="closeWfhAddEmployeeModal()" class="text-on-surface-variant active:text-error transition-colors"><span class="material-symbols-outlined">close</span></button>
             </div>
-            <div class="p-6 bg-white">
+            <div class="p-6 bg-surface-container">
                 <form id="wfh-add-employee-form" onsubmit="submitWfhEmployee(event)">
                     <div class="space-y-4">
-                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Full Name</label><input type="text" id="wfh-emp-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2"></div>
-                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Role / Title</label><input type="text" id="wfh-emp-role" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2"></div>
-                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Base Salary (₹)</label><input type="number" id="wfh-emp-salary" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2"></div>
-                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Status</label><select id="wfh-emp-status" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-white"><option value="Active">Active</option><option value="Inactive">Inactive</option></select></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Full Name</label><input type="text" id="wfh-emp-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Role / Title</label><input type="text" id="wfh-emp-role" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Base Salary (₹)</label><input type="number" id="wfh-emp-salary" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Status</label><select id="wfh-emp-status" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"><option value="Active">Active</option><option value="Inactive">Inactive</option></select></div>
                     </div>
                     <div class="mt-8 flex justify-end gap-3">
-                        <button type="button" onclick="closeWfhAddEmployeeModal()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container rounded-lg">Cancel</button>
+                        <button type="button" onclick="closeWfhAddEmployeeModal()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container-low rounded-lg">Cancel</button>
                         <button type="submit" class="px-4 py-2 text-sm font-medium bg-primary text-on-primary rounded-lg">Save WFH Employee</button>
                     </div>
                 </form>
@@ -482,30 +640,30 @@
     </div>
 
     <!-- Add/Edit Payment Modal -->
-    <div id="add-payment-modal" class="fixed inset-0 bg-on-surface bg-opacity-50 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-surface border border-outline-variant rounded-xl shadow-xl w-full max-w-md overflow-hidden">
-            <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-white">
+    <div id="add-payment-modal" class="fixed inset-0 bg-black bg-opacity-70 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-surface-container border border-outline-variant rounded-xl w-full max-w-md overflow-hidden">
+            <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-surface-container">
                 <h3 class="text-lg font-bold text-on-surface" id="payment-modal-title">Add Payment History</h3>
                 <button onclick="closeAddPaymentModal()" class="text-on-surface-variant active:text-error transition-colors"><span class="material-symbols-outlined">close</span></button>
             </div>
-            <div class="p-6 bg-white">
+            <div class="p-6 bg-surface-container">
                 <form id="add-payment-form" onsubmit="submitPayment(event)">
                     <div class="space-y-4">
-                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Payment Date</label><input type="date" id="pay-date" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Payment Date</label><input type="date" id="pay-date" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div>
                         <div>
                             <label class="block text-xs font-bold text-on-surface-variant mb-1">Order Type</label>
-                            <select id="pay-type" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-white">
+                            <select id="pay-type" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
                                 <option value="" disabled selected>Select an Order Type</option>
                                 <option value="Wholesale">Wholesale</option>
                                 <option value="Raw Material">Raw Material</option>
                                 <option value="WFH">WFH</option>
                             </select>
                         </div>
-                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Amount (₹)</label><input type="number" id="pay-amount" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2" placeholder="0"></div>
-                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Reference / Notes</label><input type="text" id="pay-reference" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2" placeholder="Order ID or Description..."></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Amount (₹)</label><input type="number" id="pay-amount" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="0"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Reference / Notes</label><input type="text" id="pay-reference" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="Order ID or Description..."></div>
                     </div>
                     <div class="mt-8 flex justify-end gap-3">
-                        <button type="button" onclick="closeAddPaymentModal()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container rounded-lg">Cancel</button>
+                        <button type="button" onclick="closeAddPaymentModal()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container-low rounded-lg">Cancel</button>
                         <button type="submit" class="px-4 py-2 text-sm font-medium bg-primary text-on-primary rounded-lg">Save Payment</button>
                     </div>
                 </form>
@@ -515,6 +673,31 @@
 
     <!-- Logic & Database -->
     <script>
+        // 🛑 THEME TOGGLE LOGIC 🛑
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                html.style.colorScheme = 'light';
+                localStorage.setItem('theme', 'light');
+                document.getElementById('theme-icon-mobile').textContent = 'dark_mode';
+                if(document.getElementById('theme-icon-desktop')) document.getElementById('theme-icon-desktop').textContent = 'dark_mode';
+            } else {
+                html.classList.add('dark');
+                html.style.colorScheme = 'dark';
+                localStorage.setItem('theme', 'dark');
+                document.getElementById('theme-icon-mobile').textContent = 'light_mode';
+                if(document.getElementById('theme-icon-desktop')) document.getElementById('theme-icon-desktop').textContent = 'light_mode';
+            }
+        }
+        
+        window.addEventListener('DOMContentLoaded', () => {
+            const isLight = !document.documentElement.classList.contains('dark');
+            const icon = isLight ? 'dark_mode' : 'light_mode';
+            if(document.getElementById('theme-icon-mobile')) document.getElementById('theme-icon-mobile').textContent = icon;
+            if(document.getElementById('theme-icon-desktop')) document.getElementById('theme-icon-desktop').textContent = icon;
+        });
+
         // 🛑 YOUR PROVIDED FIREBASE KEYS 🛑
         const firebaseConfig = {
             apiKey: "AIzaSyAnwhEjJw7NiaCk4ARuP4pmYwAwQWr1WiQ",
@@ -535,6 +718,8 @@
         
         const liveToday = new Date();
         let currentDate = new Date(liveToday.getFullYear(), liveToday.getMonth(), 1); 
+        let payrollDate = new Date(liveToday.getFullYear(), liveToday.getMonth(), 1);
+        
         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         
         const statusCycle = [null, 'P', 'H', 'A', 'O'];
@@ -560,6 +745,7 @@
             renderWfhStaffList();
             renderWfhOrders();
             renderPayments();
+            renderPayroll(); 
         });
 
         function saveToDatabase() {
@@ -596,7 +782,7 @@
             
             document.querySelectorAll('.nav-btn').forEach(el => {
                 const isMobile = el.closest('#mobile-nav') !== null;
-                el.classList.remove(isMobile ? 'text-primary' : 'bg-primary', isMobile ? 'dummy' : 'text-on-primary', isMobile ? 'dummy' : 'font-medium');
+                el.classList.remove(isMobile ? 'text-primary' : 'bg-primary', isMobile ? 'dummy' : 'text-on-primary', isMobile ? 'dummy' : 'font-medium', 'nav-active');
                 if(!isMobile) el.classList.add('text-on-surface-variant');
                 else {
                     el.classList.add('text-on-surface-variant');
@@ -607,7 +793,7 @@
                 if(el.getAttribute('data-target') === viewId) {
                     if(!isMobile) { el.classList.add('bg-primary', 'text-on-primary', 'font-medium'); el.classList.remove('text-on-surface-variant'); }
                     else {
-                        el.classList.add('text-primary'); el.classList.remove('text-on-surface-variant');
+                        el.classList.add('text-primary', 'nav-active'); el.classList.remove('text-on-surface-variant');
                         const icon = el.querySelector('.material-symbols-outlined');
                         if(icon) icon.style.fontVariationSettings = "'FILL' 1";
                     }
@@ -616,6 +802,7 @@
 
             if(viewId === 'payments') renderPayments();
             if(viewId === 'attendance') renderAttendanceMatrix();
+            if(viewId === 'staff') renderPayroll();
             mainContent.scrollTop = 0; 
         }
         
@@ -628,9 +815,9 @@
 
         // ================= WFH SECTION LOGIC =================
         function switchWfhTab(tabId) {
-            document.querySelectorAll('.wfh-tab').forEach(el => { el.classList.remove('bg-primary', 'text-on-primary'); el.classList.add('bg-white', 'text-on-surface-variant'); });
+            document.querySelectorAll('.wfh-tab').forEach(el => { el.classList.remove('bg-primary', 'text-on-primary'); el.classList.add('bg-surface-container', 'text-on-surface-variant'); });
             const activeBtn = document.getElementById(`tab-wfh-${tabId}`);
-            if(activeBtn) { activeBtn.classList.remove('bg-white', 'text-on-surface-variant'); activeBtn.classList.add('bg-primary', 'text-on-primary'); }
+            if(activeBtn) { activeBtn.classList.remove('bg-surface-container', 'text-on-surface-variant'); activeBtn.classList.add('bg-primary', 'text-on-primary'); }
             
             document.querySelectorAll('.wfh-section-container').forEach(el => { el.classList.remove('block'); el.classList.add('hidden'); });
             if(document.getElementById(`section-wfh-${tabId}`)) {
@@ -642,8 +829,8 @@
         function renderWfhStaffList() {
             if (wfhEmployees.length === 0) { document.getElementById('wfh-staff-table-body').innerHTML = `<tr><td colspan="6" class="text-center py-8 text-on-surface-variant">No WFH staff added yet.</td></tr>`; return; }
             document.getElementById('wfh-staff-table-body').innerHTML = wfhEmployees.map(emp => {
-                const sb = emp.status === 'Active' ? `<span class="px-2 py-1 bg-primary-container text-on-primary-container rounded text-xs font-bold">Active</span>` : `<span class="px-2 py-1 bg-error-container text-on-error-container rounded text-xs font-bold">Inactive</span>`;
-                return `<tr class="hover:bg-surface-container-lowest transition-colors"><td class="px-6 py-4 font-mono text-xs text-on-surface-variant">${emp.id}</td><td class="px-6 py-4 font-medium text-on-surface flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold text-xs">${emp.name.charAt(0)}</div>${emp.name}</td><td class="px-6 py-4 text-on-surface-variant">${emp.role}</td><td class="px-6 py-4 text-on-surface-variant">₹${parseFloat(emp.salary).toLocaleString('en-IN')}</td><td class="px-6 py-4">${sb}</td><td class="px-6 py-4 text-right whitespace-nowrap"><button onclick="editWfhEmployee('${emp.id}')" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button><button onclick="removeWfhEmployee('${emp.id}')" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button></td></tr>`;
+                const sb = emp.status === 'Active' ? `<span class="px-2 py-1 rounded text-xs font-bold status-Active">Active</span>` : `<span class="px-2 py-1 rounded text-xs font-bold status-Inactive">Inactive</span>`;
+                return `<tr class="hover:bg-surface-container transition-colors"><td class="px-6 py-4 font-mono text-xs text-on-surface-variant border-b border-outline-variant">${emp.id}</td><td class="px-6 py-4 font-medium text-on-surface flex items-center gap-3 border-b border-outline-variant"><div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold text-xs">${emp.name.charAt(0)}</div>${emp.name}</td><td class="px-6 py-4 text-on-surface-variant border-b border-outline-variant">${emp.role}</td><td class="px-6 py-4 text-on-surface-variant border-b border-outline-variant">₹${parseFloat(emp.salary).toLocaleString('en-IN')}</td><td class="px-6 py-4 border-b border-outline-variant">${sb}</td><td class="px-6 py-4 text-right whitespace-nowrap border-b border-outline-variant"><button onclick="editWfhEmployee('${emp.id}')" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button><button onclick="removeWfhEmployee('${emp.id}')" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button></td></tr>`;
             }).join('');
         }
 
@@ -713,26 +900,26 @@
             }
             
             document.getElementById('wfh-orders-table-body').innerHTML = filteredOrders.map((order) => {
-                const sc = order.status === 'Processing' ? 'bg-primary-container text-primary bg-opacity-20' : 'bg-secondary-container text-on-secondary-container';
+                const statusClass = order.status.replace(/ /g, '-');
                 const total = parseFloat(order.totalBill) || 0;
                 const paid = parseFloat(order.advancePaid) || 0;
                 const due = total - paid;
                 
-                return `<tr class="hover:bg-surface-container-lowest transition-colors">
-                    <td class="px-6 py-4 font-mono text-xs text-on-surface-variant">${order.id}</td>
-                    <td class="px-6 py-4 font-bold text-primary">${order.assignedEmployee}</td>
-                    <td class="px-6 py-4">${order.products}</td>
-                    <td class="px-6 py-4">
+                return `<tr class="hover:bg-surface-container transition-colors">
+                    <td class="px-6 py-4 font-mono text-xs text-on-surface-variant border-b border-outline-variant">${order.id}</td>
+                    <td class="px-6 py-4 font-bold text-primary border-b border-outline-variant">${order.assignedEmployee}</td>
+                    <td class="px-6 py-4 border-b border-outline-variant text-on-surface">${order.products}</td>
+                    <td class="px-6 py-4 border-b border-outline-variant">
                         <div class="text-xs text-on-surface-variant">Total: ₹${total.toLocaleString('en-IN')}</div>
                         <div class="flex items-center gap-1 mt-1">
                             <span class="text-[10px] text-primary font-bold uppercase">Paid:</span>
-                            <input type="number" min="0" value="${paid || ''}" placeholder="0" onblur="updateWfhOrderPayment('${order.id}', this.value)" class="w-20 border-outline-variant rounded text-xs px-2 py-1 h-6 focus:ring-primary focus:border-primary">
+                            <input type="number" min="0" value="${paid || ''}" placeholder="0" onblur="updateWfhOrderPayment('${order.id}', this.value)" class="w-20 border-outline-variant rounded text-xs px-2 py-1 h-6 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
                         </div>
                         <div class="text-xs text-error font-bold mt-1">Due: ₹${due.toLocaleString('en-IN')}</div>
                     </td>
-                    <td class="px-6 py-4"><span onclick="toggleWfhOrderStatus('${order.id}')" class="px-2 py-1 rounded text-xs font-bold cursor-pointer active:opacity-80 transition-opacity whitespace-nowrap ${sc}">${order.status}</span></td>
-                    <td class="px-6 py-4 text-right text-on-surface-variant whitespace-nowrap">${order.date || ''}</td>
-                    <td class="px-6 py-4 text-right whitespace-nowrap">
+                    <td class="px-6 py-4 border-b border-outline-variant"><span onclick="toggleWfhOrderStatus('${order.id}')" class="px-2 py-1 rounded text-xs font-bold cursor-pointer active:opacity-80 transition-opacity whitespace-nowrap status-${statusClass}">${order.status}</span></td>
+                    <td class="px-6 py-4 text-right text-on-surface-variant whitespace-nowrap border-b border-outline-variant">${order.date || ''}</td>
+                    <td class="px-6 py-4 text-right whitespace-nowrap border-b border-outline-variant">
                         <button onclick="editWfhOrder('${order.id}')" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button>
                         <button onclick="deleteWfhOrder('${order.id}')" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button>
                     </td>
@@ -877,15 +1064,15 @@
                 else if(pay.type === 'Raw Material') badgeClass = 'type-Raw';
                 else if(pay.type === 'WFH') badgeClass = 'type-WFH';
 
-                return `<tr class="hover:bg-surface-container-lowest transition-colors">
-                    <td class="px-6 py-4 whitespace-nowrap text-on-surface-variant">${parseDateToYMD(pay.date)}</td>
-                    <td class="px-6 py-4"><span class="px-2 py-1 rounded text-xs font-bold ${badgeClass}">${pay.type}</span></td>
-                    <td class="px-6 py-4">
+                return `<tr class="hover:bg-surface-container transition-colors">
+                    <td class="px-6 py-4 whitespace-nowrap text-on-surface-variant border-b border-outline-variant">${parseDateToYMD(pay.date)}</td>
+                    <td class="px-6 py-4 border-b border-outline-variant"><span class="px-2 py-1 rounded text-xs font-bold ${badgeClass}">${pay.type}</span></td>
+                    <td class="px-6 py-4 border-b border-outline-variant">
                         <div class="font-medium text-on-surface">${pay.reference}</div>
                         <div class="text-[10px] text-outline uppercase tracking-wider mt-1">${pay.id}</div>
                     </td>
-                    <td class="px-6 py-4 text-right font-black text-primary text-lg">₹${pay.amount.toLocaleString('en-IN')}</td>
-                    <td class="px-6 py-4 text-right whitespace-nowrap">
+                    <td class="px-6 py-4 text-right font-black text-primary text-lg border-b border-outline-variant">₹${pay.amount.toLocaleString('en-IN')}</td>
+                    <td class="px-6 py-4 text-right whitespace-nowrap border-b border-outline-variant">
                         <button onclick="editPayment('${pay.id}')" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button>
                         <button onclick="deletePayment('${pay.id}')" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button>
                     </td>
@@ -895,9 +1082,9 @@
 
         // ================= MAIN FACTORY LOGIC =================
         function switchOrderTab(tabId) {
-            document.querySelectorAll('.order-tab').forEach(el => { el.classList.remove('bg-primary', 'text-on-primary'); el.classList.add('bg-white', 'text-on-surface-variant'); });
+            document.querySelectorAll('.order-tab').forEach(el => { el.classList.remove('bg-primary', 'text-on-primary'); el.classList.add('bg-surface-container', 'text-on-surface-variant'); });
             const activeBtn = document.getElementById(`tab-${tabId}`);
-            if(activeBtn) { activeBtn.classList.remove('bg-white', 'text-on-surface-variant'); activeBtn.classList.add('bg-primary', 'text-on-primary'); }
+            if(activeBtn) { activeBtn.classList.remove('bg-surface-container', 'text-on-surface-variant'); activeBtn.classList.add('bg-primary', 'text-on-primary'); }
             document.querySelectorAll('.order-table-container').forEach(el => { el.classList.remove('block'); el.classList.add('hidden'); });
             if(document.getElementById(`table-${tabId}`)) { document.getElementById(`table-${tabId}`).classList.remove('hidden'); document.getElementById(`table-${tabId}`).classList.add('block'); }
         }
@@ -942,16 +1129,16 @@
 
             if(filteredWholesale.length === 0) document.getElementById('wholesale-table-body').innerHTML = `<tr><td colspan="7" class="text-center py-8 text-on-surface-variant">No wholesale orders found.</td></tr>`;
             else document.getElementById('wholesale-table-body').innerHTML = filteredWholesale.map((order) => {
-                const sc = order.status === 'Processing' ? 'bg-primary-container text-primary bg-opacity-20' : 'bg-secondary-container text-on-secondary-container';
+                const statusClass = order.status.replace(/ /g, '-');
                 const total = parseFloat(order.totalBill) || 0; const paid = parseFloat(order.advancePaid) || 0; const due = total - paid;
-                return `<tr class="hover:bg-surface-container-lowest transition-colors"><td class="px-6 py-4 font-mono text-xs text-on-surface-variant">${order.id || 'N/A'}</td><td class="px-6 py-4 font-medium text-on-surface">${order.name || 'N/A'}</td><td class="px-6 py-4">${order.products || 'N/A'}</td><td class="px-6 py-4"><div class="text-xs text-on-surface-variant">Total: ₹${total.toLocaleString('en-IN')}</div><div class="flex items-center gap-1 mt-1"><span class="text-[10px] text-primary font-bold uppercase">Paid:</span><input type="number" min="0" value="${paid || ''}" placeholder="0" onblur="updateOrderPayment('wholesale', '${order.id}', this.value)" class="w-20 border-outline-variant rounded text-xs px-2 py-1 h-6 focus:ring-primary focus:border-primary"></div><div class="text-xs text-error font-bold mt-1">Due: ₹${due.toLocaleString('en-IN')}</div></td><td class="px-6 py-4"><span onclick="toggleOrderStatus('wholesale', '${order.id}')" class="px-2 py-1 rounded text-xs font-bold cursor-pointer active:opacity-80 transition-opacity whitespace-nowrap ${sc}">${order.status}</span></td><td class="px-6 py-4 text-right text-on-surface-variant whitespace-nowrap">${order.date || ''}</td><td class="px-6 py-4 text-right whitespace-nowrap"><button onclick="editOrder('wholesale', '${order.id}')" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button><button onclick="deleteOrder('wholesale', '${order.id}')" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button></td></tr>`;
+                return `<tr class="hover:bg-surface-container transition-colors"><td class="px-6 py-4 font-mono text-xs text-on-surface-variant border-b border-outline-variant">${order.id || 'N/A'}</td><td class="px-6 py-4 font-medium text-on-surface border-b border-outline-variant">${order.name || 'N/A'}</td><td class="px-6 py-4 text-on-surface border-b border-outline-variant">${order.products || 'N/A'}</td><td class="px-6 py-4 border-b border-outline-variant"><div class="text-xs text-on-surface-variant">Total: ₹${total.toLocaleString('en-IN')}</div><div class="flex items-center gap-1 mt-1"><span class="text-[10px] text-primary font-bold uppercase">Paid:</span><input type="number" min="0" value="${paid || ''}" placeholder="0" onblur="updateOrderPayment('wholesale', '${order.id}', this.value)" class="w-20 border-outline-variant rounded text-xs px-2 py-1 h-6 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div><div class="text-xs text-error font-bold mt-1">Due: ₹${due.toLocaleString('en-IN')}</div></td><td class="px-6 py-4 border-b border-outline-variant"><span onclick="toggleOrderStatus('wholesale', '${order.id}')" class="px-2 py-1 rounded text-xs font-bold cursor-pointer active:opacity-80 transition-opacity whitespace-nowrap status-${statusClass}">${order.status}</span></td><td class="px-6 py-4 text-right text-on-surface-variant whitespace-nowrap border-b border-outline-variant">${order.date || ''}</td><td class="px-6 py-4 text-right whitespace-nowrap border-b border-outline-variant"><button onclick="editOrder('wholesale', '${order.id}')" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button><button onclick="deleteOrder('wholesale', '${order.id}')" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button></td></tr>`;
             }).join('');
 
             if(filteredRaw.length === 0) document.getElementById('raw-table-body').innerHTML = `<tr><td colspan="7" class="text-center py-8 text-on-surface-variant">No raw material orders found.</td></tr>`;
             else document.getElementById('raw-table-body').innerHTML = filteredRaw.map((order) => {
-                const sc = order.status === 'In Transit' ? 'bg-primary-container text-primary bg-opacity-20' : 'bg-secondary-container text-on-secondary-container';
+                const statusClass = order.status.replace(/ /g, '-');
                 const total = parseFloat(order.totalBill) || 0; const paid = parseFloat(order.advancePaid) || 0; const due = total - paid;
-                return `<tr class="hover:bg-surface-container-lowest transition-colors"><td class="px-6 py-4 font-mono text-xs text-on-surface-variant">${order.id || 'N/A'}</td><td class="px-6 py-4 font-medium text-on-surface">${order.name || 'N/A'}</td><td class="px-6 py-4">${order.products || 'N/A'}</td><td class="px-6 py-4"><div class="text-xs text-on-surface-variant">Total: ₹${total.toLocaleString('en-IN')}</div><div class="flex items-center gap-1 mt-1"><span class="text-[10px] text-primary font-bold uppercase">Paid:</span><input type="number" min="0" value="${paid || ''}" placeholder="0" onblur="updateOrderPayment('raw', '${order.id}', this.value)" class="w-20 border-outline-variant rounded text-xs px-2 py-1 h-6 focus:ring-primary focus:border-primary"></div><div class="text-xs text-error font-bold mt-1">Due: ₹${due.toLocaleString('en-IN')}</div></td><td class="px-6 py-4"><span onclick="toggleOrderStatus('raw', '${order.id}')" class="px-2 py-1 rounded text-xs font-bold cursor-pointer active:opacity-80 transition-opacity whitespace-nowrap ${sc}">${order.status}</span></td><td class="px-6 py-4 text-right text-on-surface-variant whitespace-nowrap">${order.date || ''}</td><td class="px-6 py-4 text-right whitespace-nowrap"><button onclick="editOrder('raw', '${order.id}')" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button><button onclick="deleteOrder('raw', '${order.id}')" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button></td></tr>`;
+                return `<tr class="hover:bg-surface-container transition-colors"><td class="px-6 py-4 font-mono text-xs text-on-surface-variant border-b border-outline-variant">${order.id || 'N/A'}</td><td class="px-6 py-4 font-medium text-on-surface border-b border-outline-variant">${order.name || 'N/A'}</td><td class="px-6 py-4 text-on-surface border-b border-outline-variant">${order.products || 'N/A'}</td><td class="px-6 py-4 border-b border-outline-variant"><div class="text-xs text-on-surface-variant">Total: ₹${total.toLocaleString('en-IN')}</div><div class="flex items-center gap-1 mt-1"><span class="text-[10px] text-primary font-bold uppercase">Paid:</span><input type="number" min="0" value="${paid || ''}" placeholder="0" onblur="updateOrderPayment('raw', '${order.id}', this.value)" class="w-20 border-outline-variant rounded text-xs px-2 py-1 h-6 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div><div class="text-xs text-error font-bold mt-1">Due: ₹${due.toLocaleString('en-IN')}</div></td><td class="px-6 py-4 border-b border-outline-variant"><span onclick="toggleOrderStatus('raw', '${order.id}')" class="px-2 py-1 rounded text-xs font-bold cursor-pointer active:opacity-80 transition-opacity whitespace-nowrap status-${statusClass}">${order.status}</span></td><td class="px-6 py-4 text-right text-on-surface-variant whitespace-nowrap border-b border-outline-variant">${order.date || ''}</td><td class="px-6 py-4 text-right whitespace-nowrap border-b border-outline-variant"><button onclick="editOrder('raw', '${order.id}')" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button><button onclick="deleteOrder('raw', '${order.id}')" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button></td></tr>`;
             }).join('');
         }
 
@@ -1003,13 +1190,22 @@
             cancelOrderEdit(); saveToDatabase(); switchOrderTab(type === 'wholesale' ? 'wholesale' : 'raw');
         }
 
-        // ================= ATTENDANCE MATRIX =================
+        // ================= ATTENDANCE MATRIX & VISUAL HOLIDAY ONLY =================
         function changeMonth(delta) { currentDate.setMonth(currentDate.getMonth() + delta); renderAttendanceMatrix(); }
         
-        function getAttStatus(empId, year, month, day) {
-            let status = null;
-            if (attendanceData[year] && attendanceData[year][month] && attendanceData[year][month][empId] && attendanceData[year][month][empId][day] !== undefined) status = attendanceData[year][month][empId][day];
-            if (status === null) { const d = new Date(year, month, day); if (d.getMonth() === month && d.getDay() === 0) status = 'O'; }
+        function getRawAttStatus(empId, year, month, day) {
+            if (attendanceData[year] && attendanceData[year][month] && attendanceData[year][month][empId] && attendanceData[year][month][empId][day] !== undefined) {
+                return attendanceData[year][month][empId][day];
+            }
+            return null;
+        }
+
+        function getVisualAttStatus(empId, year, month, day) {
+            let status = getRawAttStatus(empId, year, month, day);
+            if (status === null) { 
+                const d = new Date(year, month, day); 
+                if (d.getMonth() === month && d.getDay() === 0) status = 'O'; 
+            }
             return status;
         }
 
@@ -1017,12 +1213,16 @@
             if(!attendanceData[year]) attendanceData[year] = {}; 
             if(!attendanceData[year][month]) attendanceData[year][month] = {}; 
             if(!attendanceData[year][month][empId]) attendanceData[year][month][empId] = {};
-            const cur = getAttStatus(empId, year, month, day);
+            
+            const cur = getVisualAttStatus(empId, year, month, day);
             let nxt = statusCycle[(statusCycle.indexOf(cur) + 1) % statusCycle.length];
+            
             const d = new Date(year, month, day);
             if (d.getMonth() === month && d.getDay() === 0 && nxt === null) nxt = 'P';
+            
             if (nxt === null) delete attendanceData[year][month][empId][day]; 
             else attendanceData[year][month][empId][day] = nxt;
+            
             saveToDatabase(); 
         }
 
@@ -1040,27 +1240,81 @@
             const daysInMonth = new Date(y, m + 1, 0).getDate();
             document.getElementById('att-month-year-display').textContent = `${monthNames[m]} ${y}`;
             let head = '<th class="w-48 min-w-[180px] bg-surface-bright">EMPLOYEE</th>';
-            for(let i = 1; i <= daysInMonth; i++) head += `<th class="w-10 min-w-[40px] text-xs font-medium text-outline">${i}</th>`;
+            for(let i = 1; i <= daysInMonth; i++) head += `<th class="w-10 min-w-[40px] text-xs font-medium text-outline border-b border-outline-variant">${i}</th>`;
             document.getElementById('att-table-head').innerHTML = head;
             const combinedStaff = [...employees, ...wfhEmployees];
-            if (combinedStaff.length === 0) { document.getElementById('att-table-body').innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center py-16 bg-white"><p class="text-on-surface-variant text-sm">No employees found.</p></td></tr>`; return; }
+            if (combinedStaff.length === 0) { document.getElementById('att-table-body').innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center py-16 text-on-surface-variant text-sm">No employees found.</td></tr>`; return; }
 
             document.getElementById('att-table-body').innerHTML = combinedStaff.map(emp => {
                 const isWFH = emp.id.includes('WFH');
                 const labelColor = isWFH ? 'text-primary' : 'text-on-surface';
                 const labelIcon = isWFH ? `<span class="material-symbols-outlined text-[14px] mr-1" title="WFH Employee">home_work</span>` : '';
-                let r = `<tr class="bg-white hover:bg-surface-container-lowest transition-colors"><td class="font-medium ${labelColor} bg-white truncate flex items-center" title="${emp.name}">${labelIcon}${emp.name}</td>`;
-                for(let i = 1; i <= daysInMonth; i++) r += `<td class="att-cell-interactive p-1" onclick="cycleStatus('${emp.id}', ${y}, ${m}, ${i})">${renderCellContent(getAttStatus(emp.id, y, m, i))}</td>`;
+                let r = `<tr class="hover:bg-surface-container transition-colors"><td class="font-medium ${labelColor} truncate flex items-center border-b border-outline-variant" title="${emp.name}">${labelIcon}${emp.name}</td>`;
+                for(let i = 1; i <= daysInMonth; i++) r += `<td class="att-cell-interactive p-1 border-b border-outline-variant" onclick="cycleStatus('${emp.id}', ${y}, ${m}, ${i})">${renderCellContent(getVisualAttStatus(emp.id, y, m, i))}</td>`;
                 return r + `</tr>`;
             }).join('');
+        }
+        
+        // ================= STAFF TAB SECTION =================
+        function switchStaffTab(tabId) {
+            document.querySelectorAll('.staff-tab').forEach(el => { el.classList.remove('bg-primary', 'text-on-primary'); el.classList.add('bg-surface-container', 'text-on-surface-variant'); });
+            const activeBtn = document.getElementById(`tab-staff-${tabId}`);
+            if(activeBtn) { activeBtn.classList.remove('bg-surface-container', 'text-on-surface-variant'); activeBtn.classList.add('bg-primary', 'text-on-primary'); }
+            document.querySelectorAll('.staff-section-container').forEach(el => { el.classList.remove('block'); el.classList.add('hidden'); });
+            if(document.getElementById(`section-staff-${tabId}`)) { document.getElementById(`section-staff-${tabId}`).classList.remove('hidden'); document.getElementById(`section-staff-${tabId}`).classList.add('block'); }
+            if (tabId === 'payroll') renderPayroll();
+        }
+
+        // ================= PAYROLL =================
+        function changePayrollMonth(delta) { payrollDate.setMonth(payrollDate.getMonth() + delta); renderPayroll(); }
+        function updateAdvance(empId, year, month, value) { if(!advancesData[year]) advancesData[year] = {}; if(!advancesData[year][month]) advancesData[year][month] = {}; advancesData[year][month][empId] = parseFloat(value) || 0; saveToDatabase(); }
+        
+        function renderPayroll() {
+            const displayEl = document.getElementById('payroll-month-year-display');
+            if (!displayEl) return;
+            
+            const y = payrollDate.getFullYear();
+            const m = payrollDate.getMonth();
+            const daysInMonth = new Date(y, m + 1, 0).getDate();
+            displayEl.textContent = `${monthNames[m]} ${y}`;
+            const combinedStaff = [...employees, ...wfhEmployees];
+            const tbody = document.getElementById('payroll-table-body');
+            if (!tbody) return;
+            
+            if (combinedStaff.length === 0) { tbody.innerHTML = `<tr><td colspan="5" class="text-center py-8 text-on-surface-variant">No employees to calculate.</td></tr>`; return; }
+
+            let html = '';
+            combinedStaff.forEach(emp => {
+                let p = 0, w = 0, h = 0, a = 0, o = 0;
+                for(let i = 1; i <= daysInMonth; i++) {
+                    const status = getRawAttStatus(emp.id, y, m, i);
+                    if(status === 'P') p++; if(status === 'W') w++; if(status === 'H') h++; if(status === 'A') a++; if(status === 'O') o++;
+                }
+                const baseSalary = parseFloat(emp.salary) || 0;
+                const dailyRate = baseSalary / daysInMonth; 
+                const earned = ((p + w + o) * dailyRate) + (h * (dailyRate / 2));
+                let advance = 0; if (advancesData[y] && advancesData[y][m] && advancesData[y][m][emp.id]) advance = advancesData[y][m][emp.id];
+                const netPayable = earned - advance;
+                const isWFH = emp.id.includes('WFH');
+                const iconColor = isWFH ? 'bg-primary text-on-primary' : 'bg-primary-container text-on-primary-container';
+                
+                let payrollBadges = `<span class="px-2 py-1 bg-[var(--badge-green-bg)] text-[var(--badge-green-txt)] rounded font-bold" title="Present">${p} P</span>`;
+                if (o > 0) payrollBadges += `<span class="px-2 py-1 bg-[var(--badge-indigo-bg)] text-[var(--badge-indigo-txt)] rounded font-bold ml-1" title="Holiday">${o} O</span>`;
+                if (w > 0) payrollBadges += `<span class="px-2 py-1 bg-[var(--badge-blue-bg)] text-[var(--badge-blue-txt)] rounded font-bold ml-1" title="Work From Home">${w} W</span>`;
+                payrollBadges += `<span class="px-2 py-1 bg-[var(--badge-yellow-bg)] text-[var(--badge-yellow-txt)] rounded font-bold ml-1" title="Half-day">${h} H</span>`;
+                payrollBadges += `<span class="px-2 py-1 bg-[var(--badge-red-bg)] text-[var(--badge-red-txt)] rounded font-bold ml-1" title="Absent">${a} A</span>`;
+
+                html += `<tr class="hover:bg-surface-container transition-colors"><td class="px-6 py-4 border-b border-outline-variant"><div class="font-medium text-on-surface flex items-center gap-3"><div class="w-8 h-8 rounded-full ${iconColor} flex items-center justify-center font-bold text-xs">${emp.name.charAt(0)}</div>${emp.name}</div><div class="text-xs text-on-surface-variant mt-1 ml-11">Base: ₹${baseSalary.toLocaleString('en-IN')}</div></td><td class="px-6 py-4 text-center border-b border-outline-variant"><div class="inline-flex gap-2 text-xs flex-wrap justify-center">${payrollBadges}</div></td><td class="px-6 py-4 text-right font-medium text-on-surface border-b border-outline-variant">₹${earned.toLocaleString('en-IN', {maximumFractionDigits: 0})}</td><td class="px-6 py-4 text-right border-b border-outline-variant"><input type="number" min="0" value="${advance || ''}" placeholder="0" onblur="updateAdvance('${emp.id}', ${y}, ${m}, this.value)" class="w-24 border-outline-variant rounded text-sm px-2 py-1 text-right bg-surface-container-lowest text-on-surface focus:ring-error focus:border-error"></td><td class="px-6 py-4 text-right font-black text-primary text-lg border-b border-outline-variant">₹${netPayable.toLocaleString('en-IN', {maximumFractionDigits: 0})}</td></tr>`;
+            });
+            tbody.innerHTML = html;
         }
 
         // ================= MAIN FACTORY STAFF DIRECTORY =================
         function renderStaffList() {
             if (employees.length === 0) { document.getElementById('staff-table-body').innerHTML = `<tr><td colspan="6" class="text-center py-8 text-on-surface-variant">No main staff added yet.</td></tr>`; return; }
             document.getElementById('staff-table-body').innerHTML = employees.map(emp => {
-                const sb = emp.status === 'Active' ? `<span class="px-2 py-1 bg-secondary-container text-on-secondary-container rounded text-xs font-bold">Active</span>` : `<span class="px-2 py-1 bg-error-container text-on-error-container rounded text-xs font-bold">Inactive</span>`;
-                return `<tr class="hover:bg-surface-container-lowest transition-colors"><td class="px-6 py-4 font-mono text-xs text-on-surface-variant">${emp.id}</td><td class="px-6 py-4 font-medium text-on-surface flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-xs">${emp.name.charAt(0)}</div>${emp.name}</td><td class="px-6 py-4 text-on-surface-variant">${emp.role}</td><td class="px-6 py-4 text-on-surface-variant">₹${parseFloat(emp.salary).toLocaleString('en-IN')}</td><td class="px-6 py-4">${sb}</td><td class="px-6 py-4 text-right whitespace-nowrap"><button onclick="editEmployee('${emp.id}')" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button><button onclick="removeEmployee('${emp.id}')" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button></td></tr>`;
+                const sb = emp.status === 'Active' ? `<span class="px-2 py-1 rounded text-xs font-bold status-Active">Active</span>` : `<span class="px-2 py-1 rounded text-xs font-bold status-Inactive">Inactive</span>`;
+                return `<tr class="hover:bg-surface-container transition-colors"><td class="px-6 py-4 font-mono text-xs text-on-surface-variant border-b border-outline-variant">${emp.id}</td><td class="px-6 py-4 font-medium text-on-surface flex items-center gap-3 border-b border-outline-variant"><div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-xs">${emp.name.charAt(0)}</div>${emp.name}</td><td class="px-6 py-4 text-on-surface-variant border-b border-outline-variant">${emp.role}</td><td class="px-6 py-4 text-on-surface-variant border-b border-outline-variant">₹${parseFloat(emp.salary).toLocaleString('en-IN')}</td><td class="px-6 py-4 border-b border-outline-variant">${sb}</td><td class="px-6 py-4 text-right whitespace-nowrap border-b border-outline-variant"><button onclick="editEmployee('${emp.id}')" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button><button onclick="removeEmployee('${emp.id}')" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button></td></tr>`;
             }).join('');
         }
 
