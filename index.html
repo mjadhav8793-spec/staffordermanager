@@ -11,9 +11,12 @@
         rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
-    <!-- FIREBASE SCRIPTS (Auth Removed) -->
+    <!-- FIREBASE SCRIPTS -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <!-- 🛑 SHEETJS LIBRARY FOR ADVANCED EXCEL EXPORT 🛑 -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
     <script id="tailwind-config">
         tailwind.config = {
@@ -75,7 +78,7 @@
             --outline: #737686;
             --outline-variant: #c3c6d7;
 
-            --primary: #004ac6;
+            --primary: #0d6efd;
             --on-primary: #ffffff;
             --primary-container: #2563eb;
             --on-primary-container: #eeefff;
@@ -106,20 +109,19 @@
             --badge-indigo-border: #4f46e5;
         }
 
-        /* 🛑 2. NORMAL DARK MODE (Smooth Grays with BLUE Accent) 🛑 */
+        /* 🛑 2. NORMAL DARK MODE (Deep Slate with Cobalt Blue - Matches Screenshot) 🛑 */
         .dark {
-            --surface: #121212;
-            --surface-container-lowest: #0a0a0a;
-            --surface-container-low: #1e1e1e;
-            --surface-container: #2c2c2c;
-            --surface-bright: #242424;
+            --surface: #18181f;
+            --surface-container-lowest: #121217;
+            --surface-container-low: #202029;
+            --surface-container: #202029;
+            --surface-bright: #18181f;
             --on-surface: #ffffff;
-            --on-surface-variant: #b3b3b3;
-            --outline: #5c5c5c;
-            --outline-variant: #404040;
+            --on-surface-variant: #a1a1b5;
+            --outline: #47475c;
+            --outline-variant: #343442;
 
-            /* Blue Accents */
-            --primary: #3b82f6;
+            --primary: #0d6efd;
             --on-primary: #ffffff;
             --primary-container: #1e3a8a;
             --on-primary-container: #dbeafe;
@@ -129,24 +131,24 @@
             --secondary-container: #334155;
             --on-secondary-container: #f8fafc;
 
-            --error: #ef4444;
+            --error: #fca5a5;
             --error-container: #7f1d1d;
             --on-error-container: #fca5a5;
 
-            --badge-green-bg: #064e3b;
-            --badge-green-txt: #6ee7b7;
-            --badge-green-border: #10b981;
-            --badge-blue-bg: #1e3a8a;
-            --badge-blue-txt: #93c5fd;
-            --badge-blue-border: #3b82f6;
-            --badge-yellow-bg: #713f12;
-            --badge-yellow-txt: #fde047;
-            --badge-yellow-border: #eab308;
-            --badge-red-bg: #7f1d1d;
-            --badge-red-txt: #fca5a5;
+            --badge-green-bg: #7df5b8;
+            --badge-green-txt: #014f36;
+            --badge-green-border: #7df5b8;
+            --badge-blue-bg: #1d4ed8;
+            --badge-blue-txt: #ffffff;
+            --badge-blue-border: #1d4ed8;
+            --badge-yellow-bg: #fef08a;
+            --badge-yellow-txt: #854d0e;
+            --badge-yellow-border: #fef08a;
+            --badge-red-bg: #ef4444;
+            --badge-red-txt: #ffffff;
             --badge-red-border: #ef4444;
-            --badge-indigo-bg: #312e81;
-            --badge-indigo-txt: #c7d2fe;
+            --badge-indigo-bg: #4f46e5;
+            --badge-indigo-txt: #ffffff;
             --badge-indigo-border: #4f46e5;
         }
 
@@ -162,7 +164,6 @@
             --outline: #3f3f46;
             --outline-variant: #27272a;
 
-            /* White Accents (Nothing OS Style) */
             --primary: #ffffff;
             --on-primary: #000000;
             --primary-container: #27272a;
@@ -408,6 +409,16 @@
         .nav-active {
             color: var(--primary) !important;
         }
+
+        /* Clean Chrome styling for Date pickers */
+        ::-webkit-calendar-picker-indicator {
+            filter: invert(0.8);
+            cursor: pointer;
+        }
+
+        .light ::-webkit-calendar-picker-indicator {
+            filter: invert(0);
+        }
     </style>
 </head>
 
@@ -427,10 +438,16 @@
                         </div>
                         <h1 class="text-xl font-bold tracking-tight text-on-surface truncate">SOM</h1>
                     </div>
-                    <!-- Desktop Theme Toggle -->
-                    <button onclick="toggleTheme()" class="p-2 bg-surface-container rounded-full text-on-surface-variant flex items-center justify-center shadow-sm active:scale-95 transition-all">
-                        <span id="theme-icon-desktop" class="material-symbols-outlined text-[20px]">dark_mode</span>
-                    </button>
+                    <div class="flex items-center gap-2">
+                        <!-- Desktop Export to Excel Toggle -->
+                        <button onclick="openExportModal()" class="p-2 bg-surface-container rounded-full text-primary flex items-center justify-center shadow-sm active:scale-95 transition-all" title="Export Current View to Excel/Sheets">
+                            <span class="material-symbols-outlined text-[20px]">table_view</span>
+                        </button>
+                        <!-- Desktop Theme Toggle -->
+                        <button onclick="toggleTheme()" class="p-2 bg-surface-container rounded-full text-on-surface-variant flex items-center justify-center shadow-sm active:scale-95 transition-all" title="Toggle Theme">
+                            <span id="theme-icon-desktop" class="material-symbols-outlined text-[20px]">dark_mode</span>
+                        </button>
+                    </div>
                 </div>
             </div>
             <nav class="flex-1 px-4 space-y-2 overflow-y-auto custom-scrollbar" id="desktop-nav">
@@ -456,6 +473,11 @@
                     </h1>
                 </div>
                 <div class="flex items-center gap-2">
+                    <!-- Mobile Export Toggle -->
+                    <button onclick="openExportModal()" class="p-2 bg-surface-container rounded-full text-primary flex items-center justify-center shadow-sm active:scale-95 transition-all" title="Export Current View to Excel/Sheets">
+                        <span class="material-symbols-outlined text-[20px]">table_view</span>
+                    </button>
+                    <!-- Mobile Theme Toggle -->
                     <button onclick="toggleTheme()" class="p-2 bg-surface-container rounded-full text-on-surface-variant flex items-center justify-center shadow-sm active:scale-95 transition-all">
                         <span id="theme-icon-mobile" class="material-symbols-outlined text-[20px]">dark_mode</span>
                     </button>
@@ -620,7 +642,7 @@
                                 <option value="all">All Types</option>
                                 <option value="Wholesale">Wholesale Orders</option>
                                 <option value="Raw Material">Raw Material Orders</option>
-                                <option value="WFH">WFH Orders</option>
+                                <option value="WFH Orders">WFH Orders</option>
                             </select>
                         </div>
                     </div>
@@ -950,7 +972,50 @@
         </nav>
     </div>
 
-    <!-- Modals -->
+    <!-- 🛑 EXPORT MODAL 🛑 -->
+    <div id="export-modal"
+        class="fixed inset-0 bg-black bg-opacity-70 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div
+            class="bg-surface-container border border-outline-variant rounded-xl w-full max-w-sm overflow-hidden shadow-2xl">
+            <div
+                class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-surface-container">
+                <h3 class="text-lg font-bold text-on-surface flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary text-[20px]">table_view</span> Export to Excel
+                </h3>
+                <button onclick="closeExportModal()" class="text-on-surface-variant active:text-error transition-colors"><span class="material-symbols-outlined">close</span></button>
+            </div>
+            <div class="p-6 bg-surface-container">
+                <div class="space-y-5">
+                    <div>
+                        <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Select Data to Export</label>
+                        <select id="export-data-type" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium" onchange="updateExportPeriodState()">
+                            <!-- Populated via JS based on current view -->
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Time Period</label>
+                        <select id="export-period" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium" onchange="toggleCustomMonthInput()">
+                            <!-- Populated dynamically -->
+                        </select>
+                        <p id="export-period-hint" class="text-[11px] text-on-surface-variant mt-2 hidden italic">Note:
+                            The currently displayed month on screen is automatically exported.</p>
+                    </div>
+                    <div id="export-custom-month-container" class="hidden">
+                        <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Select Month & Year</label>
+                        <input type="month" id="export-custom-month" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
+                    </div>
+                </div>
+                <div class="mt-8 flex justify-end gap-3">
+                    <button onclick="closeExportModal()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container-low rounded-lg transition-colors">Cancel</button>
+                    <button onclick="executeExport()" class="px-4 py-2 text-sm font-medium bg-[#107c41] text-white active:opacity-90 rounded-lg flex items-center gap-2 shadow-sm transition-colors hover:bg-[#0c5f32]">
+                        <span class="material-symbols-outlined text-[18px]">download</span> Download .xlsx
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD EMPLOYEE / WFH / PAYMENTS MODALS -->
     <div id="add-employee-modal"
         class="fixed inset-0 bg-black bg-opacity-70 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-surface-container border border-outline-variant rounded-xl w-full max-w-md overflow-hidden">
@@ -1065,12 +1130,15 @@
                     <h3 class="text-lg font-bold text-on-surface">Client Net Bills</h3>
                     <button onclick="closeNetBillModal()" class="text-on-surface-variant active:text-error transition-colors"><span class="material-symbols-outlined">close</span></button>
                 </div>
-                <div class="w-full sm:w-64">
-                    <select id="net-bill-period-filter" onchange="renderNetBillTable()" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
+                <div class="w-full sm:w-64 flex flex-col gap-2">
+                    <select id="net-bill-period-filter" onchange="toggleNetBillCustomMonth(); renderNetBillTable();" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
                         <option value="overall">Overall</option>
                         <option value="this_month">Monthly (This Month)</option>
                         <option value="this_year">Yearly (This Year)</option>
+                        <option value="custom">Custom Month</option>
                     </select>
+                    <!-- Custom Month input for App viewing -->
+                    <input type="month" id="net-bill-custom-month" onchange="renderNetBillTable()" class="hidden w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
                 </div>
             </div>
             <div class="p-0 overflow-y-auto custom-scrollbar flex-1 bg-surface-container-lowest">
@@ -1097,13 +1165,13 @@
     <script>
         // 🛑 THEME 3-WAY TOGGLE LOGIC 🛑
         const themes = ['light', 'dark', 'extra-dark'];
-        const icons = ['light_mode', 'dark_mode', 'contrast']; // Sun, Moon, Contrast
+        const icons = ['light_mode', 'dark_mode', 'contrast']; 
         let currentThemeIndex = 0;
 
         function initThemeUI() {
             const savedTheme = localStorage.getItem('theme') || 'dark';
             currentThemeIndex = themes.indexOf(savedTheme);
-            if (currentThemeIndex === -1) currentThemeIndex = 1; // fallback to normal dark
+            if (currentThemeIndex === -1) currentThemeIndex = 1; 
             updateThemeIcons();
         }
 
@@ -1133,7 +1201,7 @@
 
         window.addEventListener('DOMContentLoaded', initThemeUI);
 
-        // 🛑 1. INITIALIZE FIREBASE (PASTE YOUR CONFIG HERE) 🛑
+        // 🛑 1. INITIALIZE FIREBASE 🛑
         const firebaseConfig = {
             apiKey: "AIzaSyAnwhEjJw7NiaCk4ARuP4pmYwAwQWr1WiQ",
             authDomain: "factory-admin-fc1cc.firebaseapp.com",
@@ -1152,8 +1220,8 @@
         let wfhEmployees = [], wfhOrders = [];
         let paymentHistory = [];
         
-        // 🛑 2. LOAD DIRECTLY FROM YOUR ORIGINAL DATA FOLDER 🛑
-        const dbRef = db.ref('factoryData'); // Reverted to your original info path!
+        // 🛑 2. LOAD DIRECTLY FROM ORIGINAL DATA FOLDER 🛑
+        const dbRef = db.ref('factoryData'); 
         
         dbRef.on('value', (snapshot) => {
             const data = snapshot.val();
@@ -1168,6 +1236,11 @@
                 paymentHistory = data.paymentHistory || []; 
             } else {
                 employees = []; attendanceData = {}; advancesData = {}; wholesaleOrders = []; rawOrders = []; wfhEmployees = []; wfhOrders = []; paymentHistory = [];
+            }
+            // If viewing Net Bills, refresh it live
+            const netBillModal = document.getElementById('net-bill-modal');
+            if (netBillModal && !netBillModal.classList.contains('hidden')) {
+                renderNetBillTable();
             }
             renderAttendanceMatrix(); 
             renderOrders(); 
@@ -1191,6 +1264,267 @@
         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         const statusCycle = [null, 'P', 'H', 'A', 'O'];
         let editingEmployeeId = null, editingOrderId = null, editingOrderType = null, editingWfhEmployeeId = null, editingWfhOrderId = null, editingPaymentId = null;
+
+        // 🛑 NEW EXPORT LOGIC (BASED ON DATABASE ARRAYS, NO HTML PARSING) 🛑
+        function openExportModal() {
+            const activeView = document.querySelector('.view-section.active').id;
+            const select = document.getElementById('export-data-type');
+            select.innerHTML = '';
+            
+            // Map active views to possible export options
+            const options = {
+                'view-orders': ['Wholesale Orders', 'Raw Material Orders', 'Client Net Bills'],
+                'view-attendance': ['Attendance Matrix'],
+                'view-payments': ['Payments History'],
+                'view-wfh': ['WFH Employees', 'WFH Orders'],
+                'view-staff': ['Staff Directory', 'Staff Payroll']
+            };
+
+            const viewOptions = options[activeView] || [];
+            viewOptions.forEach(opt => {
+                const el = document.createElement('option');
+                el.value = opt;
+                el.textContent = opt;
+                select.appendChild(el);
+            });
+
+            // Set custom month picker to real current month by default
+            const now = new Date();
+            const yyyy = now.getFullYear();
+            const mm = String(now.getMonth() + 1).padStart(2, '0');
+            document.getElementById('export-custom-month').value = `${yyyy}-${mm}`;
+
+            updateExportPeriodState();
+            document.getElementById('export-modal').classList.remove('hidden');
+        }
+
+        function closeExportModal() {
+            document.getElementById('export-modal').classList.add('hidden');
+        }
+
+        function updateExportPeriodState() {
+            const type = document.getElementById('export-data-type').value;
+            const periodSelect = document.getElementById('export-period');
+            
+            periodSelect.innerHTML = ''; // clear options
+            periodSelect.disabled = false;
+            periodSelect.classList.remove('opacity-50');
+
+            if (['Staff Directory', 'WFH Employees'].includes(type)) {
+                periodSelect.add(new Option('Overall', 'Overall'));
+                periodSelect.disabled = true;
+                periodSelect.classList.add('opacity-50');
+            } else if (['Attendance Matrix', 'Staff Payroll'].includes(type)) {
+                periodSelect.add(new Option('Currently Displayed Month', 'Displayed Month'));
+                periodSelect.add(new Option('Custom Month', 'Custom Month'));
+            } else {
+                periodSelect.add(new Option('Overall', 'Overall'));
+                periodSelect.add(new Option('This Month', 'This Month'));
+                periodSelect.add(new Option('This Year', 'This Year'));
+                periodSelect.add(new Option('Custom Month', 'Custom Month'));
+            }
+            toggleCustomMonthInput();
+        }
+
+        function toggleCustomMonthInput() {
+            const period = document.getElementById('export-period').value;
+            const container = document.getElementById('export-custom-month-container');
+            const hint = document.getElementById('export-period-hint');
+            
+            if (period === 'Custom Month') {
+                container.classList.remove('hidden');
+                hint.classList.add('hidden');
+            } else {
+                container.classList.add('hidden');
+                if (period === 'Displayed Month') {
+                    hint.classList.remove('hidden');
+                } else {
+                    hint.classList.add('hidden');
+                }
+            }
+        }
+
+        function executeExport() {
+            const dataType = document.getElementById('export-data-type').value;
+            const period = document.getElementById('export-period').value;
+            const customMonthVal = document.getElementById('export-custom-month').value; 
+            
+            let targetYear = null, targetMonth = null;
+            if (period === 'Custom Month' && customMonthVal) {
+                const parts = customMonthVal.split('-');
+                targetYear = parseInt(parts[0], 10);
+                targetMonth = parseInt(parts[1], 10) - 1; // 0-indexed
+            }
+
+            let aoa = [];
+            let title = `${dataType}`;
+            
+            // Format Bold Main Heading
+            if (['Staff Directory', 'WFH Employees'].includes(dataType)) {
+                title += ` - Overall`;
+            } else if (['Attendance Matrix', 'Staff Payroll'].includes(dataType)) {
+                if (period === 'Custom Month' && targetYear !== null) {
+                    title += ` - ${monthNames[targetMonth]} ${targetYear}`;
+                } else {
+                    const d = dataType === 'Attendance Matrix' ? currentDate : payrollDate;
+                    title += ` - ${monthNames[d.getMonth()]} ${d.getFullYear()}`;
+                }
+            } else {
+                if (period === 'Custom Month' && targetYear !== null) {
+                    title += ` - ${monthNames[targetMonth]} ${targetYear}`;
+                } else {
+                    title += ` - ${period}`;
+                }
+            }
+
+            aoa.push([title]);
+            aoa.push([]); // Spacer row
+
+            // Logic to filter database arrays by selected time
+            function matchPeriod(dateStr) {
+                if(period === 'Overall') return true;
+                if(!dateStr) return false;
+                const d = new Date(dateStr);
+                if(isNaN(d.getTime())) return false;
+                
+                if (period === 'Custom Month' && targetYear !== null) {
+                    return d.getFullYear() === targetYear && d.getMonth() === targetMonth;
+                }
+                
+                const today = new Date();
+                if(period === 'This Month') return d.getMonth() === today.getMonth() && d.getFullYear() === today.getFullYear();
+                if(period === 'This Year') return d.getFullYear() === today.getFullYear();
+                return true;
+            }
+
+            // 1. ORDERS GENERATION
+            if (dataType === 'Wholesale Orders' || dataType === 'Raw Material Orders' || dataType === 'WFH Orders') {
+                const list = dataType === 'Wholesale Orders' ? wholesaleOrders : (dataType === 'Raw Material Orders' ? rawOrders : wfhOrders);
+                aoa.push(['Order ID', 'Client/Supplier Name', 'Products & Details', 'Total Bill (₹)', 'Advance Paid (₹)', 'Net Due (₹)', 'Status', 'Date']);
+                
+                list.filter(o => matchPeriod(o.date)).forEach(o => {
+                    const total = parseFloat(o.totalBill) || 0;
+                    const paid = parseFloat(o.advancePaid) || 0;
+                    const due = total - paid;
+                    const name = o.name || o.assignedEmployee || "Unknown";
+                    aoa.push([o.id, name, o.products, total, paid, due, o.status, parseDateToYMD(o.date)]);
+                });
+            }
+            // 2. CLIENT NET BILLS GENERATION
+            else if (dataType === 'Client Net Bills') {
+                aoa.push(['Client Name', 'Total Billed (₹)', 'Total Paid (₹)', 'Net Due (₹)']);
+                const clientTotals = {};
+                
+                wholesaleOrders.filter(o => matchPeriod(o.date)).forEach(o => {
+                    let rawName = (o.name || 'Unknown').trim();
+                    let clientKey = rawName.toLowerCase().replace(/\s+/g, ' '); 
+                    if (!clientTotals[clientKey]) {
+                        clientTotals[clientKey] = { displayName: clientKey.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '), total: 0, paid: 0 };
+                    }
+                    clientTotals[clientKey].total += parseFloat(o.totalBill) || 0;
+                    clientTotals[clientKey].paid += parseFloat(o.advancePaid) || 0;
+                });
+
+                for (const [key, data] of Object.entries(clientTotals)) {
+                    aoa.push([data.displayName, data.total, data.paid, data.total - data.paid]);
+                }
+            }
+            // 3. PAYMENTS GENERATION
+            else if (dataType === 'Payments History') {
+                aoa.push(['Date', 'Order Type', 'Reference / Notes', 'Amount (₹)']);
+                paymentHistory.filter(p => matchPeriod(p.date)).forEach(p => {
+                    aoa.push([parseDateToYMD(p.date), p.type, p.reference, p.amount]);
+                });
+            }
+            // 4. DIRECTORY GENERATION (Pure names, no profile code)
+            else if (dataType === 'Staff Directory' || dataType === 'WFH Employees') {
+                const list = dataType === 'Staff Directory' ? employees : wfhEmployees;
+                aoa.push(['Employee ID', 'Name', 'Role / Title', 'Base Salary (₹)', 'Status']);
+                list.forEach(e => { 
+                    aoa.push([e.id, e.name, e.role, e.salary, e.status]);
+                });
+            }
+            // 5. ATTENDANCE MATRIX GENERATION
+            else if (dataType === 'Attendance Matrix') {
+                let y = currentDate.getFullYear();
+                let m = currentDate.getMonth();
+                if (period === 'Custom Month' && targetYear !== null) {
+                    y = targetYear;
+                    m = targetMonth;
+                }
+                const daysInMonth = new Date(y, m + 1, 0).getDate();
+                
+                let header = ['Employee Name'];
+                for(let i=1; i<=daysInMonth; i++) header.push(i.toString());
+                aoa.push(header);
+
+                employees.forEach(emp => {
+                    let row = [emp.name]; // Only pure text name
+                    for(let i=1; i<=daysInMonth; i++) {
+                        row.push(getVisualAttStatus(emp.id, y, m, i) || '-');
+                    }
+                    aoa.push(row);
+                });
+            }
+            // 6. PAYROLL GENERATION
+            else if (dataType === 'Staff Payroll') {
+                let y = payrollDate.getFullYear();
+                let m = payrollDate.getMonth();
+                if (period === 'Custom Month' && targetYear !== null) {
+                    y = targetYear;
+                    m = targetMonth;
+                }
+                const daysInMonth = new Date(y, m + 1, 0).getDate();
+                
+                aoa.push(['Employee Name', 'Base Salary (₹)', 'Present (P)', 'WFH (W)', 'Half-day (H)', 'Absent (A)', 'Holiday (O)', 'Earned (₹)', 'Advance Given (₹)', 'Net Payable (₹)']);
+                
+                employees.forEach(emp => {
+                    let p=0, w=0, h=0, a=0, o=0;
+                    for(let i=1; i<=daysInMonth; i++) {
+                        const status = getRawAttStatus(emp.id, y, m, i);
+                        if(status === 'P') p++; if(status === 'W') w++; if(status === 'H') h++; if(status === 'A') a++; if(status === 'O') o++;
+                    }
+                    const baseSalary = parseFloat(emp.salary) || 0;
+                    const dailyRate = baseSalary / daysInMonth; 
+                    const earned = ((p + w + o) * dailyRate) + (h * (dailyRate / 2));
+                    let advance = 0; if (advancesData[y] && advancesData[y][m] && advancesData[y][m][emp.id]) advance = advancesData[y][m][emp.id];
+                    const netPayable = earned - advance;
+
+                    aoa.push([emp.name, baseSalary, p, w, h, a, o, Math.round(earned), advance, Math.round(netPayable)]);
+                });
+            }
+
+            // Calculate auto-widths for Excel Columns
+            let colWidths = [];
+            aoa.forEach((row, rowIndex) => {
+                if(rowIndex === 0) return; // Skip title row for width calculation
+                row.forEach((cell, i) => {
+                    let cellStr = cell !== null && cell !== undefined ? cell.toString() : "";
+                    let len = cellStr.length + 4; // Padding
+                    if(!colWidths[i] || len > colWidths[i].wch) {
+                        colWidths[i] = { wch: len > 50 ? 50 : len }; // Cap width at 50 chars
+                    }
+                });
+            });
+
+            // Build Workbook
+            let wb = XLSX.utils.book_new();
+            let ws = XLSX.utils.aoa_to_sheet(aoa);
+            ws['!cols'] = colWidths;
+            
+            // Merge Main Heading Cells across the top row
+            if (aoa.length > 0 && aoa[0].length > 0) {
+                const maxCol = colWidths.length > 1 ? colWidths.length - 1 : 4;
+                ws['!merges'] = [{ s: {r:0, c:0}, e: {r:0, c:maxCol} }];
+            }
+
+            // Download Trigger
+            const fileDate = new Date().toISOString().split('T')[0];
+            XLSX.utils.book_append_sheet(wb, ws, "SOM Data");
+            XLSX.writeFile(wb, `SOM_${dataType.replace(/\s+/g, '_')}_${fileDate}.xlsx`);
+            
+            closeExportModal();
+        }
 
         // 🛑 ANTI-REFRESH INTERCEPTOR JAVASCRIPT 🛑
         const mainContent = document.getElementById('main-content');
@@ -1523,8 +1857,26 @@
             }
         }
 
+        // ================= NET BILL LOGIC =================
+        function toggleNetBillCustomMonth() {
+            const filter = document.getElementById('net-bill-period-filter').value;
+            const customInput = document.getElementById('net-bill-custom-month');
+            if (filter === 'custom') {
+                customInput.classList.remove('hidden');
+            } else {
+                customInput.classList.add('hidden');
+            }
+        }
+
         function openNetBillModal() {
             document.getElementById('net-bill-period-filter').value = 'overall';
+            // Set default custom month to current month
+            const now = new Date();
+            const yyyy = now.getFullYear();
+            const mm = String(now.getMonth() + 1).padStart(2, '0');
+            document.getElementById('net-bill-custom-month').value = `${yyyy}-${mm}`;
+            
+            toggleNetBillCustomMonth();
             renderNetBillTable();
             document.getElementById('net-bill-modal').classList.remove('hidden');
         }
@@ -1535,6 +1887,15 @@
 
         function renderNetBillTable() {
             const filter = document.getElementById('net-bill-period-filter').value;
+            const customMonthVal = document.getElementById('net-bill-custom-month').value;
+            let targetYear = null, targetMonth = null;
+
+            if (filter === 'custom' && customMonthVal) {
+                const parts = customMonthVal.split('-');
+                targetYear = parseInt(parts[0], 10);
+                targetMonth = parseInt(parts[1], 10) - 1; // 0-indexed for JS Date
+            }
+
             let filteredWholesale = wholesaleOrders;
 
             if (filter !== 'overall') {
@@ -1551,6 +1912,8 @@
                             return (oMonth === tMonth && oYear === tYear);
                         } else if (filter === 'this_year') {
                             return (oYear === tYear);
+                        } else if (filter === 'custom' && targetYear !== null) {
+                            return (oYear === targetYear && oMonth === targetMonth);
                         }
                     }
                     return false; 
