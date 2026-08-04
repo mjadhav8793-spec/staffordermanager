@@ -10,6 +10,7 @@
     
     <!-- FIREBASE SCRIPTS -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <!-- 🛑 SHEETJS LIBRARY FOR ADVANCED EXCEL EXPORT 🛑 -->
@@ -60,6 +61,17 @@
             document.documentElement.classList.add('dark');
             document.documentElement.style.colorScheme = 'dark';
         }
+
+        // 🛑 PREVENT FLASH OF LOGIN SCREEN IF ALREADY LOGGED IN 🛑
+        document.addEventListener('DOMContentLoaded', () => {
+            const workspaceId = localStorage.getItem('som_workspace_id');
+            if (workspaceId) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('app-container').classList.remove('hidden');
+                document.getElementById('app-container').classList.add('flex');
+                initDatabase(workspaceId);
+            }
+        });
     </script>
 
     <style>
@@ -293,17 +305,6 @@
         ::-webkit-calendar-picker-indicator { filter: invert(0.8); cursor: pointer; }
         .light ::-webkit-calendar-picker-indicator { filter: invert(0); }
     </style>
-    
-    <!-- 🛑 PREVENT FLASH OF LOGIN SCREEN IF ALREADY LOGGED IN 🛑 -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            if (localStorage.getItem('som_auth_session') === 'active') {
-                document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('app-container').classList.remove('hidden');
-                document.getElementById('app-container').classList.add('flex');
-            }
-        });
-    </script>
 </head>
 <body class="bg-surface text-on-surface">
 
@@ -329,11 +330,10 @@
                 <div id="login-error" class="hidden mb-4 p-3 rounded-lg bg-red-500/20 border border-red-500/50 text-red-200 text-sm text-center font-medium backdrop-blur-md">
                 </div>
 
-                <form onsubmit="handleHardcodedLogin(event)" class="flex flex-col gap-4">
+                <form onsubmit="handleManualLogin(event)" class="flex flex-col gap-4">
                     <div>
                         <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1.5 ml-1">Email Address</label>
-                        <!-- autocomplete="off" stops browser from auto-logging in if logged out -->
-                        <input type="email" id="login-email" required placeholder="admin@gmail.com" autocomplete="off" class="login-input w-full rounded-xl px-4 py-3 text-sm">
+                        <input type="email" id="login-email" required placeholder="name@company.com" autocomplete="off" class="login-input w-full rounded-xl px-4 py-3 text-sm">
                     </div>
                     
                     <div>
@@ -1003,16 +1003,77 @@
 
     <!-- Logic & Database -->
     <script>
-        // 🛑 LOGIN SCREEN & SESSION MANAGER 🛑
-        function handleHardcodedLogin(e) {
+        // 🛑 LOGIN SCREEN & MULTI-TENANT WORKSPACE MANAGER 🛑
+        
+        // List of emails allowed to view the Central Admin Data
+        const sharedEmails = [
+            'admin@gmail.com',
+            'mjadhav8793@gmail.com',
+            'meghajadhav04@gmail.com'
+        ];
+
+        // Sanitize email so it can be safely used as a Firebase database path
+        function sanitizeEmail(email) {
+            return email.toLowerCase().replace(/[\.\#\$\[\]]/g, '_');
+        }
+
+        // Determine which database folder the user gets to access
+        function getWorkspaceId(email) {
+            if (sharedEmails.includes(email.toLowerCase())) {
+                return 'shared_admin_workspace';
+            } else {
+                return 'user_' + sanitizeEmail(email);
+            }
+        }
+
+        let dbRef = null;
+
+        function initDatabase(workspaceId) {
+            // Point the app to the user's specific workspace folder in Firebase
+            dbRef = db.ref('somWorkspaces/' + workspaceId);
+            
+            dbRef.on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    employees = data.employees || [];
+                    attendanceData = data.attendanceData || {};
+                    advancesData = data.advancesData || {};
+                    wholesaleOrders = data.wholesaleOrders || [];
+                    rawOrders = data.rawOrders || [];
+                    wfhEmployees = data.wfhEmployees || [];
+                    wfhOrders = data.wfhOrders || [];
+                    paymentHistory = data.paymentHistory || []; 
+                } else {
+                    employees = []; attendanceData = {}; advancesData = {}; wholesaleOrders = []; rawOrders = []; wfhEmployees = []; wfhOrders = []; paymentHistory = [];
+                }
+                
+                const netBillModal = document.getElementById('net-bill-modal');
+                if (netBillModal && !netBillModal.classList.contains('hidden')) renderNetBillTable();
+                
+                const rmNetBillModal = document.getElementById('rm-net-bill-modal');
+                if (rmNetBillModal && !rmNetBillModal.classList.contains('hidden')) renderRmNetBillTable();
+                
+                renderAttendanceMatrix(); 
+                renderOrders(); 
+                renderStaffList(); 
+                renderWfhStaffList();
+                renderWfhOrders();
+                renderPayments();
+                renderPayroll(); 
+            });
+        }
+
+        function handleManualLogin(e) {
             e.preventDefault();
             const email = document.getElementById('login-email').value;
             const pass = document.getElementById('login-password').value;
             const errorDiv = document.getElementById('login-error');
 
-            if (email === 'admin@gmail.com' && pass === 'adminadmin') {
+            if (email && pass) {
+                const workspaceId = getWorkspaceId(email);
+                
                 // Save secure session to local storage
-                localStorage.setItem('som_auth_session', 'active');
+                localStorage.setItem('som_workspace_id', workspaceId);
                 
                 // Clear password field for security
                 document.getElementById('login-password').value = '';
@@ -1021,21 +1082,47 @@
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('app-container').classList.remove('hidden');
                 document.getElementById('app-container').classList.add('flex');
+                
+                initDatabase(workspaceId);
             } else {
-                errorDiv.textContent = "Access Denied: You are not authorized to view this workspace.";
+                errorDiv.textContent = "Please enter an email and password.";
                 errorDiv.classList.remove('hidden');
             }
         }
 
         function handleGoogleLogin() {
             const errorDiv = document.getElementById('login-error');
-            errorDiv.textContent = "Please use the admin email and password form below.";
-            errorDiv.classList.remove('hidden');
+            errorDiv.classList.add('hidden');
+            
+            const provider = new firebase.auth.GoogleAuthProvider();
+            
+            firebase.auth().signInWithPopup(provider)
+                .then((result) => {
+                    const userEmail = result.user.email;
+                    const workspaceId = getWorkspaceId(userEmail);
+                    
+                    localStorage.setItem('som_workspace_id', workspaceId);
+                    
+                    document.getElementById('login-screen').style.display = 'none';
+                    document.getElementById('app-container').classList.remove('hidden');
+                    document.getElementById('app-container').classList.add('flex');
+                    
+                    initDatabase(workspaceId);
+                })
+                .catch((error) => {
+                    errorDiv.textContent = error.message;
+                    errorDiv.classList.remove('hidden');
+                });
         }
 
         function executeLogout() {
             // Destroy secure session
-            localStorage.removeItem('som_auth_session');
+            localStorage.removeItem('som_workspace_id');
+            firebase.auth().signOut();
+            
+            // Unload data from memory
+            employees = []; attendanceData = {}; advancesData = {}; wholesaleOrders = []; rawOrders = []; wfhEmployees = []; wfhOrders = []; paymentHistory = [];
+            if(dbRef) dbRef.off(); // Detach database listener
             
             // Hide App, Show Login
             document.getElementById('app-container').classList.remove('flex');
@@ -1084,66 +1171,13 @@
 
         window.addEventListener('DOMContentLoaded', initThemeUI);
 
-        // 🛑 1. INITIALIZE FIREBASE 🛑
-        const firebaseConfig = {
-            apiKey: "AIzaSyAnwhEjJw7NiaCk4ARuP4pmYwAwQWr1WiQ",
-            authDomain: "factory-admin-fc1cc.firebaseapp.com",
-            databaseURL: "https://factory-admin-fc1cc-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "factory-admin-fc1cc",
-            storageBucket: "factory-admin-fc1cc.firebasestorage.app",
-            messagingSenderId: "790894194445",
-            appId: "1:790894194445:web:cfb7173fe9302270204a44"
-        };
-        
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-
-        // Variable defaults
-        let employees = [], attendanceData = {}, advancesData = {}, wholesaleOrders = [], rawOrders = [];
-        let wfhEmployees = [], wfhOrders = [];
-        let paymentHistory = [];
-        
-        // 🛑 2. LOAD DIRECTLY FROM ORIGINAL DATA FOLDER 🛑
-        const dbRef = db.ref('factoryData'); 
-        
-        dbRef.on('value', (snapshot) => {
-            const data = snapshot.val();
-            if (data) {
-                employees = data.employees || [];
-                attendanceData = data.attendanceData || {};
-                advancesData = data.advancesData || {};
-                wholesaleOrders = data.wholesaleOrders || [];
-                rawOrders = data.rawOrders || [];
-                wfhEmployees = data.wfhEmployees || [];
-                wfhOrders = data.wfhOrders || [];
-                paymentHistory = data.paymentHistory || []; 
-            } else {
-                employees = []; attendanceData = {}; advancesData = {}; wholesaleOrders = []; rawOrders = []; wfhEmployees = []; wfhOrders = []; paymentHistory = [];
-            }
-            // If viewing Net Bills, refresh it live
-            const netBillModal = document.getElementById('net-bill-modal');
-            if (netBillModal && !netBillModal.classList.contains('hidden')) {
-                renderNetBillTable();
-            }
-            const rmNetBillModal = document.getElementById('rm-net-bill-modal');
-            if (rmNetBillModal && !rmNetBillModal.classList.contains('hidden')) {
-                renderRmNetBillTable();
-            }
-            
-            renderAttendanceMatrix(); 
-            renderOrders(); 
-            renderStaffList(); 
-            renderWfhStaffList();
-            renderWfhOrders();
-            renderPayments();
-            renderPayroll(); 
-        });
-
         function saveToDatabase() {
-            dbRef.set({ 
-                employees, attendanceData, advancesData, wholesaleOrders, rawOrders,
-                wfhEmployees, wfhOrders, paymentHistory
-            });
+            if(dbRef) {
+                dbRef.set({ 
+                    employees, attendanceData, advancesData, wholesaleOrders, rawOrders,
+                    wfhEmployees, wfhOrders, paymentHistory
+                });
+            }
         }
         
         const liveToday = new Date();
