@@ -989,7 +989,6 @@
         let paymentHistory = [];
         let dbRef = null;
 
-        // Shared Admin Workspace Emails
         const sharedEmails = [
             'admin@gmail.com',
             'mjadhav8793@gmail.com',
@@ -1044,41 +1043,35 @@
             });
         }
 
-        // AUTH & INITIAL LOAD HANDLER
-        window.addEventListener('DOMContentLoaded', () => {
+        // FIREBASE AUTH STATE OBSERVER (Central Auth Controller)
+        firebase.auth().onAuthStateChanged((user) => {
             const loginScreen = document.getElementById('login-screen');
             const appContainer = document.getElementById('app-container');
 
-            firebase.auth().getRedirectResult()
-                .then((result) => {
-                    if (result && result.user) {
-                        const userEmail = result.user.email;
-                        const workspaceId = getWorkspaceId(userEmail);
-                        
-                        localStorage.setItem('som_workspace_id', workspaceId);
-                        
-                        loginScreen.style.display = 'none';
+            if (user && user.email) {
+                const userEmail = user.email;
+                const workspaceId = getWorkspaceId(userEmail);
+                
+                localStorage.setItem('som_workspace_id', workspaceId);
+                
+                if (loginScreen) loginScreen.style.display = 'none';
+                if (appContainer) {
+                    appContainer.classList.remove('hidden');
+                    appContainer.classList.add('flex');
+                }
+                
+                initDatabase(workspaceId);
+            } else {
+                const workspaceId = localStorage.getItem('som_workspace_id');
+                if (workspaceId) {
+                    if (loginScreen) loginScreen.style.display = 'none';
+                    if (appContainer) {
                         appContainer.classList.remove('hidden');
                         appContainer.classList.add('flex');
-                        
-                        initDatabase(workspaceId);
-                    } else {
-                        const workspaceId = localStorage.getItem('som_workspace_id');
-                        if (workspaceId) {
-                            loginScreen.style.display = 'none';
-                            appContainer.classList.remove('hidden');
-                            appContainer.classList.add('flex');
-                            initDatabase(workspaceId);
-                        }
                     }
-                })
-                .catch((error) => {
-                    const errorDiv = document.getElementById('login-error');
-                    if (errorDiv && error.message) {
-                        errorDiv.textContent = error.message;
-                        errorDiv.classList.remove('hidden');
-                    }
-                });
+                    initDatabase(workspaceId);
+                }
+            }
         });
 
         function handleManualLogin(e) {
@@ -1123,20 +1116,9 @@
             } else {
                 firebase.auth().signInWithPopup(provider)
                     .then((result) => {
-                        const userEmail = result.user.email;
-                        const workspaceId = getWorkspaceId(userEmail);
-                        
-                        localStorage.setItem('som_workspace_id', workspaceId);
-                        
-                        document.getElementById('login-screen').style.display = 'none';
-                        document.getElementById('app-container').classList.remove('hidden');
-                        document.getElementById('app-container').classList.add('flex');
-                        
                         btn.disabled = false;
                         btn.classList.remove('opacity-70', 'cursor-not-allowed');
                         btnText.textContent = "Sign in with Google";
-                        
-                        initDatabase(workspaceId);
                     })
                     .catch((error) => {
                         if (error.code === 'auth/popup-blocked' || error.code === 'auth/popup-closed-by-user') {
@@ -1534,7 +1516,7 @@
                                 else if (c === 3) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "DBEAFE" } }; cell.s.font.color = { rgb: "1E3A8A" }; }
                                 else if (c === 4) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "FEF9C3" } }; cell.s.font.color = { rgb: "713F12" }; }
                                 else if (c === 5) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "FEE2E2" } }; cell.s.font.color = { rgb: "7F1D1D" }; }
-                                else if (c === 6) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "E0E7FF" }; cell.s.font.color = { rgb: "312E81" }; }
+                                else if (c === 6) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "E0E7FF" } }; cell.s.font.color = { rgb: "312E81" }; }
                             } else {
                                 cell.s.font.color = { rgb: "9CA3AF" };
                             }
