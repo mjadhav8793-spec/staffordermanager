@@ -61,17 +61,6 @@
             document.documentElement.classList.add('dark');
             document.documentElement.style.colorScheme = 'dark';
         }
-
-        // 🛑 PREVENT FLASH OF LOGIN SCREEN IF ALREADY LOGGED IN 🛑
-        document.addEventListener('DOMContentLoaded', () => {
-            const workspaceId = localStorage.getItem('som_workspace_id');
-            if (workspaceId) {
-                document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('app-container').classList.remove('hidden');
-                document.getElementById('app-container').classList.add('flex');
-                initDatabase(workspaceId);
-            }
-        });
     </script>
 
     <style>
@@ -333,7 +322,8 @@
                 <form onsubmit="handleManualLogin(event)" class="flex flex-col gap-4">
                     <div>
                         <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1.5 ml-1">Email Address</label>
-                        <input type="email" id="login-email" required placeholder="name@company.com" autocomplete="off" class="login-input w-full rounded-xl px-4 py-3 text-sm">
+                        <!-- autocomplete="off" stops browser from auto-logging in if logged out -->
+                        <input type="email" id="login-email" required placeholder="admin@gmail.com" autocomplete="off" class="login-input w-full rounded-xl px-4 py-3 text-sm">
                     </div>
                     
                     <div>
@@ -1003,6 +993,29 @@
 
     <!-- Logic & Database -->
     <script>
+        // 🛑 1. INITIALIZE FIREBASE 🛑
+        const firebaseConfig = {
+            apiKey: "AIzaSyAnwhEjJw7NiaCk4ARuP4pmYwAwQWr1WiQ",
+            authDomain: "factory-admin-fc1cc.firebaseapp.com",
+            databaseURL: "https://factory-admin-fc1cc-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "factory-admin-fc1cc",
+            storageBucket: "factory-admin-fc1cc.firebasestorage.app",
+            messagingSenderId: "790894194445",
+            appId: "1:790894194445:web:cfb7173fe9302270204a44"
+        };
+        
+        // Prevent double initialization errors
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.database();
+
+        // Variable defaults
+        let employees = [], attendanceData = {}, advancesData = {}, wholesaleOrders = [], rawOrders = [];
+        let wfhEmployees = [], wfhOrders = [];
+        let paymentHistory = [];
+        let dbRef = null;
+
         // 🛑 LOGIN SCREEN & MULTI-TENANT WORKSPACE MANAGER 🛑
         
         // List of emails allowed to view the Central Admin Data
@@ -1026,9 +1039,10 @@
             }
         }
 
-        let dbRef = null;
-
         function initDatabase(workspaceId) {
+            // Detach previous listeners to prevent overlap if logging into a different account
+            if (dbRef) dbRef.off();
+
             // Point the app to the user's specific workspace folder in Firebase
             dbRef = db.ref('somWorkspaces/' + workspaceId);
             
@@ -1133,6 +1147,15 @@
             document.getElementById('login-password').value = '';
         }
 
+        function saveToDatabase() {
+            if(dbRef) {
+                dbRef.set({ 
+                    employees, attendanceData, advancesData, wholesaleOrders, rawOrders,
+                    wfhEmployees, wfhOrders, paymentHistory
+                });
+            }
+        }
+
         // 🛑 THEME 3-WAY TOGGLE LOGIC 🛑
         const themes = ['light', 'dark', 'extra-dark'];
         const icons = ['light_mode', 'dark_mode', 'contrast']; 
@@ -1170,15 +1193,6 @@
         }
 
         window.addEventListener('DOMContentLoaded', initThemeUI);
-
-        function saveToDatabase() {
-            if(dbRef) {
-                dbRef.set({ 
-                    employees, attendanceData, advancesData, wholesaleOrders, rawOrders,
-                    wfhEmployees, wfhOrders, paymentHistory
-                });
-            }
-        }
         
         const liveToday = new Date();
         let currentDate = new Date(liveToday.getFullYear(), liveToday.getMonth(), 1); 
