@@ -10,6 +10,7 @@
     
     <!-- FIREBASE SCRIPTS -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <!-- 🛑 SHEETJS LIBRARY FOR ADVANCED EXCEL EXPORT 🛑 -->
@@ -96,7 +97,7 @@
             --badge-indigo-bg: #e0e7ff; --badge-indigo-txt: #3730a3; --badge-indigo-border: #4f46e5;
         }
 
-        /* 🛑 2. NORMAL DARK MODE (Deep Slate with Cobalt Blue - Matches Screenshot) 🛑 */
+        /* 🛑 2. NORMAL DARK MODE 🛑 */
         .dark {
             --surface: #18181f; 
             --surface-container-lowest: #121217; 
@@ -129,7 +130,7 @@
             --badge-indigo-bg: #4f46e5; --badge-indigo-txt: #ffffff; --badge-indigo-border: #4f46e5;
         }
 
-        /* 🛑 3. EXTRA DARK MODE (Pitch Black) 🛑 */
+        /* 🛑 3. EXTRA DARK MODE 🛑 */
         .extra-dark {
             --surface: #000000;
             --surface-container-lowest: #000000;
@@ -160,6 +161,89 @@
             --badge-yellow-bg: #713f12; --badge-yellow-txt: #fde047; --badge-yellow-border: #eab308;
             --badge-red-bg: #7f1d1d; --badge-red-txt: #fca5a5; --badge-red-border: #ef4444;
             --badge-indigo-bg: #312e81; --badge-indigo-txt: #c7d2fe; --badge-indigo-border: #4f46e5;
+        }
+
+        /* 🛑 LIQUID GLASS LOGIN STYLES 🛑 */
+        #login-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #121212;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .bg-image {
+            position: absolute;
+            inset: 0;
+            background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.6;
+            z-index: 1;
+        }
+
+        .blob {
+            position: absolute;
+            filter: blur(60px);
+            z-index: 2;
+            opacity: 0.7;
+            animation: moveBlobs 12s infinite alternate ease-in-out;
+        }
+        .blob-1 {
+            width: 400px; height: 400px;
+            background: linear-gradient(135deg, #0d6efd, #00c6ff);
+            top: -10%; left: -10%;
+        }
+        .blob-2 {
+            width: 350px; height: 350px;
+            background: linear-gradient(135deg, #00d760, #00714d);
+            bottom: -10%; right: -5%;
+            animation-delay: -4s;
+        }
+        .blob-3 {
+            width: 300px; height: 300px;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            top: 40%; left: 60%;
+            animation-delay: -8s;
+        }
+
+        @keyframes moveBlobs {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(50px, 80px) scale(1.1); }
+            100% { transform: translate(-60px, 30px) scale(0.9); }
+        }
+
+        .liquid-glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(24px) saturate(150%);
+            -webkit-backdrop-filter: blur(24px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            border-left: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.05);
+        }
+
+        .login-input {
+            background: rgba(0, 0, 0, 0.2) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: white !important;
+            transition: all 0.3s ease;
+        }
+        .login-input:focus {
+            background: rgba(0, 0, 0, 0.4) !important;
+            border: 1px solid #0d6efd !important;
+            outline: none;
+            box-shadow: 0 0 15px rgba(13, 110, 253, 0.3);
+        }
+        .login-input::placeholder { color: rgba(255, 255, 255, 0.4); }
+
+        .login-input:-webkit-autofill {
+            -webkit-box-shadow: 0 0 0 30px #1a1a1a inset !important;
+            -webkit-text-fill-color: white !important;
         }
 
         /* ANTI-REFRESH GLITCH LOCKDOWN */
@@ -213,8 +297,68 @@
 </head>
 <body class="bg-surface text-on-surface">
 
-    <!-- 🛑 MAIN APP 🛑 -->
-    <div id="app-container" class="flex h-screen w-full flex-col md:flex-row">
+    <!-- 🛑 LIQUID GLASS LOGIN SCREEN 🛑 -->
+    <div id="login-screen">
+        <div class="bg-image"></div>
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+
+        <div class="w-full max-w-md p-6 relative z-10">
+            <div class="liquid-glass rounded-3xl p-10">
+                
+                <div class="text-center mb-8">
+                    <div class="w-14 h-14 bg-blue-600 text-white rounded-xl flex items-center justify-center mx-auto mb-4 shadow-[0_0_20px_rgba(13,110,253,0.5)]">
+                        <span class="material-symbols-outlined text-[32px]">precision_manufacturing</span>
+                    </div>
+                    <h1 class="text-3xl font-bold text-white tracking-tight">SOM Portal</h1>
+                    <p class="text-sm text-gray-300 mt-2">Secure access to factory data</p>
+                </div>
+
+                <!-- Error Message Container -->
+                <div id="login-error" class="hidden mb-4 p-3 rounded-lg bg-red-500/20 border border-red-500/50 text-red-200 text-sm text-center font-medium backdrop-blur-md">
+                </div>
+
+                <form onsubmit="handleManualLogin(event)" class="flex flex-col gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1.5 ml-1">Email Address</label>
+                        <!-- autocomplete="off" stops browser from auto-logging in if logged out -->
+                        <input type="email" id="login-email" required placeholder="admin@gmail.com" autocomplete="off" class="login-input w-full rounded-xl px-4 py-3 text-sm">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1.5 ml-1">Password</label>
+                        <input type="password" id="login-password" required placeholder="••••••••" autocomplete="new-password" class="login-input w-full rounded-xl px-4 py-3 text-sm tracking-widest">
+                    </div>
+
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl py-3.5 mt-4 transition-all shadow-[0_4px_15px_rgba(13,110,253,0.4)] active:scale-[0.98]">
+                        Sign In to Workspace
+                    </button>
+                </form>
+
+                <div class="flex items-center justify-center gap-3 my-6">
+                    <div class="h-px bg-white/20 flex-1"></div>
+                    <span class="text-xs text-gray-400 font-medium">OR</span>
+                    <div class="h-px bg-white/20 flex-1"></div>
+                </div>
+
+                <button onclick="handleGoogleLogin()" type="button" class="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white font-medium rounded-xl py-3 flex items-center justify-center gap-3 transition-all active:scale-[0.98]">
+                    <svg width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                    </svg>
+                    Sign in with Google
+                </button>
+
+            </div>
+        </div>
+    </div>
+    <!-- 🛑 END LOGIN SCREEN 🛑 -->
+
+    <!-- 🛑 MAIN APP (Hidden Initially) 🛑 -->
+    <div id="app-container" class="hidden h-screen w-full flex-col md:flex-row">
         
         <!-- Desktop Sidebar -->
         <aside class="hidden md:flex flex-col w-72 bg-surface border-r border-outline-variant shrink-0 h-full z-20">
@@ -234,6 +378,10 @@
                         <!-- Desktop Theme Toggle -->
                         <button onclick="toggleTheme()" class="p-2 bg-surface-container rounded-full text-on-surface-variant flex items-center justify-center shadow-sm active:scale-95 transition-all" title="Toggle Theme">
                             <span id="theme-icon-desktop" class="material-symbols-outlined text-[20px]">dark_mode</span>
+                        </button>
+                        <!-- Desktop Logout Button -->
+                        <button onclick="executeLogout()" class="p-2 bg-surface-container rounded-full text-error flex items-center justify-center shadow-sm active:scale-95 transition-all" title="Logout">
+                            <span class="material-symbols-outlined text-[20px]">logout</span>
                         </button>
                     </div>
                 </div>
@@ -266,6 +414,10 @@
                     <!-- Mobile Theme Toggle -->
                     <button onclick="toggleTheme()" class="p-2 bg-surface-container rounded-full text-on-surface-variant flex items-center justify-center shadow-sm active:scale-95 transition-all">
                         <span id="theme-icon-mobile" class="material-symbols-outlined text-[20px]">dark_mode</span>
+                    </button>
+                    <!-- Mobile Logout Button -->
+                    <button onclick="executeLogout()" class="p-2 bg-surface-container rounded-full text-error flex items-center justify-center shadow-sm active:scale-95 transition-all" title="Logout">
+                        <span class="material-symbols-outlined text-[20px]">logout</span>
                     </button>
                 </div>
             </header>
@@ -841,6 +993,169 @@
 
     <!-- Logic & Database -->
     <script>
+        // 🛑 1. INITIALIZE FIREBASE 🛑
+        const firebaseConfig = {
+            apiKey: "AIzaSyAnwhEjJw7NiaCk4ARuP4pmYwAwQWr1WiQ",
+            authDomain: "factory-admin-fc1cc.firebaseapp.com",
+            databaseURL: "https://factory-admin-fc1cc-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "factory-admin-fc1cc",
+            storageBucket: "factory-admin-fc1cc.firebasestorage.app",
+            messagingSenderId: "790894194445",
+            appId: "1:790894194445:web:cfb7173fe9302270204a44"
+        };
+        
+        // Prevent double initialization errors
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.database();
+
+        // Variable defaults
+        let employees = [], attendanceData = {}, advancesData = {}, wholesaleOrders = [], rawOrders = [];
+        let wfhEmployees = [], wfhOrders = [];
+        let paymentHistory = [];
+        let dbRef = null;
+
+        // 🛑 LOGIN SCREEN & MULTI-TENANT WORKSPACE MANAGER 🛑
+        
+        // List of emails allowed to view the Central Admin Data
+        const sharedEmails = [
+            'admin@gmail.com',
+            'mjadhav8793@gmail.com',
+            'meghajadhav04@gmail.com'
+        ];
+
+        // Sanitize email so it can be safely used as a Firebase database path
+        function sanitizeEmail(email) {
+            return email.toLowerCase().replace(/[\.\#\$\[\]]/g, '_');
+        }
+
+        // Determine which database folder the user gets to access
+        function getWorkspaceId(email) {
+            if (sharedEmails.includes(email.toLowerCase())) {
+                return 'shared_admin_workspace';
+            } else {
+                return 'user_' + sanitizeEmail(email);
+            }
+        }
+
+        function initDatabase(workspaceId) {
+            // Detach previous listeners to prevent overlap if logging into a different account
+            if (dbRef) dbRef.off();
+
+            // Point the app to the user's specific workspace folder in Firebase
+            dbRef = db.ref('somWorkspaces/' + workspaceId);
+            
+            dbRef.on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    employees = data.employees || [];
+                    attendanceData = data.attendanceData || {};
+                    advancesData = data.advancesData || {};
+                    wholesaleOrders = data.wholesaleOrders || [];
+                    rawOrders = data.rawOrders || [];
+                    wfhEmployees = data.wfhEmployees || [];
+                    wfhOrders = data.wfhOrders || [];
+                    paymentHistory = data.paymentHistory || []; 
+                } else {
+                    employees = []; attendanceData = {}; advancesData = {}; wholesaleOrders = []; rawOrders = []; wfhEmployees = []; wfhOrders = []; paymentHistory = [];
+                }
+                
+                const netBillModal = document.getElementById('net-bill-modal');
+                if (netBillModal && !netBillModal.classList.contains('hidden')) renderNetBillTable();
+                
+                const rmNetBillModal = document.getElementById('rm-net-bill-modal');
+                if (rmNetBillModal && !rmNetBillModal.classList.contains('hidden')) renderRmNetBillTable();
+                
+                renderAttendanceMatrix(); 
+                renderOrders(); 
+                renderStaffList(); 
+                renderWfhStaffList();
+                renderWfhOrders();
+                renderPayments();
+                renderPayroll(); 
+            });
+        }
+
+        function handleManualLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const pass = document.getElementById('login-password').value;
+            const errorDiv = document.getElementById('login-error');
+
+            if (email && pass) {
+                const workspaceId = getWorkspaceId(email);
+                
+                // Save secure session to local storage
+                localStorage.setItem('som_workspace_id', workspaceId);
+                
+                // Clear password field for security
+                document.getElementById('login-password').value = '';
+
+                // Remove login screen and reveal app
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('app-container').classList.remove('hidden');
+                document.getElementById('app-container').classList.add('flex');
+                
+                initDatabase(workspaceId);
+            } else {
+                errorDiv.textContent = "Please enter an email and password.";
+                errorDiv.classList.remove('hidden');
+            }
+        }
+
+        function handleGoogleLogin() {
+            const errorDiv = document.getElementById('login-error');
+            errorDiv.classList.add('hidden');
+            
+            const provider = new firebase.auth.GoogleAuthProvider();
+            
+            firebase.auth().signInWithPopup(provider)
+                .then((result) => {
+                    const userEmail = result.user.email;
+                    const workspaceId = getWorkspaceId(userEmail);
+                    
+                    localStorage.setItem('som_workspace_id', workspaceId);
+                    
+                    document.getElementById('login-screen').style.display = 'none';
+                    document.getElementById('app-container').classList.remove('hidden');
+                    document.getElementById('app-container').classList.add('flex');
+                    
+                    initDatabase(workspaceId);
+                })
+                .catch((error) => {
+                    errorDiv.textContent = error.message;
+                    errorDiv.classList.remove('hidden');
+                });
+        }
+
+        function executeLogout() {
+            // Destroy secure session
+            localStorage.removeItem('som_workspace_id');
+            firebase.auth().signOut();
+            
+            // Unload data from memory
+            employees = []; attendanceData = {}; advancesData = {}; wholesaleOrders = []; rawOrders = []; wfhEmployees = []; wfhOrders = []; paymentHistory = [];
+            if(dbRef) dbRef.off(); // Detach database listener
+            
+            // Hide App, Show Login
+            document.getElementById('app-container').classList.remove('flex');
+            document.getElementById('app-container').classList.add('hidden');
+            document.getElementById('login-screen').style.display = 'flex';
+            
+            // Clear any lingering password inputs
+            document.getElementById('login-password').value = '';
+        }
+
+        function saveToDatabase() {
+            if(dbRef) {
+                dbRef.set({ 
+                    employees, attendanceData, advancesData, wholesaleOrders, rawOrders,
+                    wfhEmployees, wfhOrders, paymentHistory
+                });
+            }
+        }
+
         // 🛑 THEME 3-WAY TOGGLE LOGIC 🛑
         const themes = ['light', 'dark', 'extra-dark'];
         const icons = ['light_mode', 'dark_mode', 'contrast']; 
@@ -878,68 +1193,6 @@
         }
 
         window.addEventListener('DOMContentLoaded', initThemeUI);
-
-        // 🛑 1. INITIALIZE FIREBASE 🛑
-        const firebaseConfig = {
-            apiKey: "AIzaSyAnwhEjJw7NiaCk4ARuP4pmYwAwQWr1WiQ",
-            authDomain: "factory-admin-fc1cc.firebaseapp.com",
-            databaseURL: "https://factory-admin-fc1cc-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "factory-admin-fc1cc",
-            storageBucket: "factory-admin-fc1cc.firebasestorage.app",
-            messagingSenderId: "790894194445",
-            appId: "1:790894194445:web:cfb7173fe9302270204a44"
-        };
-        
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-
-        // Variable defaults
-        let employees = [], attendanceData = {}, advancesData = {}, wholesaleOrders = [], rawOrders = [];
-        let wfhEmployees = [], wfhOrders = [];
-        let paymentHistory = [];
-        
-        // 🛑 2. LOAD DIRECTLY FROM ORIGINAL DATA FOLDER 🛑
-        const dbRef = db.ref('factoryData'); 
-        
-        dbRef.on('value', (snapshot) => {
-            const data = snapshot.val();
-            if (data) {
-                employees = data.employees || [];
-                attendanceData = data.attendanceData || {};
-                advancesData = data.advancesData || {};
-                wholesaleOrders = data.wholesaleOrders || [];
-                rawOrders = data.rawOrders || [];
-                wfhEmployees = data.wfhEmployees || [];
-                wfhOrders = data.wfhOrders || [];
-                paymentHistory = data.paymentHistory || []; 
-            } else {
-                employees = []; attendanceData = {}; advancesData = {}; wholesaleOrders = []; rawOrders = []; wfhEmployees = []; wfhOrders = []; paymentHistory = [];
-            }
-            // If viewing Net Bills, refresh it live
-            const netBillModal = document.getElementById('net-bill-modal');
-            if (netBillModal && !netBillModal.classList.contains('hidden')) {
-                renderNetBillTable();
-            }
-            const rmNetBillModal = document.getElementById('rm-net-bill-modal');
-            if (rmNetBillModal && !rmNetBillModal.classList.contains('hidden')) {
-                renderRmNetBillTable();
-            }
-            
-            renderAttendanceMatrix(); 
-            renderOrders(); 
-            renderStaffList(); 
-            renderWfhStaffList();
-            renderWfhOrders();
-            renderPayments();
-            renderPayroll(); 
-        });
-
-        function saveToDatabase() {
-            dbRef.set({ 
-                employees, attendanceData, advancesData, wholesaleOrders, rawOrders,
-                wfhEmployees, wfhOrders, paymentHistory
-            });
-        }
         
         const liveToday = new Date();
         let currentDate = new Date(liveToday.getFullYear(), liveToday.getMonth(), 1); 
@@ -1251,11 +1504,11 @@
                         
                         // Payroll Attendance Headers
                         if (dataType === 'Staff Payroll') {
-                            if (c === 2) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "D1FAE5" } }; cell.s.font.color = { rgb: "064E3B" }; } // P
-                            else if (c === 3) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "DBEAFE" } }; cell.s.font.color = { rgb: "1E3A8A" }; } // W
-                            else if (c === 4) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "FEF9C3" } }; cell.s.font.color = { rgb: "713F12" }; } // H
-                            else if (c === 5) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "FEE2E2" } }; cell.s.font.color = { rgb: "7F1D1D" }; } // A
-                            else if (c === 6) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "E0E7FF" } }; cell.s.font.color = { rgb: "312E81" }; } // O
+                            if (c === 2) { cell.s.fill.fgColor = { rgb: "D1FAE5" }; cell.s.font.color = { rgb: "064E3B" }; } // P
+                            else if (c === 3) { cell.s.fill.fgColor = { rgb: "DBEAFE" }; cell.s.font.color = { rgb: "1E3A8A" }; } // W
+                            else if (c === 4) { cell.s.fill.fgColor = { rgb: "FEF9C3" }; cell.s.font.color = { rgb: "713F12" }; } // H
+                            else if (c === 5) { cell.s.fill.fgColor = { rgb: "FEE2E2" }; cell.s.font.color = { rgb: "7F1D1D" }; } // A
+                            else if (c === 6) { cell.s.fill.fgColor = { rgb: "E0E7FF" }; cell.s.font.color = { rgb: "312E81" }; } // O
                         }
                     }
 
@@ -1690,7 +1943,7 @@
             if (filter === 'custom_month' && customMonthVal) {
                 const parts = customMonthVal.split('-');
                 targetYear = parseInt(parts[0], 10);
-                targetMonth = parseInt(parts[1], 10) - 1; 
+                targetMonth = parseInt(parts[1], 10) - 1; // 0-indexed for JS Date
             } else if (filter === 'custom_year' && customYearVal) {
                 targetYearOnly = parseInt(customYearVal, 10);
             }
