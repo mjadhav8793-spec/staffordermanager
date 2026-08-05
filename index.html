@@ -1130,6 +1130,44 @@
             const errorDiv = document.getElementById('login-error');
             errorDiv.classList.add('hidden');
             
+            const btn = document.getElementById('google-login-btn');
+            const btnText = document.getElementById('google-btn-text');
+            
+            btn.disabled = true;
+            btn.classList.add('opacity-70', 'cursor-not-allowed');
+            btnText.textContent = "Authenticating...";
+            
+            const provider = new firebase.auth.GoogleAuthProvider();
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+            function resetBtn() {
+                btn.disabled = false;
+                btn.classList.remove('opacity-70', 'cursor-not-allowed');
+                btnText.textContent = "Sign in with Google";
+            }
+
+            function handleStandardGoogleSuccess(result) {
+                const userEmail = result.user.email;
+                const workspaceId = getWorkspaceId(userEmail);
+                localStorage.setItem('som_workspace_id', workspaceId);
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('app-container').classList.remove('hidden');
+                document.getElementById('app-container').classList.add('flex');
+                initDatabase(workspaceId);
+                resetBtn();
+            }
+            
+            function handleStandardGoogleError(err) {
+                // If popup blocked on mobile WebView, use redirect to prevent white screen
+                if (err.code === 'auth/popup-blocked' && isMobile) {
+                    firebase.auth().signInWithRedirect(provider);
+                } else {
+                    errorDiv.textContent = err.message;
+                    errorDiv.classList.remove('hidden');
+                    resetBtn();
+                }
+            }
+            
             if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
                 google.accounts.id.initialize({
                     client_id: "790894194445-m3jahjidit3dan0lma8bges5b8ermdme.apps.googleusercontent.com",
@@ -1138,39 +1176,24 @@
                 
                 google.accounts.id.prompt((notification) => {
                     if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-                        const provider = new firebase.auth.GoogleAuthProvider();
-                        firebase.auth().signInWithPopup(provider)
-                            .then((result) => {
-                                const userEmail = result.user.email;
-                                const workspaceId = getWorkspaceId(userEmail);
-                                localStorage.setItem('som_workspace_id', workspaceId);
-                                document.getElementById('login-screen').style.display = 'none';
-                                document.getElementById('app-container').classList.remove('hidden');
-                                document.getElementById('app-container').classList.add('flex');
-                                initDatabase(workspaceId);
-                            })
-                            .catch((err) => {
-                                errorDiv.textContent = err.message;
-                                errorDiv.classList.remove('hidden');
-                            });
+                        // The native bottom-sheet was blocked by the WebView wrapper
+                        if (isMobile) {
+                            firebase.auth().signInWithRedirect(provider);
+                        } else {
+                            firebase.auth().signInWithPopup(provider)
+                                .then(handleStandardGoogleSuccess)
+                                .catch(handleStandardGoogleError);
+                        }
                     }
                 });
             } else {
-                const provider = new firebase.auth.GoogleAuthProvider();
-                firebase.auth().signInWithPopup(provider)
-                    .then((result) => {
-                        const userEmail = result.user.email;
-                        const workspaceId = getWorkspaceId(userEmail);
-                        localStorage.setItem('som_workspace_id', workspaceId);
-                        document.getElementById('login-screen').style.display = 'none';
-                        document.getElementById('app-container').classList.remove('hidden');
-                        document.getElementById('app-container').classList.add('flex');
-                        initDatabase(workspaceId);
-                    })
-                    .catch((err) => {
-                        errorDiv.textContent = err.message;
-                        errorDiv.classList.remove('hidden');
-                    });
+                if (isMobile) {
+                    firebase.auth().signInWithRedirect(provider);
+                } else {
+                    firebase.auth().signInWithPopup(provider)
+                        .then(handleStandardGoogleSuccess)
+                        .catch(handleStandardGoogleError);
+                }
             }
         }
 
@@ -1554,7 +1577,7 @@
                                 if (c === 2) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "D1FAE5" } }; cell.s.font.color = { rgb: "064E3B" }; }
                                 else if (c === 3) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "DBEAFE" } }; cell.s.font.color = { rgb: "1E3A8A" }; }
                                 else if (c === 4) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "FEF9C3" } }; cell.s.font.color = { rgb: "713F12" }; }
-                                else if (c === 5) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "FEE2E2" } }; cell.s.font.color = { rgb: "7F1D1D" }; }
+                                else if (c === 5) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "FEE2E2" }; cell.s.font.color = { rgb: "7F1D1D" }; }
                                 else if (c === 6) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "E0E7FF" } }; cell.s.font.color = { rgb: "312E81" }; }
                             } else {
                                 cell.s.font.color = { rgb: "9CA3AF" };
