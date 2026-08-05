@@ -13,6 +13,9 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
+    <!-- GOOGLE ONE TAP / GIS CLIENT -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
     <!-- SHEETJS LIBRARY FOR ADVANCED EXCEL EXPORT -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
 
@@ -1043,19 +1046,34 @@
             });
         }
 
-        // 🛑 FAST LOCAL STORAGE CHECK TO PREVENT FLASH 🛑
-        window.addEventListener('DOMContentLoaded', () => {
+        // FIREBASE AUTH STATE OBSERVER
+        firebase.auth().onAuthStateChanged((user) => {
             const loginScreen = document.getElementById('login-screen');
             const appContainer = document.getElementById('app-container');
 
-            const workspaceId = localStorage.getItem('som_workspace_id');
-            if (workspaceId) {
+            if (user && user.email) {
+                const userEmail = user.email;
+                const workspaceId = getWorkspaceId(userEmail);
+                
+                localStorage.setItem('som_workspace_id', workspaceId);
+                
                 if (loginScreen) loginScreen.style.display = 'none';
                 if (appContainer) {
                     appContainer.classList.remove('hidden');
                     appContainer.classList.add('flex');
                 }
+                
                 initDatabase(workspaceId);
+            } else {
+                const workspaceId = localStorage.getItem('som_workspace_id');
+                if (workspaceId) {
+                    if (loginScreen) loginScreen.style.display = 'none';
+                    if (appContainer) {
+                        appContainer.classList.remove('hidden');
+                        appContainer.classList.add('flex');
+                    }
+                    initDatabase(workspaceId);
+                }
             }
         });
 
@@ -1082,21 +1100,14 @@
             }
         }
 
-        // 🛑 UPDATED: FORCED POPUP GOOGLE LOGIN FOR ALL DEVICES 🛑
-        function handleGoogleLogin() {
+        // GOOGLE ONE TAP / GIS ACCOUNT PICKER OVERLAY HANDLER
+        function handleCredentialResponse(response) {
             const errorDiv = document.getElementById('login-error');
             errorDiv.classList.add('hidden');
             
-            const btn = document.getElementById('google-login-btn');
-            const btnText = document.getElementById('google-btn-text');
+            const credential = firebase.auth.GoogleAuthProvider.credential(response.credential);
             
-            btn.disabled = true;
-            btn.classList.add('opacity-70', 'cursor-not-allowed');
-            btnText.textContent = "Authenticating...";
-            
-            const provider = new firebase.auth.GoogleAuthProvider();
-            
-            firebase.auth().signInWithPopup(provider)
+            firebase.auth().signInWithCredential(credential)
                 .then((result) => {
                     const userEmail = result.user.email;
                     const workspaceId = getWorkspaceId(userEmail);
@@ -1107,20 +1118,60 @@
                     document.getElementById('app-container').classList.remove('hidden');
                     document.getElementById('app-container').classList.add('flex');
                     
-                    btn.disabled = false;
-                    btn.classList.remove('opacity-70', 'cursor-not-allowed');
-                    btnText.textContent = "Sign in with Google";
-                    
                     initDatabase(workspaceId);
                 })
                 .catch((error) => {
                     errorDiv.textContent = error.message;
                     errorDiv.classList.remove('hidden');
-                    
-                    btn.disabled = false;
-                    btn.classList.remove('opacity-70', 'cursor-not-allowed');
-                    btnText.textContent = "Sign in with Google";
                 });
+        }
+
+        function handleGoogleLogin() {
+            const errorDiv = document.getElementById('login-error');
+            errorDiv.classList.add('hidden');
+            
+            if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+                google.accounts.id.initialize({
+                    client_id: "790894194445-m3jahjidit3dan0lma8bges5b8ermdme.apps.googleusercontent.com",
+                    callback: handleCredentialResponse
+                });
+                
+                google.accounts.id.prompt((notification) => {
+                    if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                        const provider = new firebase.auth.GoogleAuthProvider();
+                        firebase.auth().signInWithPopup(provider)
+                            .then((result) => {
+                                const userEmail = result.user.email;
+                                const workspaceId = getWorkspaceId(userEmail);
+                                localStorage.setItem('som_workspace_id', workspaceId);
+                                document.getElementById('login-screen').style.display = 'none';
+                                document.getElementById('app-container').classList.remove('hidden');
+                                document.getElementById('app-container').classList.add('flex');
+                                initDatabase(workspaceId);
+                            })
+                            .catch((err) => {
+                                errorDiv.textContent = err.message;
+                                errorDiv.classList.remove('hidden');
+                            });
+                    }
+                });
+            } else {
+                const provider = new firebase.auth.GoogleAuthProvider();
+                firebase.auth().signInWithPopup(provider)
+                    .then((result) => {
+                        const userEmail = result.user.email;
+                        const workspaceId = getWorkspaceId(userEmail);
+                        localStorage.setItem('som_workspace_id', workspaceId);
+                        document.getElementById('login-screen').style.display = 'none';
+                        document.getElementById('app-container').classList.remove('hidden');
+                        document.getElementById('app-container').classList.add('flex');
+                        initDatabase(workspaceId);
+                    })
+                    .catch((err) => {
+                        errorDiv.textContent = err.message;
+                        errorDiv.classList.remove('hidden');
+                    });
+            }
         }
 
         function executeLogout() {
