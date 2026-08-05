@@ -3,17 +3,16 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
-    <title>SOM Portal</title>
+    <title>SOM</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     
     <!-- FIREBASE SCRIPTS -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-    <!-- SHEETJS LIBRARY FOR ADVANCED EXCEL EXPORT -->
+    <!-- 🛑 SHEETJS LIBRARY FOR ADVANCED EXCEL EXPORT 🛑 -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
 
     <script id="tailwind-config">
@@ -50,6 +49,7 @@
     </script>
     
     <script>
+        // INIT THEME IMMEDIATELY TO PREVENT FLASH
         const savedTheme = localStorage.getItem('theme') || 'dark';
         if (savedTheme === 'light') {
             document.documentElement.style.colorScheme = 'light';
@@ -63,6 +63,7 @@
     </script>
 
     <style>
+        /* 🛑 1. LIGHT MODE 🛑 */
         :root {
             --surface: #f9f9ff;
             --surface-container-lowest: #ffffff;
@@ -95,6 +96,7 @@
             --badge-indigo-bg: #e0e7ff; --badge-indigo-txt: #3730a3; --badge-indigo-border: #4f46e5;
         }
 
+        /* 🛑 2. NORMAL DARK MODE (Deep Slate with Cobalt Blue - Matches Screenshot) 🛑 */
         .dark {
             --surface: #18181f; 
             --surface-container-lowest: #121217; 
@@ -127,6 +129,7 @@
             --badge-indigo-bg: #4f46e5; --badge-indigo-txt: #ffffff; --badge-indigo-border: #4f46e5;
         }
 
+        /* 🛑 3. EXTRA DARK MODE (Pitch Black) 🛑 */
         .extra-dark {
             --surface: #000000;
             --surface-container-lowest: #000000;
@@ -159,88 +162,7 @@
             --badge-indigo-bg: #312e81; --badge-indigo-txt: #c7d2fe; --badge-indigo-border: #4f46e5;
         }
 
-        #login-screen {
-            position: fixed;
-            inset: 0;
-            z-index: 999999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #121212;
-            overflow: hidden;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .bg-image {
-            position: absolute;
-            inset: 0;
-            background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80');
-            background-size: cover;
-            background-position: center;
-            opacity: 0.6;
-            z-index: 1;
-        }
-
-        .blob {
-            position: absolute;
-            filter: blur(60px);
-            z-index: 2;
-            opacity: 0.7;
-            animation: moveBlobs 12s infinite alternate ease-in-out;
-        }
-        .blob-1 {
-            width: 400px; height: 400px;
-            background: linear-gradient(135deg, #0d6efd, #00c6ff);
-            top: -10%; left: -10%;
-        }
-        .blob-2 {
-            width: 350px; height: 350px;
-            background: linear-gradient(135deg, #00d760, #00714d);
-            bottom: -10%; right: -5%;
-            animation-delay: -4s;
-        }
-        .blob-3 {
-            width: 300px; height: 300px;
-            background: linear-gradient(135deg, #6366f1, #a855f7);
-            top: 40%; left: 60%;
-            animation-delay: -8s;
-        }
-
-        @keyframes moveBlobs {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(50px, 80px) scale(1.1); }
-            100% { transform: translate(-60px, 30px) scale(0.9); }
-        }
-
-        .liquid-glass {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(24px) saturate(150%);
-            -webkit-backdrop-filter: blur(24px) saturate(150%);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-top: 1px solid rgba(255, 255, 255, 0.3);
-            border-left: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.05);
-        }
-
-        .login-input {
-            background: rgba(0, 0, 0, 0.2) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            color: white !important;
-            transition: all 0.3s ease;
-        }
-        .login-input:focus {
-            background: rgba(0, 0, 0, 0.4) !important;
-            border: 1px solid #0d6efd !important;
-            outline: none;
-            box-shadow: 0 0 15px rgba(13, 110, 253, 0.3);
-        }
-        .login-input::placeholder { color: rgba(255, 255, 255, 0.4); }
-
-        .login-input:-webkit-autofill {
-            -webkit-box-shadow: 0 0 0 30px #1a1a1a inset !important;
-            -webkit-text-fill-color: white !important;
-        }
-
+        /* ANTI-REFRESH GLITCH LOCKDOWN */
         html, body { overscroll-behavior: none !important; -webkit-overflow-scrolling: none !important; height: 100%; width: 100%; margin: 0; padding: 0; overflow: hidden; background-color: var(--surface); color: var(--on-surface); }
         #main-content { height: 100vh; overflow-y: auto; overscroll-behavior-y: none; -webkit-overflow-scrolling: touch; }
         body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -284,71 +206,15 @@
 
         .nav-active { color: var(--primary) !important; }
         
+        /* Clean Chrome styling for Date pickers */
         ::-webkit-calendar-picker-indicator { filter: invert(0.8); cursor: pointer; }
         .light ::-webkit-calendar-picker-indicator { filter: invert(0); }
     </style>
 </head>
 <body class="bg-surface text-on-surface">
 
-    <!-- LIQUID GLASS LOGIN SCREEN -->
-    <div id="login-screen">
-        <div class="bg-image"></div>
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
-
-        <div class="w-full max-w-md p-6 relative z-10">
-            <div class="liquid-glass rounded-3xl p-10">
-                
-                <div class="text-center mb-8">
-                    <div class="w-14 h-14 bg-blue-600 text-white rounded-xl flex items-center justify-center mx-auto mb-4 shadow-[0_0_20px_rgba(13,110,253,0.5)]">
-                        <span class="material-symbols-outlined text-[32px]">precision_manufacturing</span>
-                    </div>
-                    <h1 class="text-3xl font-bold text-white tracking-tight">SOM Portal</h1>
-                    <p class="text-sm text-gray-300 mt-2">Secure access to factory data</p>
-                </div>
-
-                <div id="login-error" class="hidden mb-4 p-3 rounded-lg bg-red-500/20 border border-red-500/50 text-red-200 text-sm text-center font-medium backdrop-blur-md">
-                </div>
-
-                <form onsubmit="handleManualLogin(event)" class="flex flex-col gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1.5 ml-1">Email Address</label>
-                        <input type="email" id="login-email" required placeholder="admin@gmail.com" autocomplete="off" class="login-input w-full rounded-xl px-4 py-3 text-sm">
-                    </div>
-                    
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1.5 ml-1">Password</label>
-                        <input type="password" id="login-password" required placeholder="••••••••" autocomplete="new-password" class="login-input w-full rounded-xl px-4 py-3 text-sm tracking-widest">
-                    </div>
-
-                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl py-3.5 mt-4 transition-all shadow-[0_4px_15px_rgba(13,110,253,0.4)] active:scale-[0.98]">
-                        Sign In to Workspace
-                    </button>
-                </form>
-
-                <div class="flex items-center justify-center gap-3 my-6">
-                    <div class="h-px bg-white/20 flex-1"></div>
-                    <span class="text-xs text-gray-400 font-medium">OR</span>
-                    <div class="h-px bg-white/20 flex-1"></div>
-                </div>
-
-                <button id="google-login-btn" onclick="handleGoogleLogin()" type="button" class="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white font-medium rounded-xl py-3 flex items-center justify-center gap-3 transition-all active:scale-[0.98]">
-                    <svg width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-                    </svg>
-                    <span id="google-btn-text">Sign in with Google</span>
-                </button>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- MAIN APP CONTAINER -->
-    <div id="app-container" class="hidden h-screen w-full flex-col md:flex-row">
+    <!-- 🛑 MAIN APP 🛑 -->
+    <div id="app-container" class="flex h-screen w-full flex-col md:flex-row">
         
         <!-- Desktop Sidebar -->
         <aside class="hidden md:flex flex-col w-72 bg-surface border-r border-outline-variant shrink-0 h-full z-20">
@@ -361,14 +227,13 @@
                         <h1 class="text-xl font-bold tracking-tight text-on-surface truncate">SOM</h1>
                     </div>
                     <div class="flex items-center gap-2">
+                        <!-- Desktop Export to Excel Toggle -->
                         <button onclick="openExportModal()" class="p-2 bg-surface-container rounded-full text-primary flex items-center justify-center shadow-sm active:scale-95 transition-all" title="Export Current View to Excel/Sheets">
                             <span class="material-symbols-outlined text-[20px]">table_view</span>
                         </button>
+                        <!-- Desktop Theme Toggle -->
                         <button onclick="toggleTheme()" class="p-2 bg-surface-container rounded-full text-on-surface-variant flex items-center justify-center shadow-sm active:scale-95 transition-all" title="Toggle Theme">
                             <span id="theme-icon-desktop" class="material-symbols-outlined text-[20px]">dark_mode</span>
-                        </button>
-                        <button onclick="executeLogout()" class="p-2 bg-surface-container rounded-full text-error flex items-center justify-center shadow-sm active:scale-95 transition-all" title="Logout">
-                            <span class="material-symbols-outlined text-[20px]">logout</span>
                         </button>
                     </div>
                 </div>
@@ -394,14 +259,13 @@
                     <h1 class="text-lg font-bold tracking-tight text-on-surface truncate uppercase tracking-wider">SOM</h1>
                 </div>
                 <div class="flex items-center gap-2">
+                    <!-- Mobile Export Toggle -->
                     <button onclick="openExportModal()" class="p-2 bg-surface-container rounded-full text-primary flex items-center justify-center shadow-sm active:scale-95 transition-all" title="Export Current View to Excel/Sheets">
                         <span class="material-symbols-outlined text-[20px]">table_view</span>
                     </button>
+                    <!-- Mobile Theme Toggle -->
                     <button onclick="toggleTheme()" class="p-2 bg-surface-container rounded-full text-on-surface-variant flex items-center justify-center shadow-sm active:scale-95 transition-all">
                         <span id="theme-icon-mobile" class="material-symbols-outlined text-[20px]">dark_mode</span>
-                    </button>
-                    <button onclick="executeLogout()" class="p-2 bg-surface-container rounded-full text-error flex items-center justify-center shadow-sm active:scale-95 transition-all" title="Logout">
-                        <span class="material-symbols-outlined text-[20px]">logout</span>
                     </button>
                 </div>
             </header>
@@ -415,6 +279,7 @@
                         <button onclick="openOrderForm()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 transition-all"><span class="material-symbols-outlined text-[18px]">add</span> New Main Order</button>
                     </div>
 
+                    <!-- PASSBOOK STYLE FILTERS -->
                     <div class="bg-surface-container p-4 rounded-xl border border-outline-variant mb-6 flex flex-col sm:flex-row gap-4 items-end">
                         <div class="flex-1 w-full">
                             <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Search Orders</label>
@@ -434,6 +299,7 @@
                         </div>
                     </div>
 
+                    <!-- TABS AND NET BILL BUTTON -->
                     <div class="flex flex-col sm:flex-row gap-3 mb-6 sm:items-center sm:justify-between">
                         <div class="flex gap-3 overflow-x-auto custom-scrollbar pb-1">
                             <button id="tab-wholesale" onclick="switchOrderTab('wholesale')" class="order-tab active bg-primary text-on-primary px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">Wholesale Orders</button>
@@ -721,6 +587,7 @@
                                     <div>
                                         <label class="block text-xs font-bold text-primary uppercase tracking-wider mb-1">Assign to WFH Employee</label>
                                         <select id="wfh-order-employee-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
+                                            <!-- Will populate dynamically -->
                                         </select>
                                     </div>
                                     <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Order Date</label><input type="date" id="wfh-order-date" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div>
@@ -743,7 +610,7 @@
             </main>
         </div>
         
-        <!-- MOBILE NAVIGATION -->
+        <!-- 🛑 5-BUTTON MOBILE NAV 🛑 -->
         <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-between items-center px-1 pt-2 pb-8 bg-surface border-t border-outline-variant shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]" id="mobile-nav">
             <button data-target="orders" class="nav-btn active flex flex-col items-center justify-center py-2 text-primary transition-colors w-1/5">
                 <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
@@ -768,7 +635,7 @@
         </nav>
     </div>
 
-    <!-- EXPORT MODAL -->
+    <!-- 🛑 EXPORT MODAL 🛑 -->
     <div id="export-modal" class="fixed inset-0 bg-black bg-opacity-70 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-surface-container border border-outline-variant rounded-xl w-full max-w-sm overflow-hidden shadow-2xl">
             <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-surface-container">
@@ -782,20 +649,24 @@
                     <div>
                         <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Select Data to Export</label>
                         <select id="export-data-type" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium" onchange="updateExportPeriodState()">
+                            <!-- Populated via JS based on current view -->
                         </select>
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Time Period</label>
                         <select id="export-period" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium" onchange="toggleExportCustomInputs()">
+                            <!-- Populated dynamically -->
                         </select>
                         <p id="export-period-hint" class="text-[11px] text-on-surface-variant mt-2 hidden italic">Note: The currently displayed month on screen is automatically exported.</p>
                     </div>
                     
+                    <!-- Month & Year Picker -->
                     <div id="export-custom-month-container" class="hidden">
                         <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Select Month & Year</label>
                         <input type="month" id="export-custom-month" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
                     </div>
                     
+                    <!-- Just Year Picker -->
                     <div id="export-custom-year-container" class="hidden">
                         <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Select Year</label>
                         <input type="number" id="export-custom-year" placeholder="YYYY (e.g. 2026)" min="2000" max="2100" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
@@ -812,7 +683,7 @@
         </div>
     </div>
 
-    <!-- MODALS SECTION -->
+    <!-- ADD EMPLOYEE / WFH / PAYMENTS MODALS -->
     <div id="add-employee-modal" class="fixed inset-0 bg-black bg-opacity-70 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-surface-container border border-outline-variant rounded-xl w-full max-w-md overflow-hidden">
             <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-surface-container">
@@ -922,6 +793,7 @@
                         </tr>
                     </thead>
                     <tbody id="net-bill-table-body" class="divide-y divide-outline-variant text-sm">
+                        <!-- Content injected via JS -->
                     </tbody>
                 </table>
             </div>
@@ -960,258 +832,16 @@
                         </tr>
                     </thead>
                     <tbody id="rm-net-bill-table-body" class="divide-y divide-outline-variant text-sm">
+                        <!-- Content injected via JS -->
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
-    <!-- MAIN CORE SCRIPT -->
+    <!-- Logic & Database -->
     <script>
-        // 1. INITIALIZE FIREBASE
-        const firebaseConfig = {
-            apiKey: "AIzaSyAnwhEjJw7NiaCk4ARuP4pmYwAwQWr1WiQ",
-            authDomain: "factory-admin-fc1cc.firebaseapp.com",
-            databaseURL: "https://factory-admin-fc1cc-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "factory-admin-fc1cc",
-            storageBucket: "factory-admin-fc1cc.firebasestorage.app",
-            messagingSenderId: "790894194445",
-            appId: "1:790894194445:web:cfb7173fe9302270204a44"
-        };
-        
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
-        const db = firebase.database();
-
-        let employees = [], attendanceData = {}, advancesData = {}, wholesaleOrders = [], rawOrders = [];
-        let wfhEmployees = [], wfhOrders = [];
-        let paymentHistory = [];
-        let dbRef = null;
-
-        const sharedEmails = [
-            'admin@gmail.com',
-            'mjadhav8793@gmail.com',
-            'meghajadhav04@gmail.com'
-        ];
-
-        function sanitizeEmail(email) {
-            return email.toLowerCase().replace(/[\.\#\$\[\]]/g, '_');
-        }
-
-        function getWorkspaceId(email) {
-            if (sharedEmails.includes(email.toLowerCase())) {
-                return 'shared_admin_workspace';
-            } else {
-                return 'user_' + sanitizeEmail(email);
-            }
-        }
-
-        function initDatabase(workspaceId) {
-            if (dbRef) dbRef.off();
-
-            dbRef = db.ref('somWorkspaces/' + workspaceId);
-            
-            dbRef.on('value', (snapshot) => {
-                const data = snapshot.val();
-                if (data) {
-                    employees = data.employees || [];
-                    attendanceData = data.attendanceData || {};
-                    advancesData = data.advancesData || {};
-                    wholesaleOrders = data.wholesaleOrders || [];
-                    rawOrders = data.rawOrders || [];
-                    wfhEmployees = data.wfhEmployees || [];
-                    wfhOrders = data.wfhOrders || [];
-                    paymentHistory = data.paymentHistory || []; 
-                } else {
-                    employees = []; attendanceData = {}; advancesData = {}; wholesaleOrders = []; rawOrders = []; wfhEmployees = []; wfhOrders = []; paymentHistory = [];
-                }
-                
-                const netBillModal = document.getElementById('net-bill-modal');
-                if (netBillModal && !netBillModal.classList.contains('hidden')) renderNetBillTable();
-                
-                const rmNetBillModal = document.getElementById('rm-net-bill-modal');
-                if (rmNetBillModal && !rmNetBillModal.classList.contains('hidden')) renderRmNetBillTable();
-                
-                renderAttendanceMatrix(); 
-                renderOrders(); 
-                renderStaffList(); 
-                renderWfhStaffList();
-                renderWfhOrders();
-                renderPayments();
-                renderPayroll(); 
-            });
-        }
-
-        // FIREBASE AUTH STATE OBSERVER
-        firebase.auth().onAuthStateChanged((user) => {
-            const loginScreen = document.getElementById('login-screen');
-            const appContainer = document.getElementById('app-container');
-
-            if (user && user.email) {
-                const workspaceId = getWorkspaceId(user.email);
-                localStorage.setItem('som_workspace_id', workspaceId);
-                
-                if (loginScreen) loginScreen.style.display = 'none';
-                if (appContainer) {
-                    appContainer.classList.remove('hidden');
-                    appContainer.classList.add('flex');
-                }
-                initDatabase(workspaceId);
-            }
-        });
-
-        // FAST LOCAL STORAGE & REDIRECT CHECK
-        window.addEventListener('DOMContentLoaded', () => {
-            const loginScreen = document.getElementById('login-screen');
-            const appContainer = document.getElementById('app-container');
-
-            firebase.auth().getRedirectResult()
-                .then((result) => {
-                    if (result && result.user) {
-                        const workspaceId = getWorkspaceId(result.user.email);
-                        localStorage.setItem('som_workspace_id', workspaceId);
-                        loginScreen.style.display = 'none';
-                        appContainer.classList.remove('hidden');
-                        appContainer.classList.add('flex');
-                        initDatabase(workspaceId);
-                    } else {
-                        const workspaceId = localStorage.getItem('som_workspace_id');
-                        if (workspaceId) {
-                            loginScreen.style.display = 'none';
-                            appContainer.classList.remove('hidden');
-                            appContainer.classList.add('flex');
-                            initDatabase(workspaceId);
-                        }
-                    }
-                })
-                .catch((error) => {
-                    const errorDiv = document.getElementById('login-error');
-                    if (errorDiv && error.message) {
-                        errorDiv.textContent = error.message;
-                        errorDiv.classList.remove('hidden');
-                    }
-                });
-        });
-
-        function handleManualLogin(e) {
-            e.preventDefault();
-            const email = document.getElementById('login-email').value;
-            const pass = document.getElementById('login-password').value;
-            const errorDiv = document.getElementById('login-error');
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-
-            if (email && pass) {
-                errorDiv.classList.add('hidden');
-                submitBtn.disabled = true;
-                submitBtn.textContent = "Signing In...";
-
-                // 1. Try Real Firebase Email Auth
-                firebase.auth().signInWithEmailAndPassword(email, pass)
-                    .then((userCredential) => {
-                        const workspaceId = getWorkspaceId(userCredential.user.email);
-                        localStorage.setItem('som_workspace_id', workspaceId);
-                        
-                        document.getElementById('login-password').value = '';
-                        document.getElementById('login-screen').style.display = 'none';
-                        document.getElementById('app-container').classList.remove('hidden');
-                        document.getElementById('app-container').classList.add('flex');
-                        
-                        initDatabase(workspaceId);
-                        
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = "Sign In to Workspace";
-                    })
-                    .catch((error) => {
-                        // 2. HARD BYPASS FOR ADMIN IF FIREBASE FAILS
-                        if (email === 'admin@gmail.com' && pass === 'adminadmin') {
-                            const workspaceId = getWorkspaceId(email);
-                            localStorage.setItem('som_workspace_id', workspaceId);
-                            
-                            document.getElementById('login-password').value = '';
-                            document.getElementById('login-screen').style.display = 'none';
-                            document.getElementById('app-container').classList.remove('hidden');
-                            document.getElementById('app-container').classList.add('flex');
-                            
-                            initDatabase(workspaceId);
-                            
-                            submitBtn.disabled = false;
-                            submitBtn.textContent = "Sign In to Workspace";
-                        } else {
-                            errorDiv.textContent = "Error: " + error.message;
-                            errorDiv.classList.remove('hidden');
-                            submitBtn.disabled = false;
-                            submitBtn.textContent = "Sign In to Workspace";
-                        }
-                    });
-            } else {
-                errorDiv.textContent = "Please enter an email and password.";
-                errorDiv.classList.remove('hidden');
-            }
-        }
-
-        function handleGoogleLogin() {
-            const errorDiv = document.getElementById('login-error');
-            errorDiv.classList.add('hidden');
-            
-            const btn = document.getElementById('google-login-btn');
-            const btnText = document.getElementById('google-btn-text');
-            
-            btn.disabled = true;
-            btn.classList.add('opacity-70', 'cursor-not-allowed');
-            btnText.textContent = "Authenticating...";
-            
-            const provider = new firebase.auth.GoogleAuthProvider();
-            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-            // WebIntoApp completely breaks Popups (White Screen). We MUST use redirect on mobile.
-            if (isMobile) {
-                firebase.auth().signInWithRedirect(provider);
-            } else {
-                firebase.auth().signInWithPopup(provider)
-                    .then((result) => {
-                        btn.disabled = false;
-                        btn.classList.remove('opacity-70', 'cursor-not-allowed');
-                        btnText.textContent = "Sign in with Google";
-                    })
-                    .catch((error) => {
-                        if (error.code === 'auth/popup-blocked') {
-                            firebase.auth().signInWithRedirect(provider);
-                        } else {
-                            errorDiv.textContent = error.message;
-                            errorDiv.classList.remove('hidden');
-                            
-                            btn.disabled = false;
-                            btn.classList.remove('opacity-70', 'cursor-not-allowed');
-                            btnText.textContent = "Sign in with Google";
-                        }
-                    });
-            }
-        }
-
-        function executeLogout() {
-            localStorage.removeItem('som_workspace_id');
-            firebase.auth().signOut();
-            
-            employees = []; attendanceData = {}; advancesData = {}; wholesaleOrders = []; rawOrders = []; wfhEmployees = []; wfhOrders = []; paymentHistory = [];
-            if(dbRef) dbRef.off();
-            
-            document.getElementById('app-container').classList.remove('flex');
-            document.getElementById('app-container').classList.add('hidden');
-            document.getElementById('login-screen').style.display = 'flex';
-            document.getElementById('login-password').value = '';
-        }
-
-        function saveToDatabase() {
-            if(dbRef) {
-                dbRef.set({ 
-                    employees, attendanceData, advancesData, wholesaleOrders, rawOrders,
-                    wfhEmployees, wfhOrders, paymentHistory
-                });
-            }
-        }
-
-        // THEME CONTROLLER
+        // 🛑 THEME 3-WAY TOGGLE LOGIC 🛑
         const themes = ['light', 'dark', 'extra-dark'];
         const icons = ['light_mode', 'dark_mode', 'contrast']; 
         let currentThemeIndex = 0;
@@ -1248,6 +878,68 @@
         }
 
         window.addEventListener('DOMContentLoaded', initThemeUI);
+
+        // 🛑 1. INITIALIZE FIREBASE 🛑
+        const firebaseConfig = {
+            apiKey: "AIzaSyAnwhEjJw7NiaCk4ARuP4pmYwAwQWr1WiQ",
+            authDomain: "factory-admin-fc1cc.firebaseapp.com",
+            databaseURL: "https://factory-admin-fc1cc-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "factory-admin-fc1cc",
+            storageBucket: "factory-admin-fc1cc.firebasestorage.app",
+            messagingSenderId: "790894194445",
+            appId: "1:790894194445:web:cfb7173fe9302270204a44"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // Variable defaults
+        let employees = [], attendanceData = {}, advancesData = {}, wholesaleOrders = [], rawOrders = [];
+        let wfhEmployees = [], wfhOrders = [];
+        let paymentHistory = [];
+        
+        // 🛑 2. LOAD DIRECTLY FROM ORIGINAL DATA FOLDER 🛑
+        const dbRef = db.ref('factoryData'); 
+        
+        dbRef.on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                employees = data.employees || [];
+                attendanceData = data.attendanceData || {};
+                advancesData = data.advancesData || {};
+                wholesaleOrders = data.wholesaleOrders || [];
+                rawOrders = data.rawOrders || [];
+                wfhEmployees = data.wfhEmployees || [];
+                wfhOrders = data.wfhOrders || [];
+                paymentHistory = data.paymentHistory || []; 
+            } else {
+                employees = []; attendanceData = {}; advancesData = {}; wholesaleOrders = []; rawOrders = []; wfhEmployees = []; wfhOrders = []; paymentHistory = [];
+            }
+            // If viewing Net Bills, refresh it live
+            const netBillModal = document.getElementById('net-bill-modal');
+            if (netBillModal && !netBillModal.classList.contains('hidden')) {
+                renderNetBillTable();
+            }
+            const rmNetBillModal = document.getElementById('rm-net-bill-modal');
+            if (rmNetBillModal && !rmNetBillModal.classList.contains('hidden')) {
+                renderRmNetBillTable();
+            }
+            
+            renderAttendanceMatrix(); 
+            renderOrders(); 
+            renderStaffList(); 
+            renderWfhStaffList();
+            renderWfhOrders();
+            renderPayments();
+            renderPayroll(); 
+        });
+
+        function saveToDatabase() {
+            dbRef.set({ 
+                employees, attendanceData, advancesData, wholesaleOrders, rawOrders,
+                wfhEmployees, wfhOrders, paymentHistory
+            });
+        }
         
         const liveToday = new Date();
         let currentDate = new Date(liveToday.getFullYear(), liveToday.getMonth(), 1); 
@@ -1256,7 +948,7 @@
         const statusCycle = [null, 'P', 'H', 'A', 'O'];
         let editingEmployeeId = null, editingOrderId = null, editingOrderType = null, editingWfhEmployeeId = null, editingWfhOrderId = null, editingPaymentId = null;
 
-        // EXPORT LOGIC
+        // 🛑 NEW EXPORT LOGIC WITH STYLES (xlsx-js-style) 🛑
         function openExportModal() {
             const activeView = document.querySelector('.view-section.active').id;
             const select = document.getElementById('export-data-type');
@@ -1374,7 +1066,7 @@
             }
 
             aoa.push([title]);
-            aoa.push([]);
+            aoa.push([]); // Spacer row
 
             function matchPeriod(dateStr) {
                 if(period === 'Overall') return true;
@@ -1395,6 +1087,7 @@
                 return true;
             }
 
+            // 1. ORDERS GENERATION
             if (dataType === 'Wholesale Orders' || dataType === 'Raw Material Orders' || dataType === 'WFH Orders') {
                 const list = dataType === 'Wholesale Orders' ? wholesaleOrders : (dataType === 'Raw Material Orders' ? rawOrders : wfhOrders);
                 aoa.push(['Order ID', 'Client/Supplier Name', 'Products & Details', 'Total Bill (₹)', 'Advance Paid (₹)', 'Net Due (₹)', 'Status', 'Date']);
@@ -1406,7 +1099,9 @@
                     const name = o.name || o.assignedEmployee || "Unknown";
                     aoa.push([o.id, name, o.products, total, paid, due, o.status, parseDateToYMD(o.date)]);
                 });
-            } else if (dataType === 'Client Net Bills' || dataType === 'RM Net Bills') {
+            }
+            // 2. NET BILLS GENERATION
+            else if (dataType === 'Client Net Bills' || dataType === 'RM Net Bills') {
                 const isClient = dataType === 'Client Net Bills';
                 aoa.push([isClient ? 'Client Name' : 'Supplier Name', 'Total Billed (₹)', 'Total Paid (₹)', 'Net Due (₹)']);
                 const totals = {};
@@ -1426,18 +1121,24 @@
                 for (const [key, data] of Object.entries(totals)) {
                     aoa.push([data.displayName, data.total, data.paid, data.total - data.paid]);
                 }
-            } else if (dataType === 'Payments History') {
+            }
+            // 3. PAYMENTS GENERATION
+            else if (dataType === 'Payments History') {
                 aoa.push(['Date', 'Order Type', 'Reference / Notes', 'Amount (₹)']);
                 paymentHistory.filter(p => matchPeriod(p.date)).forEach(p => {
                     aoa.push([parseDateToYMD(p.date), p.type, p.reference, p.amount]);
                 });
-            } else if (dataType === 'Staff Directory' || dataType === 'WFH Employees') {
+            }
+            // 4. DIRECTORY GENERATION 
+            else if (dataType === 'Staff Directory' || dataType === 'WFH Employees') {
                 const list = dataType === 'Staff Directory' ? employees : wfhEmployees;
                 aoa.push(['Employee ID', 'Name', 'Role / Title', 'Base Salary (₹)', 'Status']);
                 list.forEach(e => { 
                     aoa.push([e.id, e.name, e.role, e.salary, e.status]);
                 });
-            } else if (dataType === 'Attendance Matrix') {
+            }
+            // 5. ATTENDANCE MATRIX GENERATION
+            else if (dataType === 'Attendance Matrix') {
                 let y = currentDate.getFullYear();
                 let m = currentDate.getMonth();
                 if (period === 'Custom Month' && targetYear !== null) {
@@ -1457,7 +1158,9 @@
                     }
                     aoa.push(row);
                 });
-            } else if (dataType === 'Staff Payroll') {
+            }
+            // 6. PAYROLL GENERATION
+            else if (dataType === 'Staff Payroll') {
                 let y = payrollDate.getFullYear();
                 let m = payrollDate.getMonth();
                 if (period === 'Custom Month' && targetYear !== null) {
@@ -1484,13 +1187,18 @@
                 });
             }
 
+            // --- FIND FINANCIAL COLUMNS ---
             let financialCols = [];
             let dueCols = [];
             if (aoa[2]) {
                 aoa[2].forEach((header, idx) => {
                     if (header && typeof header === 'string') {
-                        if (header.includes('(₹)')) financialCols.push(idx);
-                        if (header.includes('Due')) dueCols.push(idx);
+                        if (header.includes('(₹)')) {
+                            financialCols.push(idx);
+                        }
+                        if (header.includes('Due')) {
+                            dueCols.push(idx);
+                        }
                     }
                 });
             }
@@ -1507,6 +1215,7 @@
                 });
             });
 
+            // Build Workbook
             let wb = XLSX.utils.book_new();
             let ws = XLSX.utils.aoa_to_sheet(aoa);
             ws['!cols'] = colWidths;
@@ -1516,67 +1225,82 @@
                 ws['!merges'] = [{ s: {r:0, c:0}, e: {r:0, c:maxCol} }];
             }
 
+            // --- APPLY STYLES ---
             for (let r = 0; r < aoa.length; r++) {
                 for (let c = 0; c < aoa[r].length; c++) {
                     const cellRef = XLSX.utils.encode_cell({ r: r, c: c });
                     if (!ws[cellRef]) continue;
 
                     let cell = ws[cellRef];
+                    
+                    // Initialize clean style object WITHOUT empty fill
                     cell.s = { font: { name: "Arial", sz: 11 }, alignment: { vertical: "center", horizontal: "left" } };
 
+                    // Title Row (0)
                     if (r === 0) {
                         cell.s.font.bold = true;
                         cell.s.font.sz = 14;
                         cell.s.alignment.horizontal = "center";
                     }
 
+                    // Header Row (2)
                     if (r === 2) {
                         cell.s.font.bold = true;
-                        cell.s.fill = { patternType: "solid", fgColor: { rgb: "F3F4F6" } };
+                        cell.s.fill = { patternType: "solid", fgColor: { rgb: "F3F4F6" } }; // Light Gray background
                         cell.s.alignment.horizontal = "center";
                         
+                        // Payroll Attendance Headers
                         if (dataType === 'Staff Payroll') {
-                            if (c === 2) { cell.s.fill.fgColor = { rgb: "D1FAE5" }; cell.s.font.color = { rgb: "064E3B" }; }
-                            else if (c === 3) { cell.s.fill.fgColor = { rgb: "DBEAFE" }; cell.s.font.color = { rgb: "1E3A8A" }; }
-                            else if (c === 4) { cell.s.fill.fgColor = { rgb: "FEF9C3" }; cell.s.font.color = { rgb: "713F12" }; }
-                            else if (c === 5) { cell.s.fill.fgColor = { rgb: "FEE2E2" }; cell.s.font.color = { rgb: "7F1D1D" }; }
-                            else if (c === 6) { cell.s.fill.fgColor = { rgb: "E0E7FF" }; cell.s.font.color = { rgb: "312E81" }; }
+                            if (c === 2) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "D1FAE5" } }; cell.s.font.color = { rgb: "064E3B" }; } // P
+                            else if (c === 3) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "DBEAFE" } }; cell.s.font.color = { rgb: "1E3A8A" }; } // W
+                            else if (c === 4) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "FEF9C3" } }; cell.s.font.color = { rgb: "713F12" }; } // H
+                            else if (c === 5) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "FEE2E2" } }; cell.s.font.color = { rgb: "7F1D1D" }; } // A
+                            else if (c === 6) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "E0E7FF" } }; cell.s.font.color = { rgb: "312E81" }; } // O
                         }
                     }
 
+                    // Data Rows (3+)
                     if (r >= 3) {
+                        // Financials (Green Text)
                         if (financialCols.includes(c)) {
-                            cell.s.font.color = { rgb: "107C41" };
+                            cell.s.font.color = { rgb: "107C41" }; // Excel Green
                             cell.s.font.bold = true;
                             cell.s.alignment.horizontal = "right";
-                            if (dueCols.includes(c)) cell.s.font.color = { rgb: "EF4444" };
+                            
+                            // Override to Red for Dues
+                            if (dueCols.includes(c)) {
+                                cell.s.font.color = { rgb: "EF4444" }; // Red
+                            }
                         }
 
+                        // Matrix Colors
                         if (dataType === 'Attendance Matrix' && c > 0) {
                             cell.s.alignment.horizontal = "center";
                             cell.s.font.bold = true;
-                            if (cell.v === 'P') { cell.s.fill = { patternType: "solid", fgColor: { rgb: "D1FAE5" } }; cell.s.font.color = { rgb: "064E3B" }; }
-                            else if (cell.v === 'A') { cell.s.fill = { patternType: "solid", fgColor: { rgb: "FEE2E2" } }; cell.s.font.color = { rgb: "7F1D1D" }; }
-                            else if (cell.v === 'H') { cell.s.fill = { patternType: "solid", fgColor: { rgb: "FEF9C3" } }; cell.s.font.color = { rgb: "713F12" }; }
-                            else if (cell.v === 'O') { cell.s.fill = { patternType: "solid", fgColor: { rgb: "E0E7FF" } }; cell.s.font.color = { rgb: "312E81" }; }
-                            else if (cell.v === 'W') { cell.s.fill = { patternType: "solid", fgColor: { rgb: "DBEAFE" } }; cell.s.font.color = { rgb: "1E3A8A" }; }
+                            if (cell.v === 'P') { cell.s.fill = { patternType: "solid", fgColor: { rgb: "D1FAE5" } }; cell.s.font.color = { rgb: "064E3B" }; } // Green
+                            else if (cell.v === 'A') { cell.s.fill = { patternType: "solid", fgColor: { rgb: "FEE2E2" } }; cell.s.font.color = { rgb: "7F1D1D" }; } // Red
+                            else if (cell.v === 'H') { cell.s.fill = { patternType: "solid", fgColor: { rgb: "FEF9C3" } }; cell.s.font.color = { rgb: "713F12" }; } // Yellow
+                            else if (cell.v === 'O') { cell.s.fill = { patternType: "solid", fgColor: { rgb: "E0E7FF" } }; cell.s.font.color = { rgb: "312E81" }; } // Indigo
+                            else if (cell.v === 'W') { cell.s.fill = { patternType: "solid", fgColor: { rgb: "DBEAFE" } }; cell.s.font.color = { rgb: "1E3A8A" }; } // Blue
                         }
                         
+                        // Payroll Attendance Cells
                         if (dataType === 'Staff Payroll' && c >= 2 && c <= 6) {
                             cell.s.alignment.horizontal = "center";
                             cell.s.font.bold = true;
                             if (cell.v > 0) {
-                                if (c === 2) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "D1FAE5" } }; cell.s.font.color = { rgb: "064E3B" }; }
-                                else if (c === 3) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "DBEAFE" } }; cell.s.font.color = { rgb: "1E3A8A" }; }
-                                else if (c === 4) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "FEF9C3" } }; cell.s.font.color = { rgb: "713F12" }; }
-                                else if (c === 5) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "FEE2E2" }; cell.s.font.color = { rgb: "7F1D1D" }; }
-                                else if (c === 6) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "E0E7FF" } }; cell.s.font.color = { rgb: "312E81" }; }
+                                if (c === 2) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "D1FAE5" } }; cell.s.font.color = { rgb: "064E3B" }; } // P
+                                else if (c === 3) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "DBEAFE" } }; cell.s.font.color = { rgb: "1E3A8A" }; } // W
+                                else if (c === 4) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "FEF9C3" } }; cell.s.font.color = { rgb: "713F12" }; } // H
+                                else if (c === 5) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "FEE2E2" } }; cell.s.font.color = { rgb: "7F1D1D" }; } // A
+                                else if (c === 6) { cell.s.fill = { patternType: "solid", fgColor: { rgb: "E0E7FF" } }; cell.s.font.color = { rgb: "312E81" }; } // O
                             } else {
-                                cell.s.font.color = { rgb: "9CA3AF" };
+                                cell.s.font.color = { rgb: "9CA3AF" }; // Muted Gray for zeros
                             }
                         }
 
-                        if (dataType === 'Payments History' && c === 1) {
+                        // Payments: Wholesale (Blue), Raw Material (Red)
+                        if (dataType === 'Payments History' && c === 1) { // Column B is Order Type
                             cell.s.font.bold = true;
                             cell.s.alignment.horizontal = "center";
                             if (cell.v === 'Wholesale') { cell.s.fill = { patternType: "solid", fgColor: { rgb: "DBEAFE" } }; cell.s.font.color = { rgb: "1D4ED8" }; }
@@ -1587,6 +1311,7 @@
                 }
             }
 
+            // Download Trigger
             let safeFileName = title.replace(/[^a-zA-Z0-9]/g, '_').replace(/_+/g, '_').replace(/_$/, '');
             XLSX.utils.book_append_sheet(wb, ws, "SOM Data");
             XLSX.writeFile(wb, `SOM_${safeFileName}.xlsx`);
@@ -1594,7 +1319,7 @@
             closeExportModal();
         }
 
-        // TOUCH INTERCEPTOR
+        // 🛑 ANTI-REFRESH INTERCEPTOR JAVASCRIPT 🛑
         const mainContent = document.getElementById('main-content');
         let touchStartY = 0;
         mainContent.addEventListener('touchstart', (e) => { touchStartY = e.touches[0].clientY; }, { passive: true });
@@ -1637,7 +1362,7 @@
         
         function parseDateToYMD(dateStr) { if (!dateStr) return ''; const d = new Date(dateStr); if (isNaN(d.getTime())) return ''; return d.toISOString().split('T')[0]; }
 
-        // WFH HANDLERS
+        // ================= WFH SECTION LOGIC =================
         function switchWfhTab(tabId) {
             document.querySelectorAll('.wfh-tab').forEach(el => { el.classList.remove('bg-primary', 'text-on-primary'); el.classList.add('bg-surface-container', 'text-on-surface-variant'); });
             const activeBtn = document.getElementById(`tab-wfh-${tabId}`);
@@ -1806,7 +1531,7 @@
             cancelWfhOrderEdit(); saveToDatabase(); 
         }
 
-        // PAYMENT LOGIC
+        // ================= PAYMENT HISTORY LOGIC =================
         function openAddPaymentModal() {
             editingPaymentId = null;
             document.getElementById('payment-modal-title').textContent = "Add Payment History";
@@ -1905,7 +1630,7 @@
             }).join('');
         }
 
-        // MAIN ORDERS LOGIC
+        // ================= MAIN FACTORY LOGIC =================
         function switchOrderTab(tabId) {
             document.querySelectorAll('.order-tab').forEach(el => { el.classList.remove('bg-primary', 'text-on-primary'); el.classList.add('bg-surface-container', 'text-on-surface-variant'); });
             const activeBtn = document.getElementById(`tab-${tabId}`);
@@ -1924,6 +1649,7 @@
             }
         }
 
+        // ================= NET BILL LOGIC =================
         function toggleNetBillCustomInputs() {
             const filter = document.getElementById('net-bill-period-filter').value;
             const monthInput = document.getElementById('net-bill-custom-month');
@@ -1938,6 +1664,7 @@
 
         function openNetBillModal() {
             document.getElementById('net-bill-period-filter').value = 'overall';
+            // Set defaults to current live month/year
             const now = new Date();
             const yyyy = now.getFullYear();
             const mm = String(now.getMonth() + 1).padStart(2, '0');
@@ -2027,6 +1754,7 @@
             }
         }
 
+        // ================= RM NET BILL LOGIC =================
         function toggleRmNetBillCustomInputs() {
             const filter = document.getElementById('rm-net-bill-period-filter').value;
             const monthInput = document.getElementById('rm-net-bill-custom-month');
@@ -2041,6 +1769,7 @@
 
         function openRmNetBillModal() {
             document.getElementById('rm-net-bill-period-filter').value = 'overall';
+            // Set defaults to current live month/year
             const now = new Date();
             const yyyy = now.getFullYear();
             const mm = String(now.getMonth() + 1).padStart(2, '0');
@@ -2194,11 +1923,9 @@
         }
 
         function editOrder(type, id) {
-            const list = getOrderList(type); 
-            const idx = list.findIndex(o => o.id === id);
+            const list = getOrderList(type); const idx = list.findIndex(o => o.id === id);
             if (idx > -1) {
-                editingOrderId = id; 
-                editingOrderType = type;
+                editingOrderId = id; editingOrderType = type;
                 document.getElementById('order-form-title').textContent = "Edit Main Order";
                 const order = list[idx];
                 document.querySelector(`input[name="orderType"][value="${type}"]`).checked = true;
@@ -2212,13 +1939,7 @@
             }
         }
 
-        function cancelOrderEdit() { 
-            document.getElementById('new-order-form').reset(); 
-            document.querySelectorAll('input[name="orderType"]').forEach(r => r.disabled = false); 
-            editingOrderId = null; 
-            editingOrderType = null; 
-            switchView('orders'); 
-        }
+        function cancelOrderEdit() { document.getElementById('new-order-form').reset(); document.querySelectorAll('input[name="orderType"]').forEach(r => r.disabled = false); editingOrderId = null; editingOrderType = null; switchView('orders'); }
 
         function submitNewOrder(e) {
             e.preventDefault();
@@ -2230,20 +1951,17 @@
             const advancePaid = parseFloat(document.getElementById('order-advance-paid').value) || 0;
             
             if (editingOrderId !== null) {
-                const list = getOrderList(editingOrderType); 
-                const idx = list.findIndex(o => o.id === editingOrderId);
+                const list = getOrderList(editingOrderType); const idx = list.findIndex(o => o.id === editingOrderId);
                 if (idx > -1) list[idx] = { ...list[idx], name, products, totalBill, advancePaid, date };
             } else {
                 const id = (type === 'wholesale' ? 'WS-2026-' : 'RM-2026-') + Math.floor(Math.random() * 1000).toString().padStart(3, '0');
                 if (type === 'wholesale') wholesaleOrders.unshift({ id, name, products, totalBill, advancePaid, status: 'Processing', date }); 
                 else rawOrders.unshift({ id, name, products, totalBill, advancePaid, status: 'In Transit', date }); 
             }
-            cancelOrderEdit(); 
-            saveToDatabase(); 
-            switchOrderTab(type === 'wholesale' ? 'wholesale' : 'raw');
+            cancelOrderEdit(); saveToDatabase(); switchOrderTab(type === 'wholesale' ? 'wholesale' : 'raw');
         }
 
-        // ATTENDANCE MATRIX LOGIC
+        // ================= ATTENDANCE MATRIX & VISUAL HOLIDAY ONLY =================
         function changeMonth(delta) { currentDate.setMonth(currentDate.getMonth() + delta); renderAttendanceMatrix(); }
 
         function getRawAttStatus(empId, year, month, day) {
@@ -2311,10 +2029,7 @@
             
             const staffList = [...employees];
             
-            if (staffList.length === 0) { 
-                document.getElementById('att-table-body').innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center py-16 text-on-surface-variant text-sm">No employees found.</td></tr>`; 
-                return; 
-            }
+            if (staffList.length === 0) { document.getElementById('att-table-body').innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center py-16 text-on-surface-variant text-sm">No employees found.</td></tr>`; return; }
 
             document.getElementById('att-table-body').innerHTML = staffList.map(emp => {
                 let r = `<tr class="hover:bg-surface-container transition-colors"><td class="font-medium text-on-surface truncate flex items-center border-b border-outline-variant" title="${emp.name}">${emp.name}</td>`;
@@ -2323,7 +2038,7 @@
             }).join('');
         }
 
-        // STAFF DIRECTORY & PAYROLL LOGIC
+        // ================= STAFF TAB SECTION =================
         function switchStaffTab(tabId) {
             document.querySelectorAll('.staff-tab').forEach(el => { el.classList.remove('bg-primary', 'text-on-primary'); el.classList.add('bg-surface-container', 'text-on-surface-variant'); });
             const activeBtn = document.getElementById(`tab-staff-${tabId}`);
@@ -2333,6 +2048,7 @@
             if (tabId === 'payroll') renderPayroll();
         }
 
+        // ================= PAYROLL =================
         function changePayrollMonth(delta) { payrollDate.setMonth(payrollDate.getMonth() + delta); renderPayroll(); }
         function updateAdvance(empId, year, month, value) { if(!advancesData[year]) advancesData[year] = {}; if(!advancesData[year][month]) advancesData[year][month] = {}; advancesData[year][month][empId] = parseFloat(value) || 0; saveToDatabase(); }
 
@@ -2377,6 +2093,7 @@
             tbody.innerHTML = html;
         }
 
+        // ================= MAIN FACTORY STAFF DIRECTORY =================
         function renderStaffList() {
             if (employees.length === 0) { document.getElementById('staff-table-body').innerHTML = `<tr><td colspan="6" class="text-center py-8 text-on-surface-variant">No main staff added yet.</td></tr>`; return; }
             document.getElementById('staff-table-body').innerHTML = employees.map(emp => {
