@@ -1106,6 +1106,7 @@
                 submitBtn.disabled = true;
                 submitBtn.textContent = "Signing In...";
 
+                // 1. Try Real Firebase Email Auth
                 firebase.auth().signInWithEmailAndPassword(email, pass)
                     .then((userCredential) => {
                         const workspaceId = getWorkspaceId(userCredential.user.email);
@@ -1122,6 +1123,7 @@
                         submitBtn.textContent = "Sign In to Workspace";
                     })
                     .catch((error) => {
+                        // 2. HARD BYPASS FOR ADMIN IF FIREBASE FAILS
                         if (email === 'admin@gmail.com' && pass === 'adminadmin') {
                             const workspaceId = getWorkspaceId(email);
                             localStorage.setItem('som_workspace_id', workspaceId);
@@ -1162,6 +1164,7 @@
             const provider = new firebase.auth.GoogleAuthProvider();
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
+            // WebIntoApp completely breaks Popups (White Screen). We MUST use redirect on mobile.
             if (isMobile) {
                 firebase.auth().signInWithRedirect(provider);
             } else {
