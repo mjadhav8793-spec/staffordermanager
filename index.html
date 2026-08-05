@@ -1043,34 +1043,19 @@
             });
         }
 
-        // FIREBASE AUTH STATE OBSERVER (Central Auth Controller)
-        firebase.auth().onAuthStateChanged((user) => {
+        // 🛑 FAST LOCAL STORAGE CHECK TO PREVENT FLASH 🛑
+        window.addEventListener('DOMContentLoaded', () => {
             const loginScreen = document.getElementById('login-screen');
             const appContainer = document.getElementById('app-container');
 
-            if (user && user.email) {
-                const userEmail = user.email;
-                const workspaceId = getWorkspaceId(userEmail);
-                
-                localStorage.setItem('som_workspace_id', workspaceId);
-                
+            const workspaceId = localStorage.getItem('som_workspace_id');
+            if (workspaceId) {
                 if (loginScreen) loginScreen.style.display = 'none';
                 if (appContainer) {
                     appContainer.classList.remove('hidden');
                     appContainer.classList.add('flex');
                 }
-                
                 initDatabase(workspaceId);
-            } else {
-                const workspaceId = localStorage.getItem('som_workspace_id');
-                if (workspaceId) {
-                    if (loginScreen) loginScreen.style.display = 'none';
-                    if (appContainer) {
-                        appContainer.classList.remove('hidden');
-                        appContainer.classList.add('flex');
-                    }
-                    initDatabase(workspaceId);
-                }
             }
         });
 
@@ -1097,6 +1082,7 @@
             }
         }
 
+        // 🛑 UPDATED: FORCED POPUP GOOGLE LOGIN FOR ALL DEVICES 🛑
         function handleGoogleLogin() {
             const errorDiv = document.getElementById('login-error');
             errorDiv.classList.add('hidden');
@@ -1109,30 +1095,32 @@
             btnText.textContent = "Authenticating...";
             
             const provider = new firebase.auth.GoogleAuthProvider();
-            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             
-            if (isMobile) {
-                firebase.auth().signInWithRedirect(provider);
-            } else {
-                firebase.auth().signInWithPopup(provider)
-                    .then((result) => {
-                        btn.disabled = false;
-                        btn.classList.remove('opacity-70', 'cursor-not-allowed');
-                        btnText.textContent = "Sign in with Google";
-                    })
-                    .catch((error) => {
-                        if (error.code === 'auth/popup-blocked' || error.code === 'auth/popup-closed-by-user') {
-                            firebase.auth().signInWithRedirect(provider);
-                        } else {
-                            errorDiv.textContent = error.message;
-                            errorDiv.classList.remove('hidden');
-                            
-                            btn.disabled = false;
-                            btn.classList.remove('opacity-70', 'cursor-not-allowed');
-                            btnText.textContent = "Sign in with Google";
-                        }
-                    });
-            }
+            firebase.auth().signInWithPopup(provider)
+                .then((result) => {
+                    const userEmail = result.user.email;
+                    const workspaceId = getWorkspaceId(userEmail);
+                    
+                    localStorage.setItem('som_workspace_id', workspaceId);
+                    
+                    document.getElementById('login-screen').style.display = 'none';
+                    document.getElementById('app-container').classList.remove('hidden');
+                    document.getElementById('app-container').classList.add('flex');
+                    
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-70', 'cursor-not-allowed');
+                    btnText.textContent = "Sign in with Google";
+                    
+                    initDatabase(workspaceId);
+                })
+                .catch((error) => {
+                    errorDiv.textContent = error.message;
+                    errorDiv.classList.remove('hidden');
+                    
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-70', 'cursor-not-allowed');
+                    btnText.textContent = "Sign in with Google";
+                });
         }
 
         function executeLogout() {
