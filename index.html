@@ -471,7 +471,7 @@
 
                     <!-- PASSBOOK STYLE FILTERS -->
                     <div
-                        class="bg-surface-container p-4 rounded-xl border border-outline-variant mb-6 flex flex-col sm:flex-row gap-4 items-end">
+                        class="bg-surface-container p-4 rounded-xl border border-outline-variant mb-6 flex flex-col sm:flex-row gap-4 items-start sm:items-end">
                         <div class="flex-1 w-full">
                             <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Search Orders</label>
                             <div class="relative">
@@ -479,14 +479,27 @@
                                 <input type="text" id="order-search-input" onkeyup="renderOrders()" class="w-full border-outline-variant rounded-lg text-sm pl-9 pr-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary placeholder-outline" placeholder="Search by Client/Supplier name or Order ID...">
                             </div>
                         </div>
-                        <div class="w-full sm:w-56">
+                        <div class="w-full sm:w-64">
                             <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Time Period</label>
-                            <select id="order-month-filter" onchange="renderOrders()" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
+                            <select id="order-month-filter" onchange="toggleOrderCustomDates(); renderOrders();" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
                                 <option value="all">Overall</option>
                                 <option value="this_month">This Month</option>
                                 <option value="this_year">This Year</option>
                                 <option value="last_month">Last Month</option>
+                                <option value="custom_range">Custom Date Range</option>
                             </select>
+
+                            <!-- Custom Date Range Inputs for Orders -->
+                            <div id="order-custom-date-container" class="hidden flex-col gap-2 mt-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-[11px] font-bold text-on-surface-variant w-8 uppercase">From</span>
+                                    <input type="date" id="order-start-date" onchange="renderOrders()" class="flex-1 border-outline-variant rounded-lg text-xs px-2 py-1.5 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-[11px] font-bold text-on-surface-variant w-8 uppercase">To</span>
+                                    <input type="date" id="order-end-date" onchange="renderOrders()" class="flex-1 border-outline-variant rounded-lg text-xs px-2 py-1.5 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -519,7 +532,7 @@
                                         <th class="px-6 py-4 font-semibold border-b border-outline-variant">Products
                                         </th>
                                         <th
-                                            class="px-6 py-4 font-semibold border-b border-outline-variant w-56 min-w-[240px]">
+                                            class="px-6 py-4 font-semibold border-b border-outline-variant w-64 min-w-[260px]">
                                             Financials (₹)</th>
                                         <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">
                                             Date</th>
@@ -547,7 +560,7 @@
                                         <th class="px-6 py-4 font-semibold border-b border-outline-variant">Material
                                             Specs</th>
                                         <th
-                                            class="px-6 py-4 font-semibold border-b border-outline-variant w-56 min-w-[240px]">
+                                            class="px-6 py-4 font-semibold border-b border-outline-variant w-64 min-w-[260px]">
                                             Financials (₹)</th>
                                         <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">
                                             Date</th>
@@ -699,7 +712,7 @@
                         </div>
 
                         <div
-                            class="bg-surface-container p-4 rounded-xl border border-outline-variant mb-4 flex flex-col sm:flex-row gap-4 items-end">
+                            class="bg-surface-container p-4 rounded-xl border border-outline-variant mb-4 flex flex-col sm:flex-row gap-4 items-start sm:items-end">
                             <div class="flex-1 w-full">
                                 <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Search WFH Orders</label>
                                 <div class="relative">
@@ -707,20 +720,33 @@
                                     <input type="text" id="wfh-order-search-input" onkeyup="renderWfhOrders()" class="w-full border-outline-variant rounded-lg text-sm pl-9 pr-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary placeholder-outline" placeholder="Search by Employee, Order ID, or Details...">
                                 </div>
                             </div>
-                            <div class="w-full sm:w-56">
+                            <div class="w-full sm:w-64">
                                 <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Time Period</label>
-                                <select id="wfh-order-month-filter" onchange="renderWfhOrders()" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
+                                <select id="wfh-order-month-filter" onchange="toggleWfhOrderCustomDates(); renderWfhOrders();" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
                                     <option value="all">Overall</option>
                                     <option value="this_month">This Month</option>
                                     <option value="this_year">This Year</option>
                                     <option value="last_month">Last Month</option>
+                                    <option value="custom_range">Custom Date Range</option>
                                 </select>
+
+                                <!-- Custom Date Range Inputs for WFH Orders -->
+                                <div id="wfh-order-custom-date-container" class="hidden flex-col gap-2 mt-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-[11px] font-bold text-on-surface-variant w-8 uppercase">From</span>
+                                        <input type="date" id="wfh-order-start-date" onchange="renderWfhOrders()" class="flex-1 border-outline-variant rounded-lg text-xs px-2 py-1.5 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-[11px] font-bold text-on-surface-variant w-8 uppercase">To</span>
+                                        <input type="date" id="wfh-order-end-date" onchange="renderWfhOrders()" class="flex-1 border-outline-variant rounded-lg text-xs px-2 py-1.5 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         <div class="bg-surface-container border border-outline-variant rounded-xl overflow-hidden">
                             <div class="overflow-x-auto custom-scrollbar">
-                                <table class="w-full text-left border-collapse min-w-[950px]">
+                                <table class="w-full text-left border-collapse min-w-[850px]">
                                     <thead>
                                         <tr
                                             class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
@@ -732,7 +758,7 @@
                                             <th class="px-6 py-4 font-semibold border-b border-outline-variant">Products
                                             </th>
                                             <th
-                                                class="px-6 py-4 font-semibold border-b border-outline-variant w-56 min-w-[240px]">
+                                                class="px-6 py-4 font-semibold border-b border-outline-variant w-64 min-w-[260px]">
                                                 Financials (₹)</th>
                                             <th
                                                 class="px-6 py-4 font-semibold text-right border-b border-outline-variant">
@@ -895,6 +921,7 @@
                                     <div>
                                         <label class="block text-xs font-bold text-primary uppercase tracking-wider mb-1">Assign to WFH Employee</label>
                                         <select id="wfh-order-employee-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
+                                            <!-- Will populate dynamically -->
                                         </select>
                                     </div>
                                     <div>
@@ -1125,10 +1152,22 @@
                         <option value="this_year">Yearly (This Year)</option>
                         <option value="custom_month">Custom Month & Year</option>
                         <option value="custom_year">Custom Year Only</option>
+                        <option value="custom_range">Custom Date Range</option>
                     </select>
 
                     <input type="month" id="net-bill-custom-month" onchange="renderNetBillTable()" class="hidden w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
                     <input type="number" id="net-bill-custom-year" placeholder="YYYY (e.g. 2026)" min="2000" max="2100" onchange="renderNetBillTable()" class="hidden w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
+
+                    <div id="net-bill-custom-range-container" class="hidden flex-col gap-2">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[11px] font-bold text-on-surface-variant w-8 uppercase">From</span>
+                            <input type="date" id="net-bill-start-date" onchange="renderNetBillTable()" class="flex-1 border-outline-variant rounded-lg text-xs px-2 py-1.5 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[11px] font-bold text-on-surface-variant w-8 uppercase">To</span>
+                            <input type="date" id="net-bill-end-date" onchange="renderNetBillTable()" class="flex-1 border-outline-variant rounded-lg text-xs px-2 py-1.5 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="p-0 overflow-y-auto custom-scrollbar flex-1 bg-surface-container-lowest">
@@ -1168,10 +1207,22 @@
                         <option value="this_year">Yearly (This Year)</option>
                         <option value="custom_month">Custom Month & Year</option>
                         <option value="custom_year">Custom Year Only</option>
+                        <option value="custom_range">Custom Date Range</option>
                     </select>
 
                     <input type="month" id="rm-net-bill-custom-month" onchange="renderRmNetBillTable()" class="hidden w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
                     <input type="number" id="rm-net-bill-custom-year" placeholder="YYYY (e.g. 2026)" min="2000" max="2100" onchange="renderRmNetBillTable()" class="hidden w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
+
+                    <div id="rm-net-bill-custom-range-container" class="hidden flex-col gap-2">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[11px] font-bold text-on-surface-variant w-8 uppercase">From</span>
+                            <input type="date" id="rm-net-bill-start-date" onchange="renderRmNetBillTable()" class="flex-1 border-outline-variant rounded-lg text-xs px-2 py-1.5 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[11px] font-bold text-on-surface-variant w-8 uppercase">To</span>
+                            <input type="date" id="rm-net-bill-end-date" onchange="renderRmNetBillTable()" class="flex-1 border-outline-variant rounded-lg text-xs px-2 py-1.5 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="p-0 overflow-y-auto custom-scrollbar flex-1 bg-surface-container-lowest">
@@ -1761,6 +1812,18 @@
 
         function removeWfhEmployee(id) { if(confirm('Remove this WFH employee?')) { wfhEmployees = wfhEmployees.filter(e => e.id !== id); saveToDatabase(); } }
 
+        function toggleWfhOrderCustomDates() {
+            const filter = document.getElementById('wfh-order-month-filter').value;
+            const customContainer = document.getElementById('wfh-order-custom-date-container');
+            if (filter === 'custom_range') {
+                customContainer.classList.remove('hidden');
+                customContainer.classList.add('flex');
+            } else {
+                customContainer.classList.remove('flex');
+                customContainer.classList.add('hidden');
+            }
+        }
+
         function renderWfhOrders() {
             const searchInput = document.getElementById('wfh-order-search-input');
             const searchText = (searchInput ? searchInput.value : '').toLowerCase();
@@ -1792,6 +1855,21 @@
                             let lYear = tYear;
                             if (lMonth < 0) { lMonth = 11; lYear--; }
                             matchDate = (oMonth === lMonth && oYear === lYear);
+                        } else if (monthFilter === 'custom_range') {
+                            const startVal = document.getElementById('wfh-order-start-date').value;
+                            const endVal = document.getElementById('wfh-order-end-date').value;
+                            
+                            if (startVal && endVal) {
+                                const sDate = new Date(startVal); sDate.setHours(0,0,0,0);
+                                const eDate = new Date(endVal); eDate.setHours(23,59,59,999);
+                                matchDate = (oDate >= sDate && oDate <= eDate);
+                            } else if (startVal) {
+                                const sDate = new Date(startVal); sDate.setHours(0,0,0,0);
+                                matchDate = (oDate >= sDate);
+                            } else if (endVal) {
+                                const eDate = new Date(endVal); eDate.setHours(23,59,59,999);
+                                matchDate = (oDate <= eDate);
+                            }
                         }
                     }
                 }
@@ -2006,12 +2084,19 @@
             const filter = document.getElementById('net-bill-period-filter').value;
             const monthInput = document.getElementById('net-bill-custom-month');
             const yearInput = document.getElementById('net-bill-custom-year');
+            const rangeContainer = document.getElementById('net-bill-custom-range-container');
             
             monthInput.classList.add('hidden');
             yearInput.classList.add('hidden');
+            rangeContainer.classList.add('hidden');
+            rangeContainer.classList.remove('flex');
             
             if (filter === 'custom_month') monthInput.classList.remove('hidden');
             if (filter === 'custom_year') yearInput.classList.remove('hidden');
+            if (filter === 'custom_range') {
+                rangeContainer.classList.remove('hidden');
+                rangeContainer.classList.add('flex');
+            }
         }
 
         function openNetBillModal() {
@@ -2042,7 +2127,7 @@
             if (filter === 'custom_month' && customMonthVal) {
                 const parts = customMonthVal.split('-');
                 targetYear = parseInt(parts[0], 10);
-                targetMonth = parseInt(parts[1], 10) - 1; // 0-indexed for JS Date
+                targetMonth = parseInt(parts[1], 10) - 1; 
             } else if (filter === 'custom_year' && customYearVal) {
                 targetYearOnly = parseInt(customYearVal, 10);
             }
@@ -2067,6 +2152,21 @@
                             return (oYear === targetYear && oMonth === targetMonth);
                         } else if (filter === 'custom_year' && targetYearOnly !== null) {
                             return (oYear === targetYearOnly);
+                        } else if (filter === 'custom_range') {
+                            const startVal = document.getElementById('net-bill-start-date').value;
+                            const endVal = document.getElementById('net-bill-end-date').value;
+                            
+                            if (startVal && endVal) {
+                                const sDate = new Date(startVal); sDate.setHours(0,0,0,0);
+                                const eDate = new Date(endVal); eDate.setHours(23,59,59,999);
+                                return (oDate >= sDate && oDate <= eDate);
+                            } else if (startVal) {
+                                const sDate = new Date(startVal); sDate.setHours(0,0,0,0);
+                                return (oDate >= sDate);
+                            } else if (endVal) {
+                                const eDate = new Date(endVal); eDate.setHours(23,59,59,999);
+                                return (oDate <= eDate);
+                            }
                         }
                     }
                     return false; 
@@ -2111,12 +2211,19 @@
             const filter = document.getElementById('rm-net-bill-period-filter').value;
             const monthInput = document.getElementById('rm-net-bill-custom-month');
             const yearInput = document.getElementById('rm-net-bill-custom-year');
+            const rangeContainer = document.getElementById('rm-net-bill-custom-range-container');
             
             monthInput.classList.add('hidden');
             yearInput.classList.add('hidden');
+            rangeContainer.classList.add('hidden');
+            rangeContainer.classList.remove('flex');
             
             if (filter === 'custom_month') monthInput.classList.remove('hidden');
             if (filter === 'custom_year') yearInput.classList.remove('hidden');
+            if (filter === 'custom_range') {
+                rangeContainer.classList.remove('hidden');
+                rangeContainer.classList.add('flex');
+            }
         }
 
         function openRmNetBillModal() {
@@ -2172,6 +2279,21 @@
                             return (oYear === targetYear && oMonth === targetMonth);
                         } else if (filter === 'custom_year' && targetYearOnly !== null) {
                             return (oYear === targetYearOnly);
+                        } else if (filter === 'custom_range') {
+                            const startVal = document.getElementById('rm-net-bill-start-date').value;
+                            const endVal = document.getElementById('rm-net-bill-end-date').value;
+                            
+                            if (startVal && endVal) {
+                                const sDate = new Date(startVal); sDate.setHours(0,0,0,0);
+                                const eDate = new Date(endVal); eDate.setHours(23,59,59,999);
+                                return (oDate >= sDate && oDate <= eDate);
+                            } else if (startVal) {
+                                const sDate = new Date(startVal); sDate.setHours(0,0,0,0);
+                                return (oDate >= sDate);
+                            } else if (endVal) {
+                                const eDate = new Date(endVal); eDate.setHours(23,59,59,999);
+                                return (oDate <= eDate);
+                            }
                         }
                     }
                     return false; 
@@ -2215,6 +2337,18 @@
         function updateOrderPayment(type, id, newPaidAmount) { const list = getOrderList(type); const order = list.find(o => o.id === id); if (order) { order.advancePaid = parseFloat(newPaidAmount) || 0; saveToDatabase(); } }
         function deleteOrder(type, id) { if (confirm("Are you sure you want to delete this main order?")) { const list = getOrderList(type); const idx = list.findIndex(o => o.id === id); if (idx > -1) list.splice(idx, 1); saveToDatabase(); } }
 
+        function toggleOrderCustomDates() {
+            const filter = document.getElementById('order-month-filter').value;
+            const customContainer = document.getElementById('order-custom-date-container');
+            if (filter === 'custom_range') {
+                customContainer.classList.remove('hidden');
+                customContainer.classList.add('flex');
+            } else {
+                customContainer.classList.remove('flex');
+                customContainer.classList.add('hidden');
+            }
+        }
+
         function renderOrders() {
             const searchInput = document.getElementById('order-search-input');
             const searchText = (searchInput ? searchInput.value : '').toLowerCase();
@@ -2234,12 +2368,30 @@
                         const oYear = oDate.getFullYear();
                         const tMonth = today.getMonth();
                         const tYear = today.getFullYear();
-                        if (monthFilter === 'this_month') matchDate = (oMonth === tMonth && oYear === tYear);
-                        else if (monthFilter === 'this_year') matchDate = (oYear === tYear);
-                        else if (monthFilter === 'last_month') {
+                        
+                        if (monthFilter === 'this_month') {
+                            matchDate = (oMonth === tMonth && oYear === tYear);
+                        } else if (monthFilter === 'this_year') {
+                            matchDate = (oYear === tYear);
+                        } else if (monthFilter === 'last_month') {
                             let lMonth = tMonth - 1, lYear = tYear;
                             if (lMonth < 0) { lMonth = 11; lYear--; }
                             matchDate = (oMonth === lMonth && oYear === lYear);
+                        } else if (monthFilter === 'custom_range') {
+                            const startVal = document.getElementById('order-start-date').value;
+                            const endVal = document.getElementById('order-end-date').value;
+                            
+                            if (startVal && endVal) {
+                                const sDate = new Date(startVal); sDate.setHours(0,0,0,0);
+                                const eDate = new Date(endVal); eDate.setHours(23,59,59,999);
+                                matchDate = (oDate >= sDate && oDate <= eDate);
+                            } else if (startVal) {
+                                const sDate = new Date(startVal); sDate.setHours(0,0,0,0);
+                                matchDate = (oDate >= sDate);
+                            } else if (endVal) {
+                                const eDate = new Date(endVal); eDate.setHours(23,59,59,999);
+                                matchDate = (oDate <= eDate);
+                            }
                         }
                     }
                 }
