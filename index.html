@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" style="color-scheme: dark;">
-
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
     <title>SOM</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-
+    
     <!-- FIREBASE SCRIPTS -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -50,7 +47,7 @@
             }
         }
     </script>
-
+    
     <script>
         // INIT THEME IMMEDIATELY TO PREVENT FLASH
         const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -77,79 +74,59 @@
             --on-surface-variant: #434655;
             --outline: #737686;
             --outline-variant: #c3c6d7;
-
+            
             --primary: #0d6efd;
             --on-primary: #ffffff;
             --primary-container: #2563eb;
             --on-primary-container: #eeefff;
-
+            
             --secondary: #006c49;
             --on-secondary: #ffffff;
             --secondary-container: #6cf8bb;
             --on-secondary-container: #00714d;
-
+            
             --error: #ba1a1a;
             --error-container: #ffdad6;
             --on-error-container: #93000a;
 
-            --badge-green-bg: #6cf8bb;
-            --badge-green-txt: #00714d;
-            --badge-green-border: #00714d;
-            --badge-blue-bg: #dce2f7;
-            --badge-blue-txt: #004ac6;
-            --badge-blue-border: #004ac6;
-            --badge-yellow-bg: #fef08a;
-            --badge-yellow-txt: #854d0e;
-            --badge-yellow-border: #eab308;
-            --badge-red-bg: #ffdad6;
-            --badge-red-txt: #93000a;
-            --badge-red-border: #93000a;
-            --badge-indigo-bg: #e0e7ff;
-            --badge-indigo-txt: #3730a3;
-            --badge-indigo-border: #4f46e5;
+            --badge-green-bg: #6cf8bb; --badge-green-txt: #00714d; --badge-green-border: #00714d;
+            --badge-blue-bg: #dce2f7; --badge-blue-txt: #004ac6; --badge-blue-border: #004ac6;
+            --badge-yellow-bg: #fef08a; --badge-yellow-txt: #854d0e; --badge-yellow-border: #eab308;
+            --badge-red-bg: #ffdad6; --badge-red-txt: #93000a; --badge-red-border: #93000a;
+            --badge-indigo-bg: #e0e7ff; --badge-indigo-txt: #3730a3; --badge-indigo-border: #4f46e5;
         }
 
         /* 🛑 2. NORMAL DARK MODE (Deep Slate with Cobalt Blue - Matches Screenshot) 🛑 */
         .dark {
-            --surface: #18181f;
-            --surface-container-lowest: #121217;
-            --surface-container-low: #202029;
-            --surface-container: #202029;
+            --surface: #18181f; 
+            --surface-container-lowest: #121217; 
+            --surface-container-low: #202029; 
+            --surface-container: #202029; 
             --surface-bright: #18181f;
             --on-surface: #ffffff;
-            --on-surface-variant: #a1a1b5;
+            --on-surface-variant: #a1a1b5; 
             --outline: #47475c;
-            --outline-variant: #343442;
-
-            --primary: #0d6efd;
+            --outline-variant: #343442; 
+            
+            --primary: #0d6efd; 
             --on-primary: #ffffff;
-            --primary-container: #1e3a8a;
+            --primary-container: #1e3a8a; 
             --on-primary-container: #dbeafe;
-
+            
             --secondary: #94a3b8;
             --on-secondary: #0f172a;
             --secondary-container: #334155;
             --on-secondary-container: #f8fafc;
-
+            
             --error: #fca5a5;
             --error-container: #7f1d1d;
             --on-error-container: #fca5a5;
 
-            --badge-green-bg: #7df5b8;
-            --badge-green-txt: #014f36;
-            --badge-green-border: #7df5b8;
-            --badge-blue-bg: #1d4ed8;
-            --badge-blue-txt: #ffffff;
-            --badge-blue-border: #1d4ed8;
-            --badge-yellow-bg: #fef08a;
-            --badge-yellow-txt: #854d0e;
-            --badge-yellow-border: #fef08a;
-            --badge-red-bg: #ef4444;
-            --badge-red-txt: #ffffff;
-            --badge-red-border: #ef4444;
-            --badge-indigo-bg: #4f46e5;
-            --badge-indigo-txt: #ffffff;
-            --badge-indigo-border: #4f46e5;
+            --badge-green-bg: #7df5b8; --badge-green-txt: #014f36; --badge-green-border: #7df5b8;
+            --badge-blue-bg: #1d4ed8; --badge-blue-txt: #ffffff; --badge-blue-border: #1d4ed8;
+            --badge-yellow-bg: #fef08a; --badge-yellow-txt: #854d0e; --badge-yellow-border: #fef08a;
+            --badge-red-bg: #ef4444; --badge-red-txt: #ffffff; --badge-red-border: #ef4444;
+            --badge-indigo-bg: #4f46e5; --badge-indigo-txt: #ffffff; --badge-indigo-border: #4f46e5;
         }
 
         /* 🛑 3. EXTRA DARK MODE (Pitch Black) 🛑 */
@@ -163,253 +140,83 @@
             --on-surface-variant: #a1a1aa;
             --outline: #3f3f46;
             --outline-variant: #27272a;
-
+            
             --primary: #ffffff;
             --on-primary: #000000;
             --primary-container: #27272a;
             --on-primary-container: #ffffff;
-
+            
             --secondary: #a1a1aa;
             --on-secondary: #000000;
             --secondary-container: #27272a;
             --on-secondary-container: #ffffff;
-
+            
             --error: #ef4444;
             --error-container: #7f1d1d;
             --on-error-container: #fca5a5;
 
-            --badge-green-bg: #064e3b;
-            --badge-green-txt: #6ee7b7;
-            --badge-green-border: #10b981;
-            --badge-blue-bg: #1e3a8a;
-            --badge-blue-txt: #93c5fd;
-            --badge-blue-border: #3b82f6;
-            --badge-yellow-bg: #713f12;
-            --badge-yellow-txt: #fde047;
-            --badge-yellow-border: #eab308;
-            --badge-red-bg: #7f1d1d;
-            --badge-red-txt: #fca5a5;
-            --badge-red-border: #ef4444;
-            --badge-indigo-bg: #312e81;
-            --badge-indigo-txt: #c7d2fe;
-            --badge-indigo-border: #4f46e5;
+            --badge-green-bg: #064e3b; --badge-green-txt: #6ee7b7; --badge-green-border: #10b981;
+            --badge-blue-bg: #1e3a8a; --badge-blue-txt: #93c5fd; --badge-blue-border: #3b82f6;
+            --badge-yellow-bg: #713f12; --badge-yellow-txt: #fde047; --badge-yellow-border: #eab308;
+            --badge-red-bg: #7f1d1d; --badge-red-txt: #fca5a5; --badge-red-border: #ef4444;
+            --badge-indigo-bg: #312e81; --badge-indigo-txt: #c7d2fe; --badge-indigo-border: #4f46e5;
         }
 
         /* ANTI-REFRESH GLITCH LOCKDOWN */
-        html,
-        body {
-            overscroll-behavior: none !important;
-            -webkit-overflow-scrolling: none !important;
-            height: 100%;
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: var(--surface);
-            color: var(--on-surface);
-        }
+        html, body { overscroll-behavior: none !important; -webkit-overflow-scrolling: none !important; height: 100%; width: 100%; margin: 0; padding: 0; overflow: hidden; background-color: var(--surface); color: var(--on-surface); }
+        #main-content { height: 100vh; overflow-y: auto; overscroll-behavior-y: none; -webkit-overflow-scrolling: touch; }
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; display: inline-block; vertical-align: middle; }
+        
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: var(--surface); }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--outline-variant); border-radius: 10px; }
+        
+        .view-section { display: none; animation: fadeIn 0.3s ease-in-out; }
+        .view-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        #main-content {
-            height: 100vh;
-            overflow-y: auto;
-            overscroll-behavior-y: none;
-            -webkit-overflow-scrolling: touch;
-        }
+        .att-table-wrapper { overflow-x: auto; border-radius: 0.5rem; border: 1px solid var(--outline-variant); background: var(--surface-container-lowest); }
+        .att-table { border-collapse: separate; border-spacing: 0; min-width: 100%; }
+        .att-table th, .att-table td { border-right: 1px solid var(--outline-variant); border-bottom: 1px solid var(--outline-variant); padding: 8px 12px; text-align: center; height: 48px; }
+        .att-table th:last-child, .att-table td:last-child { border-right: none; }
+        .att-table tr:last-child td { border-bottom: none; }
+        .att-cell-interactive { cursor: pointer; user-select: none; transition: background 0.1s; }
+        .att-cell-interactive:hover { background-color: var(--surface-container); }
+        .att-table th:first-child, .att-table td:first-child { position: sticky; left: 0; z-index: 10; background-color: var(--surface-container-lowest); text-align: left; font-weight: 500; border-right: 2px solid var(--outline-variant); min-width: 180px; }
+        .att-table th:first-child { z-index: 11; background-color: var(--surface-container-low); }
+        
+        .status-P { background-color: var(--badge-green-bg); color: var(--badge-green-txt); font-weight: bold; border-radius: 4px; }
+        .status-W { background-color: var(--badge-blue-bg); color: var(--badge-blue-txt); font-weight: bold; border-radius: 4px; }
+        .status-H { background-color: var(--badge-yellow-bg); color: var(--badge-yellow-txt); font-weight: bold; border-radius: 4px; }
+        .status-A { background-color: var(--badge-red-bg); color: var(--badge-red-txt); font-weight: bold; border-radius: 4px; }
+        .status-O { background-color: var(--badge-indigo-bg); color: var(--badge-indigo-txt); font-weight: bold; border-radius: 4px; }
+        
+        .type-Wholesale { background-color: var(--badge-blue-bg); color: var(--badge-blue-txt); }
+        .type-Raw { background-color: var(--badge-red-bg); color: var(--badge-red-txt); }
+        .type-WFH { background-color: var(--badge-green-bg); color: var(--badge-green-txt); }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
+        .status-Active { background-color: var(--badge-green-bg); color: var(--badge-green-txt); border: 1px solid var(--badge-green-border); }
+        .status-Inactive { background-color: var(--badge-red-bg); color: var(--badge-red-txt); border: 1px solid var(--badge-red-border); }
 
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL'0, 'wght'400, 'GRAD'0, 'opsz'24;
-            display: inline-block;
-            vertical-align: middle;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: var(--surface);
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: var(--outline-variant);
-            border-radius: 10px;
-        }
-
-        .view-section {
-            display: none;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        .view-section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(5px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .att-table-wrapper {
-            overflow-x: auto;
-            border-radius: 0.5rem;
-            border: 1px solid var(--outline-variant);
-            background: var(--surface-container-lowest);
-        }
-
-        .att-table {
-            border-collapse: separate;
-            border-spacing: 0;
-            min-width: 100%;
-        }
-
-        .att-table th,
-        .att-table td {
-            border-right: 1px solid var(--outline-variant);
-            border-bottom: 1px solid var(--outline-variant);
-            padding: 8px 12px;
-            text-align: center;
-            height: 48px;
-        }
-
-        .att-table th:last-child,
-        .att-table td:last-child {
-            border-right: none;
-        }
-
-        .att-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .att-cell-interactive {
-            cursor: pointer;
-            user-select: none;
-            transition: background 0.1s;
-        }
-
-        .att-cell-interactive:hover {
-            background-color: var(--surface-container);
-        }
-
-        .att-table th:first-child,
-        .att-table td:first-child {
-            position: sticky;
-            left: 0;
-            z-index: 10;
-            background-color: var(--surface-container-lowest);
-            text-align: left;
-            font-weight: 500;
-            border-right: 2px solid var(--outline-variant);
-            min-width: 180px;
-        }
-
-        .att-table th:first-child {
-            z-index: 11;
-            background-color: var(--surface-container-low);
-        }
-
-        .status-P {
-            background-color: var(--badge-green-bg);
-            color: var(--badge-green-txt);
-            font-weight: bold;
-            border-radius: 4px;
-        }
-
-        .status-W {
-            background-color: var(--badge-blue-bg);
-            color: var(--badge-blue-txt);
-            font-weight: bold;
-            border-radius: 4px;
-        }
-
-        .status-H {
-            background-color: var(--badge-yellow-bg);
-            color: var(--badge-yellow-txt);
-            font-weight: bold;
-            border-radius: 4px;
-        }
-
-        .status-A {
-            background-color: var(--badge-red-bg);
-            color: var(--badge-red-txt);
-            font-weight: bold;
-            border-radius: 4px;
-        }
-
-        .status-O {
-            background-color: var(--badge-indigo-bg);
-            color: var(--badge-indigo-txt);
-            font-weight: bold;
-            border-radius: 4px;
-        }
-
-        .type-Wholesale {
-            background-color: var(--badge-blue-bg);
-            color: var(--badge-blue-txt);
-        }
-
-        .type-Raw {
-            background-color: var(--badge-red-bg);
-            color: var(--badge-red-txt);
-        }
-
-        .type-WFH {
-            background-color: var(--badge-green-bg);
-            color: var(--badge-green-txt);
-        }
-
-        .status-Active {
-            background-color: var(--badge-green-bg);
-            color: var(--badge-green-txt);
-            border: 1px solid var(--badge-green-border);
-        }
-
-        .status-Inactive {
-            background-color: var(--badge-red-bg);
-            color: var(--badge-red-txt);
-            border: 1px solid var(--badge-red-border);
-        }
-
-        .nav-active {
-            color: var(--primary) !important;
-        }
-
+        .nav-active { color: var(--primary) !important; }
+        
         /* Clean Chrome styling for Date pickers */
-        ::-webkit-calendar-picker-indicator {
-            filter: invert(0.8);
-            cursor: pointer;
-        }
-
-        .light ::-webkit-calendar-picker-indicator {
-            filter: invert(0);
-        }
+        ::-webkit-calendar-picker-indicator { filter: invert(0.8); cursor: pointer; }
+        .light ::-webkit-calendar-picker-indicator { filter: invert(0); }
     </style>
 </head>
-
 <body class="bg-surface text-on-surface">
 
     <!-- 🛑 MAIN APP 🛑 -->
     <div id="app-container" class="flex h-screen w-full flex-col md:flex-row">
-
+        
         <!-- Desktop Sidebar -->
         <aside class="hidden md:flex flex-col w-72 bg-surface border-r border-outline-variant shrink-0 h-full z-20">
             <div class="p-6">
                 <div class="flex items-center justify-between mb-8">
                     <div class="flex items-center gap-2">
-                        <div
-                            class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center shadow-sm shrink-0">
+                        <div class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center shadow-sm shrink-0">
                             <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0, 'wght' 500;">precision_manufacturing</span>
                         </div>
                         <h1 class="text-xl font-bold tracking-tight text-on-surface truncate">SOM</h1>
@@ -437,16 +244,14 @@
 
         <!-- Main Workspace -->
         <div class="flex-1 flex flex-col h-full min-w-0 bg-surface-bright relative">
-
+            
             <!-- Mobile Header -->
-            <header
-                class="md:hidden flex items-center justify-between p-4 border-b border-outline-variant bg-surface z-10 shrink-0">
+            <header class="md:hidden flex items-center justify-between p-4 border-b border-outline-variant bg-surface z-10 shrink-0">
                 <div class="flex items-center gap-3">
                     <div class="w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center shrink-0">
                         <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0, 'wght' 500;">precision_manufacturing</span>
                     </div>
-                    <h1 class="text-lg font-bold tracking-tight text-on-surface truncate uppercase tracking-wider">SOM
-                    </h1>
+                    <h1 class="text-lg font-bold tracking-tight text-on-surface truncate uppercase tracking-wider">SOM</h1>
                 </div>
                 <div class="flex items-center gap-2">
                     <!-- Mobile Export Toggle -->
@@ -461,7 +266,7 @@
             </header>
 
             <main id="main-content" class="flex-1 p-4 md:p-8 pb-32 md:pb-8 relative">
-
+                
                 <!-- MAIN FACTORY ORDERS -->
                 <div id="view-orders" class="view-section active">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
@@ -470,8 +275,7 @@
                     </div>
 
                     <!-- PASSBOOK STYLE FILTERS -->
-                    <div
-                        class="bg-surface-container p-4 rounded-xl border border-outline-variant mb-6 flex flex-col sm:flex-row gap-4 items-start sm:items-end">
+                    <div class="bg-surface-container p-4 rounded-xl border border-outline-variant mb-6 flex flex-col sm:flex-row gap-4 items-start sm:items-end">
                         <div class="flex-1 w-full">
                             <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Search Orders</label>
                             <div class="relative">
@@ -488,7 +292,7 @@
                                 <option value="last_month">Last Month</option>
                                 <option value="custom_range">Custom Date Range</option>
                             </select>
-
+                            
                             <!-- Custom Date Range Inputs for Orders -->
                             <div id="order-custom-date-container" class="hidden flex-col gap-2 mt-3">
                                 <div class="flex items-center gap-2">
@@ -519,53 +323,35 @@
                         </div>
                     </div>
 
-                    <div id="table-wholesale"
-                        class="order-table-container bg-surface-container border border-outline-variant rounded-xl overflow-hidden block">
+                    <div id="table-wholesale" class="order-table-container bg-surface-container border border-outline-variant rounded-xl overflow-hidden block">
                         <div class="overflow-x-auto custom-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[950px]">
                                 <thead>
-                                    <tr
-                                        class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
-                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">Order ID
-                                        </th>
+                                    <tr class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
+                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">Order ID</th>
                                         <th class="px-6 py-4 font-semibold border-b border-outline-variant">Client</th>
-                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">Products
-                                        </th>
-                                        <th
-                                            class="px-6 py-4 font-semibold border-b border-outline-variant w-64 min-w-[260px]">
-                                            Financials (₹)</th>
-                                        <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">
-                                            Date</th>
-                                        <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">
-                                            Actions</th>
+                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">Products</th>
+                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant w-64 min-w-[260px]">Financials (₹)</th>
+                                        <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Date</th>
+                                        <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody id="wholesale-table-body" class="divide-y divide-outline-variant text-sm">
-                                </tbody>
+                                <tbody id="wholesale-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
                             </table>
                         </div>
                     </div>
 
-                    <div id="table-raw"
-                        class="order-table-container bg-surface-container border border-outline-variant rounded-xl overflow-hidden hidden">
+                    <div id="table-raw" class="order-table-container bg-surface-container border border-outline-variant rounded-xl overflow-hidden hidden">
                         <div class="overflow-x-auto custom-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[950px]">
                                 <thead>
-                                    <tr
-                                        class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
-                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">PO Number
-                                        </th>
-                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">Supplier
-                                        </th>
-                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">Material
-                                            Specs</th>
-                                        <th
-                                            class="px-6 py-4 font-semibold border-b border-outline-variant w-64 min-w-[260px]">
-                                            Financials (₹)</th>
-                                        <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">
-                                            Date</th>
-                                        <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">
-                                            Actions</th>
+                                    <tr class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
+                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">PO Number</th>
+                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">Supplier</th>
+                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">Material Specs</th>
+                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant w-64 min-w-[260px]">Financials (₹)</th>
+                                        <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Date</th>
+                                        <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody id="raw-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
@@ -578,10 +364,8 @@
                 <div id="view-attendance" class="view-section">
                     <div class="mb-6">
                         <div class="flex items-center gap-4">
-                            <h2 class="text-[32px] font-black tracking-tight text-on-surface leading-none"
-                                id="att-month-year-display"></h2>
-                            <div
-                                class="flex items-center bg-surface-container border border-outline-variant rounded-md overflow-hidden">
+                            <h2 class="text-[32px] font-black tracking-tight text-on-surface leading-none" id="att-month-year-display"></h2>
+                            <div class="flex items-center bg-surface-container border border-outline-variant rounded-md overflow-hidden">
                                 <button onclick="changeMonth(-1)" class="w-8 h-8 flex items-center justify-center active:bg-surface-container-low transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_left</span></button>
                                 <div class="w-px h-5 bg-outline-variant"></div>
                                 <button onclick="changeMonth(1)" class="w-8 h-8 flex items-center justify-center active:bg-surface-container-low transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_right</span></button>
@@ -589,26 +373,14 @@
                         </div>
                     </div>
                     <div class="flex flex-wrap items-center gap-6 mb-4 text-sm text-on-surface-variant">
-                        <div class="flex items-center gap-2">
-                            <div class="w-3 h-3 rounded-full bg-[var(--badge-green-bg)]"></div><span>P - Present</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <div class="w-3 h-3 rounded-full bg-[var(--badge-yellow-bg)]"></div>
-                            <span>H - Half-day</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <div class="w-3 h-3 rounded-full bg-[var(--badge-red-bg)]"></div><span>A - Absent</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <div class="w-3 h-3 rounded-full bg-[var(--badge-indigo-bg)]"></div><span>O - Holiday</span>
-                        </div>
+                        <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-[var(--badge-green-bg)]"></div><span>P - Present</span></div>
+                        <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-[var(--badge-yellow-bg)]"></div><span>H - Half-day</span></div>
+                        <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-[var(--badge-red-bg)]"></div><span>A - Absent</span></div>
+                        <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-[var(--badge-indigo-bg)]"></div><span>O - Holiday</span></div>
                     </div>
                     <div class="att-table-wrapper shadow-sm">
                         <table class="att-table text-sm">
-                            <thead>
-                                <tr id="att-table-head"
-                                    class="bg-surface-container-low text-xs text-on-surface-variant font-semibold"></tr>
-                            </thead>
+                            <thead><tr id="att-table-head" class="bg-surface-container-low text-xs text-on-surface-variant font-semibold"></tr></thead>
                             <tbody id="att-table-body"></tbody>
                         </table>
                     </div>
@@ -621,8 +393,7 @@
                         <button onclick="openAddPaymentModal()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 transition-all"><span class="material-symbols-outlined text-[18px]">add</span> Add Payment</button>
                     </div>
 
-                    <div
-                        class="bg-surface-container p-4 rounded-xl border border-outline-variant mb-6 flex flex-col sm:flex-row gap-4 items-end">
+                    <div class="bg-surface-container p-4 rounded-xl border border-outline-variant mb-6 flex flex-col sm:flex-row gap-4 items-end">
                         <div class="flex-1 w-full">
                             <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Search Payments</label>
                             <div class="relative">
@@ -645,17 +416,12 @@
                         <div class="overflow-x-auto custom-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[700px]">
                                 <thead>
-                                    <tr
-                                        class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
+                                    <tr class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
                                         <th class="px-6 py-4 font-semibold border-b border-outline-variant">Date</th>
-                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">Order Type
-                                        </th>
-                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">Reference /
-                                            Details</th>
-                                        <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">
-                                            Amount (₹)</th>
-                                        <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">
-                                            Actions</th>
+                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">Order Type</th>
+                                        <th class="px-6 py-4 font-semibold border-b border-outline-variant">Reference / Details</th>
+                                        <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Amount (₹)</th>
+                                        <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody id="payment-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
@@ -682,25 +448,11 @@
                             <div class="overflow-x-auto custom-scrollbar">
                                 <table class="w-full text-left border-collapse min-w-[600px]">
                                     <thead>
-                                        <tr
-                                            class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
-                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Employee
-                                                ID</th>
-                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Name
-                                            </th>
-                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Role
-                                            </th>
-                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Base
-                                                Salary</th>
-                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Status
-                                            </th>
-                                            <th
-                                                class="px-6 py-4 font-semibold text-right border-b border-outline-variant">
-                                                Actions</th>
+                                        <tr class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
+                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Employee ID</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Name</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Role</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Base Salary</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Status</th><th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="wfh-staff-table-body" class="divide-y divide-outline-variant text-sm">
-                                    </tbody>
+                                    <tbody id="wfh-staff-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
                                 </table>
                             </div>
                         </div>
@@ -710,9 +462,8 @@
                         <div class="flex justify-end mb-4">
                             <button onclick="openWfhOrderForm()" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium active:scale-95 flex items-center gap-2 transition-all"><span class="material-symbols-outlined text-[18px]">add</span> New WFH Order</button>
                         </div>
-
-                        <div
-                            class="bg-surface-container p-4 rounded-xl border border-outline-variant mb-4 flex flex-col sm:flex-row gap-4 items-start sm:items-end">
+                        
+                        <div class="bg-surface-container p-4 rounded-xl border border-outline-variant mb-4 flex flex-col sm:flex-row gap-4 items-start sm:items-end">
                             <div class="flex-1 w-full">
                                 <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Search WFH Orders</label>
                                 <div class="relative">
@@ -729,7 +480,7 @@
                                     <option value="last_month">Last Month</option>
                                     <option value="custom_range">Custom Date Range</option>
                                 </select>
-
+                                
                                 <!-- Custom Date Range Inputs for WFH Orders -->
                                 <div id="wfh-order-custom-date-container" class="hidden flex-col gap-2 mt-3">
                                     <div class="flex items-center gap-2">
@@ -748,28 +499,16 @@
                             <div class="overflow-x-auto custom-scrollbar">
                                 <table class="w-full text-left border-collapse min-w-[850px]">
                                     <thead>
-                                        <tr
-                                            class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
-                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Order ID
-                                            </th>
-                                            <th
-                                                class="px-6 py-4 font-semibold text-primary border-b border-outline-variant">
-                                                Assigned WFH Employee</th>
-                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Products
-                                            </th>
-                                            <th
-                                                class="px-6 py-4 font-semibold border-b border-outline-variant w-64 min-w-[260px]">
-                                                Financials (₹)</th>
-                                            <th
-                                                class="px-6 py-4 font-semibold text-right border-b border-outline-variant">
-                                                Date</th>
-                                            <th
-                                                class="px-6 py-4 font-semibold text-right border-b border-outline-variant">
-                                                Actions</th>
+                                        <tr class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
+                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Order ID</th>
+                                            <th class="px-6 py-4 font-semibold text-primary border-b border-outline-variant">Assigned WFH Employee</th>
+                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Products</th>
+                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant w-64 min-w-[260px]">Financials (₹)</th>
+                                            <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Date</th>
+                                            <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="wfh-orders-table-body" class="divide-y divide-outline-variant text-sm">
-                                    </tbody>
+                                    <tbody id="wfh-orders-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
                                 </table>
                             </div>
                         </div>
@@ -794,25 +533,11 @@
                             <div class="overflow-x-auto custom-scrollbar">
                                 <table class="w-full text-left border-collapse min-w-[600px]">
                                     <thead>
-                                        <tr
-                                            class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
-                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Employee
-                                                ID</th>
-                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Name
-                                            </th>
-                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Role
-                                            </th>
-                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Base
-                                                Salary</th>
-                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Status
-                                            </th>
-                                            <th
-                                                class="px-6 py-4 font-semibold text-right border-b border-outline-variant">
-                                                Actions</th>
+                                        <tr class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
+                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Employee ID</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Name</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Role</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Base Salary</th><th class="px-6 py-4 font-semibold border-b border-outline-variant">Status</th><th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="staff-table-body" class="divide-y divide-outline-variant text-sm">
-                                    </tbody>
+                                    <tbody id="staff-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
                                 </table>
                             </div>
                         </div>
@@ -821,11 +546,9 @@
                     <div id="section-staff-payroll" class="staff-section-container hidden">
                         <div class="mb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                             <div>
-                                <h2 class="text-[24px] font-black tracking-tight text-on-surface leading-none"
-                                    id="payroll-month-year-display"></h2>
+                                <h2 class="text-[24px] font-black tracking-tight text-on-surface leading-none" id="payroll-month-year-display"></h2>
                             </div>
-                            <div
-                                class="flex items-center bg-surface-container border border-outline-variant rounded-md overflow-hidden">
+                            <div class="flex items-center bg-surface-container border border-outline-variant rounded-md overflow-hidden">
                                 <button onclick="changePayrollMonth(-1)" class="w-8 h-8 flex items-center justify-center active:bg-surface-container-low transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_left</span></button>
                                 <div class="w-px h-5 bg-outline-variant"></div>
                                 <button onclick="changePayrollMonth(1)" class="w-8 h-8 flex items-center justify-center active:bg-surface-container-low transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">chevron_right</span></button>
@@ -835,26 +558,15 @@
                             <div class="overflow-x-auto custom-scrollbar">
                                 <table class="w-full text-left border-collapse min-w-[800px]">
                                     <thead>
-                                        <tr
-                                            class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
-                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Employee
-                                            </th>
-                                            <th
-                                                class="px-6 py-4 font-semibold text-center border-b border-outline-variant">
-                                                Attendance</th>
-                                            <th
-                                                class="px-6 py-4 font-semibold text-right border-b border-outline-variant">
-                                                Earned (₹)</th>
-                                            <th
-                                                class="px-6 py-4 font-semibold text-right text-error border-b border-outline-variant">
-                                                Advance Given (₹)</th>
-                                            <th
-                                                class="px-6 py-4 font-semibold text-right text-primary border-b border-outline-variant">
-                                                Net Payable (₹)</th>
+                                        <tr class="bg-surface-container-low text-xs text-on-surface-variant uppercase tracking-wider">
+                                            <th class="px-6 py-4 font-semibold border-b border-outline-variant">Employee</th>
+                                            <th class="px-6 py-4 font-semibold text-center border-b border-outline-variant">Attendance</th>
+                                            <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Earned (₹)</th>
+                                            <th class="px-6 py-4 font-semibold text-right text-error border-b border-outline-variant">Advance Given (₹)</th>
+                                            <th class="px-6 py-4 font-semibold text-right text-primary border-b border-outline-variant">Net Payable (₹)</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="payroll-table-body" class="divide-y divide-outline-variant text-sm">
-                                    </tbody>
+                                    <tbody id="payroll-table-body" class="divide-y divide-outline-variant text-sm"></tbody>
                                 </table>
                             </div>
                         </div>
@@ -879,23 +591,13 @@
                                 </div>
                                 <hr class="border-outline-variant">
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Supplier / Client Name</label><input type="text" id="order-supplier-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="Enter name...">
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Order Date</label><input type="date" id="order-date" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
-                                    </div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Supplier / Client Name</label><input type="text" id="order-supplier-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="Enter name..."></div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Order Date</label><input type="date" id="order-date" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div>
                                 </div>
-                                <div>
-                                    <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Products / Materials</label><textarea id="order-products-details" required rows="3" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="Enter item details and quantities..."></textarea>
-                                </div>
+                                <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Products / Materials</label><textarea id="order-products-details" required rows="3" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="Enter item details and quantities..."></textarea></div>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total Bill Amount (₹)</label><input type="number" id="order-total-bill" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="0">
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Advance Paid (₹)</label><input type="number" id="order-advance-paid" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="0">
-                                    </div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total Bill Amount (₹)</label><input type="number" id="order-total-bill" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="0"></div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Advance Paid (₹)</label><input type="number" id="order-advance-paid" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="0"></div>
                                 </div>
                                 <div class="flex justify-end gap-3 mt-8">
                                     <button type="button" onclick="cancelOrderEdit()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container-low rounded-lg transition-colors">Cancel</button>
@@ -910,35 +612,24 @@
                 <div id="view-wfh-new-order" class="view-section">
                     <div class="flex items-center gap-4 mb-6">
                         <button onclick="cancelWfhOrderEdit()" class="text-on-surface-variant active:bg-surface-container p-2 rounded-full transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
-                        <h2 id="wfh-order-form-title" class="text-2xl font-bold text-on-surface">Create New WFH Order
-                        </h2>
+                        <h2 id="wfh-order-form-title" class="text-2xl font-bold text-on-surface">Create New WFH Order</h2>
                     </div>
-                    <div
-                        class="bg-surface-container border border-outline-variant rounded-xl p-6 max-w-2xl border-l-4 border-l-primary">
+                    <div class="bg-surface-container border border-outline-variant rounded-xl p-6 max-w-2xl border-l-4 border-l-primary">
                         <form id="wfh-new-order-form" onsubmit="submitWfhOrder(event)">
                             <div class="space-y-6">
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
                                         <label class="block text-xs font-bold text-primary uppercase tracking-wider mb-1">Assign to WFH Employee</label>
                                         <select id="wfh-order-employee-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
-                                            <!-- Will populate dynamically -->
                                         </select>
                                     </div>
-                                    <div>
-                                        <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Order Date</label><input type="date" id="wfh-order-date" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
-                                    </div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Order Date</label><input type="date" id="wfh-order-date" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div>
                                 </div>
-
-                                <div>
-                                    <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Task / Products / Details</label><textarea id="wfh-order-products-details" required rows="3" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="Enter task details or materials assigned..."></textarea>
-                                </div>
+                                
+                                <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Task / Products / Details</label><textarea id="wfh-order-products-details" required rows="3" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="Enter task details or materials assigned..."></textarea></div>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total Bill Amount (₹)</label><input type="number" id="wfh-order-total-bill" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="0">
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Advance Paid (₹)</label><input type="number" id="wfh-order-advance-paid" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="0">
-                                    </div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total Bill Amount (₹)</label><input type="number" id="wfh-order-total-bill" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="0"></div>
+                                    <div><label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Advance Paid (₹)</label><input type="number" id="wfh-order-advance-paid" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="0"></div>
                                 </div>
                                 <div class="flex justify-end gap-3 mt-8">
                                     <button type="button" onclick="cancelWfhOrderEdit()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container-low rounded-lg transition-colors">Cancel</button>
@@ -951,10 +642,9 @@
 
             </main>
         </div>
-
-        <!-- 🛑 5-BUTTON MOBILE NAV 🛑 -->
-        <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-between items-center px-1 pt-2 pb-8 bg-surface border-t border-outline-variant shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]"
-            id="mobile-nav">
+        
+        <!-- MOBILE NAVIGATION -->
+        <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-between items-center px-1 pt-2 pb-8 bg-surface border-t border-outline-variant shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]" id="mobile-nav">
             <button data-target="orders" class="nav-btn active flex flex-col items-center justify-center py-2 text-primary transition-colors w-1/5">
                 <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
                 <span class="text-[9px] mt-1 font-medium">Orders</span>
@@ -978,13 +668,10 @@
         </nav>
     </div>
 
-    <!-- 🛑 EXPORT MODAL 🛑 -->
-    <div id="export-modal"
-        class="fixed inset-0 bg-black bg-opacity-70 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
-        <div
-            class="bg-surface-container border border-outline-variant rounded-xl w-full max-w-sm overflow-hidden shadow-2xl">
-            <div
-                class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-surface-container">
+    <!-- EXPORT MODAL -->
+    <div id="export-modal" class="fixed inset-0 bg-black bg-opacity-70 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-surface-container border border-outline-variant rounded-xl w-full max-w-sm overflow-hidden shadow-2xl">
+            <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-surface-container">
                 <h3 class="text-lg font-bold text-on-surface flex items-center gap-2">
                     <span class="material-symbols-outlined text-primary text-[20px]">table_view</span> Export to Excel
                 </h3>
@@ -995,25 +682,20 @@
                     <div>
                         <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Select Data to Export</label>
                         <select id="export-data-type" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium" onchange="updateExportPeriodState()">
-                            <!-- Populated via JS based on current view -->
                         </select>
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Time Period</label>
                         <select id="export-period" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium" onchange="toggleExportCustomInputs()">
-                            <!-- Populated dynamically -->
                         </select>
-                        <p id="export-period-hint" class="text-[11px] text-on-surface-variant mt-2 hidden italic">Note:
-                            The currently displayed month on screen is automatically exported.</p>
+                        <p id="export-period-hint" class="text-[11px] text-on-surface-variant mt-2 hidden italic">Note: The currently displayed month on screen is automatically exported.</p>
                     </div>
-
-                    <!-- Month & Year Picker -->
+                    
                     <div id="export-custom-month-container" class="hidden">
                         <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Select Month & Year</label>
                         <input type="month" id="export-custom-month" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
                     </div>
-
-                    <!-- Just Year Picker -->
+                    
                     <div id="export-custom-year-container" class="hidden">
                         <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Select Year</label>
                         <input type="number" id="export-custom-year" placeholder="YYYY (e.g. 2026)" min="2000" max="2100" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
@@ -1030,29 +712,20 @@
         </div>
     </div>
 
-    <!-- ADD EMPLOYEE / WFH / PAYMENTS MODALS -->
-    <div id="add-employee-modal"
-        class="fixed inset-0 bg-black bg-opacity-70 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+    <!-- MODALS SECTION -->
+    <div id="add-employee-modal" class="fixed inset-0 bg-black bg-opacity-70 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-surface-container border border-outline-variant rounded-xl w-full max-w-md overflow-hidden">
-            <div
-                class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-surface-container">
+            <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-surface-container">
                 <h3 class="text-lg font-bold text-on-surface" id="modal-title">Add Main Factory Employee</h3>
                 <button onclick="closeAddEmployeeModal()" class="text-on-surface-variant active:text-error transition-colors"><span class="material-symbols-outlined">close</span></button>
             </div>
             <div class="p-6 bg-surface-container">
                 <form id="add-employee-form" onsubmit="submitEmployee(event)">
                     <div class="space-y-4">
-                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Full Name</label><input type="text" id="emp-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-on-surface-variant mb-1">Role / Department</label><input type="text" id="emp-role" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-on-surface-variant mb-1">Base Salary (₹)</label><input type="number" id="emp-salary" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-on-surface-variant mb-1">Status</label><select id="emp-status" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"><option value="Active">Active</option><option value="Inactive">Inactive</option></select>
-                        </div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Full Name</label><input type="text" id="emp-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Role / Department</label><input type="text" id="emp-role" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Base Salary (₹)</label><input type="number" id="emp-salary" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Status</label><select id="emp-status" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"><option value="Active">Active</option><option value="Inactive">Inactive</option></select></div>
                     </div>
                     <div class="mt-8 flex justify-end gap-3">
                         <button type="button" onclick="closeAddEmployeeModal()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container-low rounded-lg">Cancel</button>
@@ -1063,29 +736,19 @@
         </div>
     </div>
 
-    <div id="wfh-add-employee-modal"
-        class="fixed inset-0 bg-black bg-opacity-70 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
-        <div
-            class="bg-surface-container border border-outline-variant rounded-xl w-full max-w-md overflow-hidden border-l-4 border-l-primary">
-            <div
-                class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-surface-container">
+    <div id="wfh-add-employee-modal" class="fixed inset-0 bg-black bg-opacity-70 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-surface-container border border-outline-variant rounded-xl w-full max-w-md overflow-hidden border-l-4 border-l-primary">
+            <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-surface-container">
                 <h3 class="text-lg font-bold text-on-surface" id="wfh-modal-title">Add WFH Employee</h3>
                 <button onclick="closeWfhAddEmployeeModal()" class="text-on-surface-variant active:text-error transition-colors"><span class="material-symbols-outlined">close</span></button>
             </div>
             <div class="p-6 bg-surface-container">
                 <form id="wfh-add-employee-form" onsubmit="submitWfhEmployee(event)">
                     <div class="space-y-4">
-                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Full Name</label><input type="text" id="wfh-emp-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-on-surface-variant mb-1">Role / Title</label><input type="text" id="wfh-emp-role" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-on-surface-variant mb-1">Base Salary (₹)</label><input type="number" id="wfh-emp-salary" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-on-surface-variant mb-1">Status</label><select id="wfh-emp-status" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"><option value="Active">Active</option><option value="Inactive">Inactive</option></select>
-                        </div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Full Name</label><input type="text" id="wfh-emp-name" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Role / Title</label><input type="text" id="wfh-emp-role" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Base Salary (₹)</label><input type="number" id="wfh-emp-salary" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Status</label><select id="wfh-emp-status" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"><option value="Active">Active</option><option value="Inactive">Inactive</option></select></div>
                     </div>
                     <div class="mt-8 flex justify-end gap-3">
                         <button type="button" onclick="closeWfhAddEmployeeModal()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container-low rounded-lg">Cancel</button>
@@ -1096,20 +759,16 @@
         </div>
     </div>
 
-    <div id="add-payment-modal"
-        class="fixed inset-0 bg-black bg-opacity-70 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+    <div id="add-payment-modal" class="fixed inset-0 bg-black bg-opacity-70 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-surface-container border border-outline-variant rounded-xl w-full max-w-md overflow-hidden">
-            <div
-                class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-surface-container">
+            <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-surface-container">
                 <h3 class="text-lg font-bold text-on-surface" id="payment-modal-title">Add Payment History</h3>
                 <button onclick="closeAddPaymentModal()" class="text-on-surface-variant active:text-error transition-colors"><span class="material-symbols-outlined">close</span></button>
             </div>
             <div class="p-6 bg-surface-container">
                 <form id="add-payment-form" onsubmit="submitPayment(event)">
                     <div class="space-y-4">
-                        <div>
-                            <label class="block text-xs font-bold text-on-surface-variant mb-1">Payment Date</label><input type="date" id="pay-date" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
-                        </div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Payment Date</label><input type="date" id="pay-date" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div>
                         <div>
                             <label class="block text-xs font-bold text-on-surface-variant mb-1">Order Type</label>
                             <select id="pay-type" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
@@ -1119,12 +778,8 @@
                                 <option value="WFH">WFH</option>
                             </select>
                         </div>
-                        <div>
-                            <label class="block text-xs font-bold text-on-surface-variant mb-1">Amount (₹)</label><input type="number" id="pay-amount" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="0">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-on-surface-variant mb-1">Reference / Notes</label><input type="text" id="pay-reference" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="Order ID or Description...">
-                        </div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Amount (₹)</label><input type="number" id="pay-amount" required min="0" class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="0"></div>
+                        <div><label class="block text-xs font-bold text-on-surface-variant mb-1">Reference / Notes</label><input type="text" id="pay-reference" required class="w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary" placeholder="Order ID or Description..."></div>
                     </div>
                     <div class="mt-8 flex justify-end gap-3">
                         <button type="button" onclick="closeAddPaymentModal()" class="px-4 py-2 text-sm font-medium text-on-surface-variant active:bg-surface-container-low rounded-lg">Cancel</button>
@@ -1136,10 +791,8 @@
     </div>
 
     <!-- CLIENT NET BILL MODAL -->
-    <div id="net-bill-modal"
-        class="fixed inset-0 bg-black bg-opacity-70 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
-        <div
-            class="bg-surface-container border border-outline-variant rounded-xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
+    <div id="net-bill-modal" class="fixed inset-0 bg-black bg-opacity-70 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-surface-container border border-outline-variant rounded-xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
             <div class="px-6 py-4 border-b border-outline-variant flex flex-col gap-4 bg-surface-container shrink-0">
                 <div class="flex justify-between items-center">
                     <h3 class="text-lg font-bold text-on-surface">Client Net Bills</h3>
@@ -1154,10 +807,10 @@
                         <option value="custom_year">Custom Year Only</option>
                         <option value="custom_range">Custom Date Range</option>
                     </select>
-
+                    
                     <input type="month" id="net-bill-custom-month" onchange="renderNetBillTable()" class="hidden w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
                     <input type="number" id="net-bill-custom-year" placeholder="YYYY (e.g. 2026)" min="2000" max="2100" onchange="renderNetBillTable()" class="hidden w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
-
+                    
                     <div id="net-bill-custom-range-container" class="hidden flex-col gap-2">
                         <div class="flex items-center gap-2">
                             <span class="text-[11px] font-bold text-on-surface-variant w-8 uppercase">From</span>
@@ -1175,11 +828,9 @@
                     <thead class="sticky top-0 bg-surface-container-low z-10 shadow-sm">
                         <tr class="text-xs text-on-surface-variant uppercase tracking-wider">
                             <th class="px-6 py-4 font-semibold border-b border-outline-variant">Client Name</th>
-                            <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Billed (₹)
-                            </th>
+                            <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Billed (₹)</th>
                             <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Paid (₹)</th>
-                            <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Net Due (₹)
-                            </th>
+                            <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Net Due (₹)</th>
                         </tr>
                     </thead>
                     <tbody id="net-bill-table-body" class="divide-y divide-outline-variant text-sm">
@@ -1191,10 +842,8 @@
     </div>
 
     <!-- RM NET BILL MODAL -->
-    <div id="rm-net-bill-modal"
-        class="fixed inset-0 bg-black bg-opacity-70 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
-        <div
-            class="bg-surface-container border border-outline-variant rounded-xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
+    <div id="rm-net-bill-modal" class="fixed inset-0 bg-black bg-opacity-70 z-[10000] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-surface-container border border-outline-variant rounded-xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
             <div class="px-6 py-4 border-b border-outline-variant flex flex-col gap-4 bg-surface-container shrink-0">
                 <div class="flex justify-between items-center">
                     <h3 class="text-lg font-bold text-white">Raw Material Net Bills</h3>
@@ -1209,10 +858,10 @@
                         <option value="custom_year">Custom Year Only</option>
                         <option value="custom_range">Custom Date Range</option>
                     </select>
-
+                    
                     <input type="month" id="rm-net-bill-custom-month" onchange="renderRmNetBillTable()" class="hidden w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
                     <input type="number" id="rm-net-bill-custom-year" placeholder="YYYY (e.g. 2026)" min="2000" max="2100" onchange="renderRmNetBillTable()" class="hidden w-full border-outline-variant rounded-lg text-sm px-3 py-2 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary font-medium">
-
+                    
                     <div id="rm-net-bill-custom-range-container" class="hidden flex-col gap-2">
                         <div class="flex items-center gap-2">
                             <span class="text-[11px] font-bold text-on-surface-variant w-8 uppercase">From</span>
@@ -1230,11 +879,9 @@
                     <thead class="sticky top-0 bg-surface-container-low z-10 shadow-sm">
                         <tr class="text-xs text-on-surface-variant uppercase tracking-wider">
                             <th class="px-6 py-4 font-semibold border-b border-outline-variant">Supplier Name</th>
-                            <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Billed (₹)
-                            </th>
+                            <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Billed (₹)</th>
                             <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Paid (₹)</th>
-                            <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Net Due (₹)
-                            </th>
+                            <th class="px-6 py-4 font-semibold text-right border-b border-outline-variant">Net Due (₹)</th>
                         </tr>
                     </thead>
                     <tbody id="rm-net-bill-table-body" class="divide-y divide-outline-variant text-sm">
@@ -1893,12 +1540,12 @@
                     <td class="px-6 py-4 font-bold text-primary border-b border-outline-variant">${order.assignedEmployee}</td>
                     <td class="px-6 py-4 border-b border-outline-variant text-on-surface">${order.products}</td>
                     <td class="px-6 py-4 border-b border-outline-variant">
-                        <div class="text-xs text-on-surface-variant">Total: ₹${total.toLocaleString('en-IN')}</div>
-                        <div class="flex items-center gap-1 mt-1">
-                            <span class="text-[10px] text-primary font-bold uppercase">Paid:</span>
-                            <input type="number" min="0" value="${paid || ''}" placeholder="0" onblur="updateWfhOrderPayment('${order.id}', this.value)" class="w-24 border-outline-variant rounded text-xs px-2 py-1 h-6 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary">
+                        <div class="text-xs text-on-surface-variant mb-1.5">Total: <span class="font-bold text-on-surface">₹${total.toLocaleString('en-IN')}</span></div>
+                        <div class="flex items-center gap-2 mb-1.5">
+                            <span class="text-[10px] text-primary font-bold uppercase w-8">Paid:</span>
+                            <input type="number" min="0" value="${paid || ''}" placeholder="0" onblur="updateWfhOrderPayment('${order.id}', this.value)" onkeydown="if(event.key==='Enter') this.blur();" class="w-24 border border-outline-variant rounded-md text-xs px-2 py-1.5 bg-surface-container-lowest text-on-surface focus:ring-1 focus:ring-primary focus:border-primary">
                         </div>
-                        <div class="text-xs text-error font-bold mt-1">Due: ₹${due.toLocaleString('en-IN')}</div>
+                        <div class="text-xs text-error font-bold">Due: ₹${due.toLocaleString('en-IN')}</div>
                     </td>
                     <td class="px-6 py-4 text-right font-bold text-on-surface whitespace-nowrap border-b border-outline-variant">${order.date || ''}</td>
                     <td class="px-6 py-4 text-right whitespace-nowrap border-b border-outline-variant">
@@ -2060,7 +1707,7 @@
             }).join('');
         }
 
-        // ================= MAIN FACTORY LOGIC =================
+        // MAIN ORDERS LOGIC
         function switchOrderTab(tabId) {
             document.querySelectorAll('.order-tab').forEach(el => { el.classList.remove('bg-primary', 'text-on-primary'); el.classList.add('bg-surface-container', 'text-on-surface-variant'); });
             const activeBtn = document.getElementById(`tab-${tabId}`);
@@ -2079,7 +1726,6 @@
             }
         }
 
-        // ================= NET BILL LOGIC =================
         function toggleNetBillCustomInputs() {
             const filter = document.getElementById('net-bill-period-filter').value;
             const monthInput = document.getElementById('net-bill-custom-month');
@@ -2127,7 +1773,7 @@
             if (filter === 'custom_month' && customMonthVal) {
                 const parts = customMonthVal.split('-');
                 targetYear = parseInt(parts[0], 10);
-                targetMonth = parseInt(parts[1], 10) - 1; 
+                targetMonth = parseInt(parts[1], 10) - 1; // 0-indexed for JS Date
             } else if (filter === 'custom_year' && customYearVal) {
                 targetYearOnly = parseInt(customYearVal, 10);
             }
@@ -2404,13 +2050,13 @@
             if(filteredWholesale.length === 0) document.getElementById('wholesale-table-body').innerHTML = `<tr><td colspan="6" class="text-center py-8 text-on-surface-variant">No wholesale orders found.</td></tr>`;
             else document.getElementById('wholesale-table-body').innerHTML = filteredWholesale.map((order) => {
                 const total = parseFloat(order.totalBill) || 0; const paid = parseFloat(order.advancePaid) || 0; const due = total - paid;
-                return `<tr class="hover:bg-surface-container transition-colors"><td class="px-6 py-4 font-mono text-xs text-on-surface-variant border-b border-outline-variant">${order.id || 'N/A'}</td><td class="px-6 py-4 font-medium text-on-surface border-b border-outline-variant">${order.name || 'N/A'}</td><td class="px-6 py-4 text-on-surface border-b border-outline-variant">${order.products || 'N/A'}</td><td class="px-6 py-4 border-b border-outline-variant"><div class="text-xs text-on-surface-variant">Total: ₹${total.toLocaleString('en-IN')}</div><div class="flex items-center gap-1 mt-1"><span class="text-[10px] text-primary font-bold uppercase">Paid:</span><input type="number" min="0" value="${paid || ''}" placeholder="0" onblur="updateOrderPayment('wholesale', '${order.id}', this.value)" class="w-24 border-outline-variant rounded text-xs px-2 py-1 h-6 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div><div class="text-xs text-error font-bold mt-1">Due: ₹${due.toLocaleString('en-IN')}</div></td><td class="px-6 py-4 text-right font-bold text-on-surface whitespace-nowrap border-b border-outline-variant">${order.date || ''}</td><td class="px-6 py-4 text-right whitespace-nowrap border-b border-outline-variant"><button onclick="editOrder('wholesale', '${order.id}')" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button><button onclick="deleteOrder('wholesale', '${order.id}')" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button></td></tr>`;
+                return `<tr class="hover:bg-surface-container transition-colors"><td class="px-6 py-4 font-mono text-xs text-on-surface-variant border-b border-outline-variant">${order.id || 'N/A'}</td><td class="px-6 py-4 font-medium text-on-surface border-b border-outline-variant">${order.name || 'N/A'}</td><td class="px-6 py-4 text-on-surface border-b border-outline-variant">${order.products || 'N/A'}</td><td class="px-6 py-4 border-b border-outline-variant"><div class="text-xs text-on-surface-variant mb-1.5">Total: <span class="font-bold text-on-surface">₹${total.toLocaleString('en-IN')}</span></div><div class="flex items-center gap-2 mb-1.5"><span class="text-[10px] text-primary font-bold uppercase w-8">Paid:</span><input type="number" min="0" value="${paid || ''}" placeholder="0" onblur="updateOrderPayment('wholesale', '${order.id}', this.value)" onkeydown="if(event.key==='Enter') this.blur();" class="w-24 border border-outline-variant rounded-md text-xs px-2 py-1.5 bg-surface-container-lowest text-on-surface focus:ring-1 focus:ring-primary focus:border-primary"></div><div class="text-xs text-error font-bold">Due: ₹${due.toLocaleString('en-IN')}</div></td><td class="px-6 py-4 text-right font-bold text-on-surface whitespace-nowrap border-b border-outline-variant">${order.date || ''}</td><td class="px-6 py-4 text-right whitespace-nowrap border-b border-outline-variant"><button onclick="editOrder('wholesale', '${order.id}')" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button><button onclick="deleteOrder('wholesale', '${order.id}')" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button></td></tr>`;
             }).join('');
 
             if(filteredRaw.length === 0) document.getElementById('raw-table-body').innerHTML = `<tr><td colspan="6" class="text-center py-8 text-on-surface-variant">No raw material orders found.</td></tr>`;
             else document.getElementById('raw-table-body').innerHTML = filteredRaw.map((order) => {
                 const total = parseFloat(order.totalBill) || 0; const paid = parseFloat(order.advancePaid) || 0; const due = total - paid;
-                return `<tr class="hover:bg-surface-container transition-colors"><td class="px-6 py-4 font-mono text-xs text-on-surface-variant border-b border-outline-variant">${order.id || 'N/A'}</td><td class="px-6 py-4 font-medium text-on-surface border-b border-outline-variant">${order.name || 'N/A'}</td><td class="px-6 py-4 text-on-surface border-b border-outline-variant">${order.products || 'N/A'}</td><td class="px-6 py-4 border-b border-outline-variant"><div class="text-xs text-on-surface-variant">Total: ₹${total.toLocaleString('en-IN')}</div><div class="flex items-center gap-1 mt-1"><span class="text-[10px] text-primary font-bold uppercase">Paid:</span><input type="number" min="0" value="${paid || ''}" placeholder="0" onblur="updateOrderPayment('raw', '${order.id}', this.value)" class="w-24 border-outline-variant rounded text-xs px-2 py-1 h-6 bg-surface-container-lowest text-on-surface focus:ring-primary focus:border-primary"></div><div class="text-xs text-error font-bold mt-1">Due: ₹${due.toLocaleString('en-IN')}</div></td><td class="px-6 py-4 text-right font-bold text-on-surface whitespace-nowrap border-b border-outline-variant">${order.date || ''}</td><td class="px-6 py-4 text-right whitespace-nowrap border-b border-outline-variant"><button onclick="editOrder('raw', '${order.id}')" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button><button onclick="deleteOrder('raw', '${order.id}')" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button></td></tr>`;
+                return `<tr class="hover:bg-surface-container transition-colors"><td class="px-6 py-4 font-mono text-xs text-on-surface-variant border-b border-outline-variant">${order.id || 'N/A'}</td><td class="px-6 py-4 font-medium text-on-surface border-b border-outline-variant">${order.name || 'N/A'}</td><td class="px-6 py-4 text-on-surface border-b border-outline-variant">${order.products || 'N/A'}</td><td class="px-6 py-4 border-b border-outline-variant"><div class="text-xs text-on-surface-variant mb-1.5">Total: <span class="font-bold text-on-surface">₹${total.toLocaleString('en-IN')}</span></div><div class="flex items-center gap-2 mb-1.5"><span class="text-[10px] text-primary font-bold uppercase w-8">Paid:</span><input type="number" min="0" value="${paid || ''}" placeholder="0" onblur="updateOrderPayment('raw', '${order.id}', this.value)" onkeydown="if(event.key==='Enter') this.blur();" class="w-24 border border-outline-variant rounded-md text-xs px-2 py-1.5 bg-surface-container-lowest text-on-surface focus:ring-1 focus:ring-primary focus:border-primary"></div><div class="text-xs text-error font-bold">Due: ₹${due.toLocaleString('en-IN')}</div></td><td class="px-6 py-4 text-right font-bold text-on-surface whitespace-nowrap border-b border-outline-variant">${order.date || ''}</td><td class="px-6 py-4 text-right whitespace-nowrap border-b border-outline-variant"><button onclick="editOrder('raw', '${order.id}')" class="text-primary active:bg-primary-container p-1.5 rounded transition-colors mr-1"><span class="material-symbols-outlined text-[20px]">edit</span></button><button onclick="deleteOrder('raw', '${order.id}')" class="text-error active:bg-error-container p-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button></td></tr>`;
             }).join('');
         }
 
@@ -2627,5 +2273,4 @@
         function removeEmployee(id) { if(confirm('Are you sure you want to remove this employee?')) { employees = employees.filter(e => e.id !== id); saveToDatabase(); } }
     </script>
 </body>
-
 </html>
