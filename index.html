@@ -55,6 +55,7 @@
         // INIT THEME IMMEDIATELY TO PREVENT FLASH
         const savedTheme = localStorage.getItem('theme') || 'dark';
         if (savedTheme === 'light') {
+            document.documentElement.classList.add('light');
             document.documentElement.style.colorScheme = 'light';
         } else if (savedTheme === 'extra-dark') {
             document.documentElement.classList.add('extra-dark');
@@ -602,6 +603,9 @@
                         <div class="flex items-center gap-2">
                             <div class="w-3 h-3 rounded-full bg-[var(--badge-indigo-bg)]"></div><span>O - Holiday</span>
                         </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-3 h-3 rounded-full bg-[var(--badge-blue-bg)]"></div><span>W - Work From Home</span>
+                        </div>
                     </div>
                     <div class="att-table-wrapper shadow-sm">
                         <table class="att-table text-sm">
@@ -636,7 +640,7 @@
                                 <option value="all">All Types</option>
                                 <option value="Wholesale">Wholesale Orders</option>
                                 <option value="Raw Material">Raw Material Orders</option>
-                                <option value="WFH Orders">WFH Orders</option>
+                                <option value="WFH">WFH Orders</option>
                             </select>
                         </div>
                     </div>
@@ -1290,6 +1294,7 @@
                 html.classList.add(theme);
                 html.style.colorScheme = 'dark';
             } else {
+                html.classList.add('light');
                 html.style.colorScheme = 'light';
             }
             
@@ -1390,7 +1395,7 @@
                 'view-staff': ['Staff Directory', 'Staff Payroll']
             };
 
-            const viewOptions = options[activeView] || [];
+            const viewOptions = options[activeView] || ['Wholesale Orders', 'Raw Material Orders', 'Client Net Bills', 'RM Net Bills'];
             viewOptions.forEach(opt => {
                 const el = document.createElement('option');
                 el.value = opt;
@@ -1790,6 +1795,12 @@
         
         function parseDateToYMD(dateStr) { if (!dateStr) return ''; const d = new Date(dateStr); if (isNaN(d.getTime())) return ''; return d.toISOString().split('T')[0]; }
 
+        // Timezone-safe "today" in local time (toISOString would roll the date back in UTC+ timezones)
+        function todayYMD() {
+            const t = new Date();
+            return `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}`;
+        }
+
         // ================= WFH SECTION LOGIC =================
         function switchWfhTab(tabId) {
             document.querySelectorAll('.wfh-tab').forEach(el => { el.classList.remove('bg-primary', 'text-on-primary'); el.classList.add('bg-surface-container', 'text-on-surface-variant'); });
@@ -1948,7 +1959,7 @@
             editingWfhOrderIndex = null;
             document.getElementById('wfh-order-form-title').textContent = "Create New WFH Order";
             document.getElementById('wfh-new-order-form').reset();
-            document.getElementById('wfh-order-date').value = new Date().toISOString().split('T')[0];
+            document.getElementById('wfh-order-date').value = todayYMD();
             const select = document.getElementById('wfh-order-employee-name');
             if(wfhEmployees.length === 0) select.innerHTML = '<option value="" disabled selected>Add a WFH Employee first...</option>';
             else select.innerHTML = wfhEmployees.map(emp => `<option value="${emp.name}">${emp.name}</option>`).join('');
@@ -1962,7 +1973,8 @@
                 const order = wfhOrders[idx];
                 const select = document.getElementById('wfh-order-employee-name');
                 select.innerHTML = wfhEmployees.map(emp => `<option value="${emp.name}">${emp.name}</option>`).join('');
-                if(!wfhEmployees.find(e => e.name === order.assignedEmployee)) select.innerHTML += `<option value="${order.assignedEmployee}">${order.assignedEmployee} (Removed)</option>`;
+                if (wfhEmployees.length === 0) select.innerHTML = `<option value="${order.assignedEmployee || ''}">${order.assignedEmployee || 'No employee available'} (Removed)</option>`;
+                else if(!wfhEmployees.find(e => e.name === order.assignedEmployee)) select.innerHTML += `<option value="${order.assignedEmployee}">${order.assignedEmployee} (Removed)</option>`;
                 select.value = order.assignedEmployee;
                 document.getElementById('wfh-order-date').value = parseDateToYMD(order.date);
                 document.getElementById('wfh-order-products-details').value = order.products;
@@ -1997,7 +2009,7 @@
             editingPaymentIndex = null;
             document.getElementById('payment-modal-title').textContent = "Add Payment History";
             document.getElementById('add-payment-form').reset();
-            document.getElementById('pay-date').value = new Date().toISOString().split('T')[0];
+            document.getElementById('pay-date').value = todayYMD();
             document.getElementById('add-payment-modal').classList.remove('hidden');
         }
 
@@ -2461,7 +2473,7 @@
             editingOrderIndex = null; editingOrderType = null;
             document.getElementById('order-form-title').textContent = "Create New Main Order";
             document.getElementById('new-order-form').reset();
-            document.getElementById('order-date').value = new Date().toISOString().split('T')[0];
+            document.getElementById('order-date').value = todayYMD();
             document.querySelectorAll('input[name="orderType"]').forEach(r => r.disabled = false);
             switchView('new-order');
         }
@@ -2580,7 +2592,7 @@
             if (staffList.length === 0) { document.getElementById('att-table-body').innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center py-16 text-on-surface-variant text-sm">No employees found.</td></tr>`; return; }
 
             document.getElementById('att-table-body').innerHTML = staffList.map(emp => {
-                let r = `<tr class="hover:bg-surface-container transition-colors"><td class="font-medium text-on-surface truncate flex items-center border-b border-outline-variant" title="${emp.name}">${emp.name}</td>`;
+                let r = `<tr class="hover:bg-surface-container transition-colors"><td class="font-medium text-on-surface truncate border-b border-outline-variant" title="${emp.name}">${emp.name}</td>`;
                 for(let i = 1; i <= daysInMonth; i++) r += `<td class="att-cell-interactive p-1 border-b border-outline-variant" onclick="cycleStatus('${emp.id}', ${y}, ${m}, ${i})">${renderCellContent(getVisualAttStatus(emp.id, y, m, i))}</td>`;
                 return r + `</tr>`;
             }).join('');
